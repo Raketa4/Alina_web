@@ -1,15 +1,10 @@
 // Загрузчик Яндекс.Метрики. Работает только если в data/site.json
 // заполнен metrika_id — иначе не подключает ничего.
 
-import { getJSON } from './util.js';
+import { getSite } from './site.js';
 
 export async function initAnalytics() {
-  let site;
-  try {
-    site = await getJSON('data/site.json');
-  } catch (_) {
-    return;
-  }
+  const site = await getSite();
   const id = String(site.metrika_id || '').trim();
   if (!id) return;
 

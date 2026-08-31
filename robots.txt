@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://raketa4.github.io/Alina_web/sitemap.xml

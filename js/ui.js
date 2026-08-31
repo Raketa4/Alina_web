@@ -3,6 +3,7 @@
 
 import { qs, qsa } from './util.js';
 import { t } from './i18n.js';
+import { getSite } from './site.js';
 
 let revealObserver = null;
 
@@ -11,6 +12,21 @@ export function initUI() {
   initReveal();
   initLightbox();
   initYear();
+  hydrateChrome();
+}
+
+// Подставляет ссылки из data/site.json в шапку/футер ([data-site-link="telegram"] и т.п.).
+async function hydrateChrome() {
+  const site = await getSite();
+  const social = site.social || {};
+  qsa('[data-site-link]').forEach((a) => {
+    const key = a.dataset.siteLink;
+    const href = key === 'email'
+      ? (site.email ? `mailto:${site.email}` : null)
+      : social[key];
+    if (href) a.setAttribute('href', href);
+    else a.closest('[data-site-optional]')?.remove();
+  });
 }
 
 function initNav() {
@@ -34,10 +50,11 @@ function initNav() {
 }
 
 function initReveal() {
-  if (!('IntersectionObserver' in window)) {
-    qsa('.reveal').forEach((n) => n.classList.add('is-visible'));
-    return;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    return; // .reveal остаётся видимым (см. CSS)
   }
+  document.documentElement.classList.add('js-reveal');
   revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {

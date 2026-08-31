@@ -46,9 +46,27 @@ def icon(size: int, path: Path) -> None:
     print(f"  создан: {path.relative_to(ROOT)} ({size}×{size})")
 
 
+def og_image(path: Path) -> None:
+    w, h = 1200, 630
+    img = Image.new("RGB", (w, h), CREAM)
+    d = ImageDraw.Draw(img)
+    d.rectangle([40, 40, w - 41, h - 41], outline=(226, 219, 208), width=2)
+    name_fnt = font(96)
+    sub_fnt = font(30)
+    name = "АЛИНА ХОНЯК"
+    nb = d.textbbox((0, 0), name, font=name_fnt)
+    d.text(((w - (nb[2] - nb[0])) / 2 - nb[0], 250), name, font=name_fnt, fill=(30, 27, 24))
+    sub = "ALINA KHONIAK · ЖИВОПИСЬ"
+    sb = d.textbbox((0, 0), sub, font=sub_fnt)
+    d.text(((w - (sb[2] - sb[0])) / 2 - sb[0], 370), sub, font=sub_fnt, fill=ACCENT)
+    img.save(path, "PNG")
+    print(f"  создан: {path.relative_to(ROOT)} ({w}×{h})")
+
+
 def main() -> int:
     icon(32, OUT / "favicon-32.png")
     icon(180, OUT / "apple-touch-icon.png")
+    og_image(OUT / "og-image.png")
     print("Готово.")
     return 0
 

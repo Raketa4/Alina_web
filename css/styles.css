@@ -289,11 +289,13 @@ img { display: block; max-width: 100%; height: auto; }
   align-items: center;
   padding-block: clamp(2.5rem, 7vw, 6rem);
 }
+.hero--top { align-items: start; }
 .hero-copy h1 {
   margin-bottom: 0.35em;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+.hero-cta { margin-top: 1.8rem; }
 .hero-figure {
   position: relative;
   overflow: hidden;
@@ -329,7 +331,19 @@ figcaption {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1.2rem, 3vw, 2.4rem);
+  gap: clamp(1.6rem, 4vw, 3.2rem);
+  align-items: start;
+}
+.gallery-grid .work-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.gallery-grid .work-figure img {
+  max-height: 78vh;
+  width: auto;
+  margin-inline: auto;
 }
 
 .work {
@@ -342,13 +356,40 @@ figcaption {
 .work-figure {
   overflow: hidden;
   background: var(--bg-sink);
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 .work-figure img {
   width: 100%;
+  display: block;
   transition: transform 0.7s var(--ease);
 }
 .work:hover .work-figure img,
 .hover-zoom:hover img { transform: scale(1.04); }
+
+/* Единый формат кадра в сетках: работа показывается целиком, кадры равной высоты. */
+.works-grid .work-figure,
+.catalog-grid .work-figure {
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.6rem, 2vw, 1.4rem);
+}
+.works-grid .work-figure img,
+.catalog-grid .work-figure img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 
 .work-meta { display: grid; gap: 0.25rem; }
 .work-title {
@@ -356,6 +397,12 @@ figcaption {
   font-size: 1.12rem;
   font-style: italic;
 }
+
+/* карточка проекта в общей сетке */
+.project-card .work-meta { gap: 0.5rem; }
+.project-card .work-title { font-style: normal; font-size: var(--step-h3); }
+.project-card p { margin: 0.2rem 0 0; color: var(--ink-soft); }
+.project-card .link { margin-top: 0.7rem; }
 .work-sub {
   font-family: var(--sans-ui);
   font-size: 0.68rem;
@@ -569,7 +616,10 @@ figcaption {
 
 .page-head { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem); }
 .page-head h1 { text-transform: uppercase; letter-spacing: 0.03em; }
+.page-head .lead { margin-top: 1rem; }
+.page-head .catalog-cta { margin-top: 1.4rem; }
 .back-link { margin-bottom: 1.6rem; }
+.section-label { color: var(--ink-soft); margin-bottom: 1.6rem; }
 
 .state {
   min-height: 46vh;
@@ -605,12 +655,15 @@ figcaption {
 
 /* --- reveal ------------------------------------------------- */
 
-.reveal {
+/* Контент виден по умолчанию; анимация включается только когда JS
+   добавил .js-reveal на <html> — иначе ничего не прячется. */
+.reveal { opacity: 1; transform: none; }
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.js-reveal .reveal.is-visible { opacity: 1; transform: none; }
 
 /* --- адаптив ---------------------------------------------- */
 
@@ -658,5 +711,5 @@ figcaption {
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+  .js-reveal .reveal, .reveal { opacity: 1 !important; transform: none !important; }
 }
