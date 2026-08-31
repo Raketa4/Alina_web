@@ -1,0 +1,598 @@
+<title>Как обновлять сайт Алины Хоняк</title>
+<meta name="description" content="Пошаговое руководство по контенту: избранные работы, портрет автора, каталог и прочие правки без программиста.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --bg: #F7F5F1;
+    --raised: #FCFBF9;
+    --sink: #EEE8DE;
+    --ink: #1E1B18;
+    --ink-soft: #4A443D;
+    --ink-faint: #837a6d;
+    --accent: #6E1E24;
+    --accent-line: #6E1E24;
+    --accent-wash: #F1E3E0;
+    --rule: #E2DBD0;
+    --canvas: #B8A99A;
+
+    --serif-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --serif-text: 'EB Garamond', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    --measure: 40rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1613;
+      --raised: #221D19;
+      --sink: #14100D;
+      --ink: #ECE4D8;
+      --ink-soft: #B4A996;
+      --ink-faint: #8a7f6f;
+      --accent: #E3969C;
+      --accent-line: #C77982;
+      --accent-wash: #2C1F1F;
+      --rule: #362F28;
+      --canvas: #7E7364;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1613;
+    --raised: #221D19;
+    --sink: #14100D;
+    --ink: #ECE4D8;
+    --ink-soft: #B4A996;
+    --ink-faint: #8a7f6f;
+    --accent: #E3969C;
+    --accent-line: #C77982;
+    --accent-wash: #2C1F1F;
+    --rule: #362F28;
+    --canvas: #7E7364;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif-text);
+    font-size: 1.0625rem;
+    line-height: 1.66;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 68rem;
+    margin-inline: auto;
+    padding: clamp(1.5rem, 4vw, 4rem) clamp(1.15rem, 4vw, 3rem) 6rem;
+  }
+
+  @media (min-width: 60rem) {
+    .page {
+      display: grid;
+      grid-template-columns: 13rem minmax(0, var(--measure));
+      gap: 5rem;
+      justify-content: center;
+      align-items: start;
+    }
+  }
+
+  /* ---- оглавление ---- */
+  .toc {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  @media (min-width: 60rem) {
+    .toc { position: sticky; top: 2.5rem; }
+  }
+  .toc-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    display: flex;
+    gap: 0.7rem;
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a span { color: var(--accent); font-variant-numeric: tabular-nums; }
+  @media (max-width: 59.99rem) {
+    .toc {
+      border: 1px solid var(--rule);
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 3rem;
+      background: var(--raised);
+    }
+  }
+
+  /* ---- типографика ---- */
+  .masthead { margin-bottom: 3.5rem; }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-family: var(--serif-display);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    margin: 0 0 0.8rem;
+  }
+  .standfirst {
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 34rem;
+  }
+
+  section { margin-top: 3.75rem; scroll-margin-top: 2rem; }
+  section > h2 {
+    font-family: var(--serif-display);
+    font-weight: 500;
+    font-size: 1.7rem;
+    line-height: 1.15;
+    margin: 0 0 1.4rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+  }
+  section > h2 .num {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+  }
+  h3 {
+    font-family: var(--serif-display);
+    font-weight: 600;
+    font-size: 1.24rem;
+    margin: 2.2rem 0 0.6rem;
+  }
+  p { margin: 0 0 1rem; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  strong { font-weight: 600; }
+  em { color: var(--ink-soft); }
+
+  ul, ol { margin: 0 0 1rem; padding-left: 1.3rem; }
+  li { margin-bottom: 0.5rem; }
+  li::marker { color: var(--canvas); }
+
+  ol.steps { counter-reset: step; list-style: none; padding-left: 0; }
+  ol.steps > li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2.4rem;
+    margin-bottom: 0.9rem;
+  }
+  ol.steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: grid;
+    place-items: center;
+    font-family: var(--sans);
+    font-size: 0.76rem;
+    color: var(--accent);
+    border: 1px solid var(--accent-line);
+    border-radius: 50%;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    background: var(--sink);
+    padding: 0.12em 0.4em;
+    border-radius: 3px;
+    color: var(--ink);
+    word-break: break-word;
+  }
+
+  .filechip {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    background: var(--accent-wash);
+    color: var(--accent);
+    padding: 0.2em 0.55em;
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  figure.code {
+    margin: 1.2rem 0 1.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--sink);
+  }
+  figure.code figcaption {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  figure.code pre {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 1.62;
+    color: var(--ink);
+  }
+  .copy-btn {
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 0.28em 0.7em;
+    cursor: pointer;
+  }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+  .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .callout {
+    margin: 1.3rem 0;
+    padding: 0.95rem 1.15rem;
+    border-left: 2px solid var(--canvas);
+    background: var(--raised);
+    font-size: 0.99rem;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.warn { border-left-color: var(--accent-line); background: var(--accent-wash); }
+  .callout .tag {
+    font-family: var(--sans);
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .callout.note .tag { color: var(--ink-faint); }
+
+  .field-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0 1.4rem;
+    font-size: 0.95rem;
+  }
+  .field-table th, .field-table td {
+    text-align: left;
+    padding: 0.62rem 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .field-table th {
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .field-table td:first-child { color: var(--ink); }
+  .field-table code { font-size: 0.78rem; overflow-wrap: anywhere; }
+  .table-scroll { overflow-x: auto; }
+  body { overflow-wrap: break-word; }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 3.5rem 0 0;
+  }
+  .foot {
+    margin-top: 2rem;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <nav class="toc" aria-label="Содержание">
+    <p class="toc-label">Разделы</p>
+    <ol>
+      <li><a href="#osnovnoe"><span>0</span> Общий порядок</a></li>
+      <li><a href="#izbrannoe"><span>1</span> Избранные работы и тексты главной</a></li>
+      <li><a href="#portret"><span>2</span> Портрет и «Об авторе»</a></li>
+      <li><a href="#katalog"><span>3</span> Каталог работ</a></li>
+      <li><a href="#prochee"><span>4</span> Прочие изменения</a></li>
+      <li><a href="#spravka"><span>·</span> Справка: файлы и размеры</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="masthead">
+      <p class="eyebrow">Сайт Алины Хоняк · руководство по контенту</p>
+      <h1>Как обновлять сайт</h1>
+      <p class="standfirst">Весь текст и данные сайта лежат в простых файлах. Их правят в текстовом редакторе — программист для этого не нужен.</p>
+    </header>
+
+    <section id="osnovnoe">
+      <h2><span class="num">0</span> Общий порядок действий</h2>
+
+      <p>Почти весь контент — в папке <span class="filechip">data/</span>, в файлах формата JSON. Открываются любым редактором (Блокнот, Notepad++, VS Code). Картинки — в папке <span class="filechip">assets/</span>.</p>
+
+      <ol class="steps">
+        <li>Открыть нужный файл, внести правку, сохранить (кодировка — <strong>UTF‑8</strong>).</li>
+        <li>Если добавляли или меняли картинки — выполнить в папке проекта: <code>python scripts/make_placeholders.py</code> (создаст недостающие миниатюры).</li>
+        <li>Проверить: <code>python scripts/check.py</code> — в ответе должно быть <code>OK</code>. Если есть ошибки — они названы построчно, поправить и повторить.</li>
+        <li>Загрузить изменённые файлы на GitHub: репозиторий <code>Alina_web</code> → <strong>Add file → Upload files</strong> → перетащить файлы → <strong>Commit changes</strong>.</li>
+        <li>Через 1–2 минуты сайт обновится: <a href="https://raketa4.github.io/Alina_web/">raketa4.github.io/Alina_web</a></li>
+      </ol>
+
+      <div class="callout warn">
+        <span class="tag">Правила JSON — иначе сайт не соберётся</span>
+        <p>Каждое значение — в двойных кавычках <code>"…"</code>. Между элементами списка — запятая. После <em>последнего</em> элемента перед <code>]</code> или <code>}</code> запятой <strong>нет</strong>. Не удалять скобки <code>{ }</code> и <code>[ ]</code>. Кавычки — только прямые <code>"</code>, не «ёлочки».</p>
+      </div>
+
+      <p>Все тексты двуязычные: у каждого поля есть пара <code>"ru"</code> и <code>"en"</code>. Меняете русский — поменяйте и английский рядом.</p>
+    </section>
+
+    <section id="izbrannoe">
+      <h2><span class="num">1</span> Избранные работы и тексты главной</h2>
+
+      <h3>Избранные работы</h3>
+      <p>Это крупные работы в блоке «Избранные работы» на главной странице. Задаются списком в файле <span class="filechip">data/site.json</span>, поле <code>"featured"</code> — это <strong>id работ из каталога</strong>, в нужном порядке (обычно 3–4 штуки).</p>
+
+      <figure class="code">
+        <figcaption>data/site.json<button class="copy-btn" type="button">Копировать</button></figcaption>
+        <pre>"featured": ["mas-04", "mas-03", "mas-08", "mas-05"],</pre>
+      </figure>
+
+      <ul>
+        <li><strong>Поменять состав или порядок</strong> — переставить или заменить id в списке.</li>
+        <li><strong>Убрать работу с главной</strong> — удалить её id из списка. В каталоге работа останется.</li>
+        <li><strong>Добавить новую работу в избранное</strong> — сначала добавить её в каталог (раздел 3), затем вписать её <code>id</code> сюда.</li>
+      </ul>
+
+      <div class="callout note">
+        <span class="tag">Важно</span>
+        <p>id в <code>"featured"</code> обязан существовать в <span class="filechip">data/catalog.json</span>. Несуществующий id просто не покажется.</p>
+      </div>
+
+      <h3>Тексты и главное изображение</h3>
+      <div class="table-scroll">
+        <table class="field-table">
+          <thead><tr><th>Что</th><th>Где</th></tr></thead>
+          <tbody>
+            <tr><td>Подпись над именем<br><em>«Художник-живописец»</em></td><td><span class="filechip">data/site.json</span> → <code>"role"</code></td></tr>
+            <tr><td>Абзац под именем</td><td><span class="filechip">data/site.json</span> → <code>"intro"</code></td></tr>
+            <tr><td>Большая картина в шапке главной</td><td>заменить файл <code>assets/works/chuvash-wedding-full.jpg</code> тем же именем, либо поменять <code>src</code> в <code>index.html</code> (строка с <code>hero-figure</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="portret">
+      <h2><span class="num">2</span> Портрет автора и страница «Об авторе»</h2>
+
+      <h3>Фото автора</h3>
+      <ol class="steps">
+        <li>Подготовить вертикальный кадр, примерно <strong>1200 × 1600 px</strong>, JPEG.</li>
+        <li>Положить в <code>assets/photos/</code> под именем <code>artist-portrait.jpg</code> (заменив текущий файл — имя то же).</li>
+        <li>Подпись под фото — <span class="filechip">data/site.json</span> → <code>"portrait_credit"</code> (сейчас «Фото: Артём Жигалов»).</li>
+      </ol>
+
+      <h3>Artist statement</h3>
+      <p>Текст в <span class="filechip">data/site.json</span> → <code>"statement"</code>. Это <strong>список абзацев</strong> — каждый абзац в кавычках, через запятую. Абзацев может быть сколько угодно.</p>
+
+      <figure class="code">
+        <figcaption>data/site.json<button class="copy-btn" type="button">Копировать</button></figcaption>
+        <pre>"statement": {
+  "ru": [
+    "Первый абзац…",
+    "Второй абзац…"
+  ],
+  "en": [
+    "First paragraph…",
+    "Second paragraph…"
+  ]
+},</pre>
+      </figure>
+
+      <div class="callout note">
+        <span class="tag">Необязательно, но желательно</span>
+        <p>Тот же русский текст дублируется в <span class="filechip">about.html</span> между <code>&lt;div class="prose" id="statement"&gt;</code> и <code>&lt;/div&gt;</code> — это запасной вариант для поисковых систем. Посетители видят версию из JSON.</p>
+      </div>
+
+      <h3>CV</h3>
+      <p>Образование, преподавание, выставки, награды, кураторские проекты, публикации — файл <span class="filechip">data/cv.json</span>. Внутри каждого раздела — список записей вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code>.</p>
+    </section>
+
+    <section id="katalog">
+      <h2><span class="num">3</span> Каталог работ</h2>
+
+      <p>Файл <span class="filechip">data/catalog.json</span> — список работ. Каждая работа — блок в фигурных скобках. Чтобы <strong>добавить работу</strong>, скопируйте блок и вставьте перед закрывающей <code>]</code>, не забыв запятую между блоками:</p>
+
+      <figure class="code">
+        <figcaption>data/catalog.json — один блок работы<button class="copy-btn" type="button">Копировать</button></figcaption>
+        <pre>{
+  "id": "mas-13",
+  "title": { "ru": "Название работы", "en": "Work title" },
+  "year": "2025",
+  "medium": { "ru": "Холст, масло", "en": "Oil on canvas" },
+  "size": "50 × 70 см",
+  "status": "available",
+  "project": "mountains-and-sea",
+  "image": "assets/works/mas-13-full.jpg",
+  "price": "180 000 ₽"
+}</pre>
+      </figure>
+
+      <div class="table-scroll">
+        <table class="field-table">
+          <thead><tr><th>Поле</th><th>Что вписать</th></tr></thead>
+          <tbody>
+            <tr><td><code>id</code></td><td>уникальный, латиницей. Это же имя у файла картинки.</td></tr>
+            <tr><td><code>status</code></td><td><code>available</code> — в наличии · <code>reserved</code> — в резерве · <code>sold</code> — продано (у проданных кнопка заявки заменяется на «Продано»).</td></tr>
+            <tr><td><code>project</code></td><td>slug серии из <span class="filechip">data/projects.json</span>: <code>mountains-and-sea</code>, <code>portraits</code>, <code>chuvash-wedding</code>. Если работа вне серии — убрать строку целиком.</td></tr>
+            <tr><td><code>price</code></td><td>необязательно. Без этого поля на карточке будет «Цена по запросу».</td></tr>
+            <tr><td><code>image</code></td><td>всегда <code>assets/works/&lt;id&gt;-full.jpg</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Картинки к работе</h3>
+      <ol class="steps">
+        <li>Экспортировать фото работы в JPEG, большая сторона <strong>≈ 1600 px</strong>.</li>
+        <li>Положить в <code>assets/works/</code> под именем <code>&lt;id&gt;-full.jpg</code> (например <code>mas-13-full.jpg</code>).</li>
+        <li>Выполнить <code>python scripts/make_placeholders.py</code> — миниатюра <code>&lt;id&gt;-thumb.jpg</code> создастся автоматически.</li>
+      </ol>
+      <div class="callout note">
+        <span class="tag">Заменить фото у существующей работы</span>
+        <p>Положить новый файл под тем же именем и выполнить <code>python scripts/make_placeholders.py --thumbs</code> — миниатюры пересоберутся из новых фото.</p>
+      </div>
+
+      <h3>Изменить или убрать работу</h3>
+      <ul>
+        <li><strong>Правка описания</strong> — поменять поля <code>title</code>, <code>medium</code>, <code>size</code>, <code>year</code> у нужного блока.</li>
+        <li><strong>Работа продана</strong> — заменить <code>"available"</code> на <code>"sold"</code>.</li>
+        <li><strong>Удалить работу</strong> — удалить весь её блок (и запятую). Если она была в <code>"featured"</code> — убрать оттуда её id.</li>
+      </ul>
+    </section>
+
+    <section id="prochee">
+      <h2><span class="num">4</span> Прочие изменения</h2>
+
+      <h3>Контакты</h3>
+      <p>Файл <span class="filechip">data/site.json</span>:</p>
+      <ul>
+        <li><code>"email"</code> — пока пусто, заявки уходят в Telegram. Впишите адрес — кнопки «Оставить заявку» начнут открывать письмо.</li>
+        <li><code>"phone"</code>, <code>"location"</code> — телефон и город.</li>
+        <li><code>"social"</code> — ссылки <code>telegram</code>, <code>instagram</code>, <code>vk</code>. Можно добавить <code>behance</code>, <code>facebook</code>.</li>
+      </ul>
+
+      <h3>Проекты / серии</h3>
+      <p><span class="filechip">data/projects.json</span> — <code>title</code>, <code>description</code>, <code>year</code>, <code>role</code>, <code>cover</code> (обложка) и <code>images</code> (список картинок серии). Поле <code>slug</code> не менять — оно в ссылках и карте сайта.</p>
+
+      <h3>Тексты страницы «Инфо»</h3>
+      <p><span class="filechip">data/info.json</span> — разделы «Как приобрести», «Доставка», «Оплата» и т. д. Поле <code>body</code> — список абзацев.</p>
+
+      <h3>Меню сайта</h3>
+      <p>Пункты меню продублированы в каждом файле <code>*.html</code>. Если меняете названия пунктов — правьте во всех файлах. Обычно трогать не нужно.</p>
+
+      <h3>Английский язык</h3>
+      <p>Интерфейс (кнопки, подписи) — <span class="filechip">i18n/en.json</span>. Длинные тексты — поля <code>"en"</code> внутри файлов <span class="filechip">data/</span>. Наборы ключей в <code>ru.json</code> и <code>en.json</code> обязаны совпадать — это проверяет <code>check.py</code>.</p>
+
+      <h3>Аналитика и поисковые системы</h3>
+      <ul>
+        <li><strong>Яндекс.Метрика</strong> — вписать номер счётчика в <span class="filechip">data/site.json</span> → <code>"metrika_id"</code>. Подключится сама.</li>
+        <li><strong>Google Search Console</strong> — файл подтверждения положить в корень репозитория.</li>
+      </ul>
+      <div class="callout warn">
+        <span class="tag">Осторожно с файлами подтверждения</span>
+        <p>Скачанные HTML-файлы иногда заражаются тегами <code>kaspersky-labs.com</code>. Перед загрузкой открыть файл и удалить всё, кроме исходной строки подтверждения.</p>
+      </div>
+
+      <h3>Свой домен</h3>
+      <p>Когда появится домен: создать в корне файл <code>CNAME</code> с адресом домена и заменить <code>raketa4.github.io/Alina_web</code> на новый адрес в <code>canonical</code>, <code>og:url</code>, <span class="filechip">sitemap.xml</span>, <span class="filechip">robots.txt</span> и в теге <code>&lt;base&gt;</code> файла <code>404.html</code>.</p>
+    </section>
+
+    <section id="spravka">
+      <h2><span class="num">·</span> Справка</h2>
+
+      <h3>Где что лежит</h3>
+      <div class="table-scroll">
+        <table class="field-table">
+          <thead><tr><th>Файл</th><th>Отвечает за</th></tr></thead>
+          <tbody>
+            <tr><td><code>data/site.json</code></td><td>имя, вступление, artist statement, портрет, контакты, соцсети, избранное, счётчик Метрики</td></tr>
+            <tr><td><code>data/catalog.json</code></td><td>каталог работ</td></tr>
+            <tr><td><code>data/projects.json</code></td><td>серии / проекты</td></tr>
+            <tr><td><code>data/cv.json</code></td><td>CV на странице «Об авторе»</td></tr>
+            <tr><td><code>data/info.json</code></td><td>тексты страницы «Инфо»</td></tr>
+            <tr><td><code>i18n/ru.json</code>, <code>i18n/en.json</code></td><td>подписи интерфейса (меню, кнопки, статусы)</td></tr>
+            <tr><td><code>assets/works/</code></td><td>изображения работ</td></tr>
+            <tr><td><code>assets/photos/</code></td><td>портрет автора</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Размеры изображений</h3>
+      <div class="table-scroll">
+        <table class="field-table">
+          <thead><tr><th>Изображение</th><th>Размер</th><th>Имя файла</th></tr></thead>
+          <tbody>
+            <tr><td>Работа, крупно</td><td>большая сторона ≈ 1600 px</td><td><code>&lt;id&gt;-full.jpg</code></td></tr>
+            <tr><td>Работа, миниатюра</td><td>≈ 800 px <em>(создаёт скрипт)</em></td><td><code>&lt;id&gt;-thumb.jpg</code></td></tr>
+            <tr><td>Портрет автора</td><td>≈ 1200 × 1600 px, вертикальный</td><td><code>artist-portrait.jpg</code></td></tr>
+            <tr><td>Картина на главной</td><td>горизонтальная, большая сторона ≈ 1600 px</td><td><code>chuvash-wedding-full.jpg</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Команды в папке проекта</h3>
+      <div class="table-scroll">
+        <table class="field-table">
+          <tbody>
+            <tr><td><code>python scripts/check.py</code></td><td>проверить, что всё цело перед загрузкой</td></tr>
+            <tr><td><code>python scripts/make_placeholders.py</code></td><td>создать недостающие картинки и миниатюры</td></tr>
+            <tr><td><code>python scripts/make_placeholders.py --thumbs</code></td><td>пересобрать все миниатюры из крупных фото</td></tr>
+            <tr><td><code>python -m http.server 8000</code></td><td>посмотреть сайт локально на <code>localhost:8000</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+      <p class="foot">Полная техническая документация — в файле <code>README.md</code> и в папке <code>docs/</code> репозитория.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const pre = btn.closest('figure').querySelector('pre');
+      try {
+        await navigator.clipboard.writeText(pre.textContent);
+        const was = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(() => { btn.textContent = was; }, 1600);
+      } catch (e) {
+        const r = document.createRange();
+        r.selectNodeContents(pre);
+        const s = getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+      }
+    });
+  });
+</script>
