@@ -1,6 +1,6 @@
 // Страница одной серии: project.html?slug=…
 
-import { getJSON, qs, param, pick, escapeHtml } from './util.js';
+import { getJSON, qs, param, pick, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
 
@@ -27,16 +27,12 @@ export async function initProject() {
   document.title = `${title} — ${pick({ ru: 'Алина Хоняк', en: 'Alina Khoniak' })}`;
 
   const meta = escapeHtml([pick(project.role), project.year].filter(Boolean).join(' · '));
-  const gallery = (project.images || []).map((src, i) => {
-    const full = escapeHtml(src);
-    const thumb = escapeHtml(src.replace('-full', '-thumb'));
-    return `
+  const gallery = (project.images || []).map((src, i) => `
       <figure class="work reveal">
-        <button class="work-figure hover-zoom" type="button" data-zoom="${full}" aria-label="${escapeHtml(title)} — ${i + 1}">
-          <img src="${thumb}" alt="${escapeHtml(title)} — ${i + 1}" loading="lazy">
+        <button class="work-figure hover-zoom" type="button" data-zoom="${escapeHtml(src)}" aria-label="${escapeHtml(title)} — ${i + 1}">
+          ${thumbImg(src, `${title} — ${i + 1}`)}
         </button>
-      </figure>`;
-  }).join('');
+      </figure>`).join('');
 
   mount.innerHTML = `
     <div class="page-head">

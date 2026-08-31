@@ -2,7 +2,7 @@
 // кнопка заявки (mailto, иначе Telegram).
 
 import {
-  getJSON, qs, qsa, getLang, pick, escapeHtml, fillTemplate, param, urlWithParams,
+  getJSON, qs, qsa, getLang, pick, escapeHtml, fillTemplate, param, urlWithParams, thumbImg,
 } from './util.js';
 import { getSite } from './site.js';
 import { t } from './i18n.js';
@@ -90,7 +90,6 @@ export async function initCatalog() {
   function card(w) {
     const title = pick(w.title, lang);
     const full = w.image;
-    const thumb = w.image.replace('-full', '-thumb');
     const sub = [pick(w.medium, lang), w.size, w.year].filter(Boolean).join(' · ');
     const price = w.price ? escapeHtml(w.price) : escapeHtml(t('catalog.priceOnRequest'));
     const statusLabel = t(`catalog.status${cap(w.status)}`);
@@ -106,7 +105,7 @@ export async function initCatalog() {
     return `
       <article class="card reveal">
         <button class="work-figure hover-zoom" type="button" data-zoom="${escapeHtml(full)}" aria-label="${escapeHtml(title)}">
-          <img src="${escapeHtml(thumb)}" alt="${escapeHtml(title)}" loading="lazy">
+          ${thumbImg(full, title)}
         </button>
         <div class="card-body">
           <span class="badge badge--${w.status}">${escapeHtml(statusLabel)}</span>

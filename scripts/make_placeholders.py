@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""Генерация плейсхолдеров изображений для сайта Алины Хоняк.
+"""Подготовка изображений для сайта Алины Хоняк.
 
-Запуск:  python scripts/make_placeholders.py [--force]
+Запуск:
+  python scripts/make_placeholders.py            обычный режим
+  python scripts/make_placeholders.py --thumbs    пересобрать все миниатюры
+  python scripts/make_placeholders.py --force      всё заново плейсхолдерами
 
-Читает data/projects.json и data/catalog.json, создаёт для каждой
-работы файлы <name>-full.jpg (1600 px по большей стороне) и
-<name>-thumb.jpg (800 px), а также портрет автора. Соотношение сторон
-берётся из поля size («40 × 58 см»), для остальных — по типу работы.
+Что делает обычный режим (ничего не ломает):
+  • для каждой работы из data/catalog.json и data/projects.json проверяет
+    пару файлов assets/works/<id>-full.jpg и <id>-thumb.jpg;
+  • если -full нет — рисует серый плейсхолдер с названием;
+  • если -thumb нет, но -full есть (в т.ч. настоящее фото) — делает
+    миниатюру ~800 px из -full;
+  • то же для портрета assets/photos/artist-portrait.jpg.
 
-Существующие файлы не перезаписываются без флага --force — так реальные
-изображения, положенные вручную, остаются на месте.
+--thumbs  пересоздаёт ВСЕ -thumb.jpg из -full.jpg (полезно после замены фото;
+          сами -full не трогает).
+--force   перерисовывает всё плейсхолдерами — стирает настоящие картинки,
+          пользоваться только если нужно начать с нуля.
 """
 from __future__ import annotations
 
@@ -24,11 +32,16 @@ ROOT = Path(__file__).resolve().parent.parent
 WORKS = ROOT / "assets" / "works"
 PHOTOS = ROOT / "assets" / "photos"
 
-FORCE = "--force" in sys.argv[1:]
+ARGS = sys.argv[1:]
+FORCE = "--force" in ARGS
+REBUILD_THUMBS = "--thumbs" in ARGS
 
-BG = (232, 226, 216)      # тёплый холст
-FRAME = (176, 169, 154)   # --canvas
-INK = (110, 30, 36)       # --accent
+FULL_SIDE = 1600
+THUMB_SIDE = 800
+
+BG = (232, 226, 216)
+FRAME = (176, 169, 154)
+INK = (110, 30, 36)
 SUB = (120, 112, 100)
 
 SIZE_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*[×xх*]\s*(\d+(?:[.,]\d+)?)")
@@ -38,7 +51,7 @@ def load(rel: str):
     return json.loads((ROOT / rel).read_text(encoding="utf-8"))
 
 
-def font(px: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+def font(px: int):
     for name in ("georgia.ttf", "Georgia.ttf", "times.ttf", "arial.ttf",
                  "DejaVuSerif.ttf", "DejaVuSans.ttf"):
         for base in (Path("C:/Windows/Fonts"), Path("/usr/share/fonts"),
@@ -53,7 +66,6 @@ def font(px: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
 
 
 def ratio_from_size(size: str | None) -> float:
-    """Отношение ширина/высота."""
     if size:
         m = SIZE_RE.search(size)
         if m:
@@ -69,13 +81,13 @@ def ratio_for(name: str, size: str | None) -> float:
     if r:
         return r
     if name.startswith("por-"):
-        return 0.8                       # 4 : 5, вертикаль
+        return 0.8
     if name.startswith("chuvash-wedding-detail"):
         return 1.0
     if name.startswith("chuvash-wedding"):
-        return 1.78                      # монументальное горизонтальное полотно
+        return 1.78
     if name == "artist-portrait":
-        return 0.75                      # 3 : 4
+        return 0.75
     return 0.8
 
 
@@ -85,10 +97,8 @@ def dims(ratio: float, long_side: int) -> tuple[int, int]:
     return max(1, round(long_side * ratio)), long_side
 
 
-def wrap(draw, text: str, fnt, max_w: int) -> list[str]:
-    words = text.split()
-    lines: list[str] = []
-    cur = ""
+def wrap(draw, text, fnt, max_w):
+    words, lines, cur = text.split(), [], ""
     for word in words:
         trial = f"{cur} {word}".strip()
         if draw.textlength(trial, font=fnt) <= max_w or not cur:
@@ -101,18 +111,16 @@ def wrap(draw, text: str, fnt, max_w: int) -> list[str]:
     return lines
 
 
-def render(path: Path, ratio: float, caption: str, sub: str, long_side: int) -> None:
+def render_placeholder(path: Path, ratio: float, caption: str, sub: str, long_side: int) -> None:
     w, h = dims(ratio, long_side)
     img = Image.new("RGB", (w, h), BG)
     d = ImageDraw.Draw(img)
     pad = max(6, round(min(w, h) * 0.035))
     d.rectangle([pad, pad, w - pad - 1, h - pad - 1], outline=FRAME,
                 width=max(1, round(min(w, h) * 0.006)))
-
     title_fnt = font(max(14, round(min(w, h) * 0.075)))
     sub_fnt = font(max(11, round(min(w, h) * 0.045)))
     inner = w - 4 * pad
-
     title_lines = wrap(d, caption, title_fnt, inner)
     sub_lines = wrap(d, sub, sub_fnt, inner) if sub else []
 
@@ -126,40 +134,56 @@ def render(path: Path, ratio: float, caption: str, sub: str, long_side: int) -> 
     if sub_lines:
         block += round(tlh * 0.6) + len(sub_lines) * (slh + gap)
     y = (h - block) / 2
-
     for ln in title_lines:
-        tw = d.textlength(ln, font=title_fnt)
-        d.text(((w - tw) / 2, y), ln, font=title_fnt, fill=INK)
+        d.text(((w - d.textlength(ln, font=title_fnt)) / 2, y), ln, font=title_fnt, fill=INK)
         y += tlh + gap
     if sub_lines:
         y += round(tlh * 0.6)
         for ln in sub_lines:
-            tw = d.textlength(ln, font=sub_fnt)
-            d.text(((w - tw) / 2, y), ln, font=sub_fnt, fill=SUB)
+            d.text(((w - d.textlength(ln, font=sub_fnt)) / 2, y), ln, font=sub_fnt, fill=SUB)
             y += slh + gap
-
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(path, "JPEG", quality=82)
 
 
-def make_pair(name: str, ratio: float, caption: str, sub: str) -> None:
+def downscale(src: Path, dst: Path, long_side: int) -> None:
+    with Image.open(src) as im:
+        im = im.convert("RGB")
+        w, h = im.size
+        scale = long_side / max(w, h)
+        if scale < 1:
+            im = im.resize((max(1, round(w * scale)), max(1, round(h * scale))), Image.LANCZOS)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        im.save(dst, "JPEG", quality=84)
+
+
+def process(name: str, ratio: float, caption: str, sub: str) -> None:
     full = WORKS / f"{name}-full.jpg"
     thumb = WORKS / f"{name}-thumb.jpg"
-    for target, long_side in ((full, 1600), (thumb, 800)):
-        if target.exists() and not FORCE:
-            print(f"  пропуск (есть): {target.relative_to(ROOT)}")
-            continue
-        render(target, ratio, caption, sub, long_side)
-        print(f"  создан: {target.relative_to(ROOT)}  ({dims(ratio, long_side)[0]}×{dims(ratio, long_side)[1]})")
+
+    if FORCE or not full.exists():
+        render_placeholder(full, ratio, caption, sub, FULL_SIDE)
+        print(f"  плейсхолдер: {full.relative_to(ROOT)}")
+
+    if FORCE:
+        render_placeholder(thumb, ratio, caption, sub, THUMB_SIDE)
+        print(f"  плейсхолдер: {thumb.relative_to(ROOT)}")
+    elif REBUILD_THUMBS or not thumb.exists():
+        if full.exists():
+            downscale(full, thumb, THUMB_SIDE)
+            print(f"  миниатюра из -full: {thumb.relative_to(ROOT)}")
+        else:
+            render_placeholder(thumb, ratio, caption, sub, THUMB_SIDE)
+            print(f"  плейсхолдер: {thumb.relative_to(ROOT)}")
+    else:
+        print(f"  ок: {full.name} + {thumb.name}")
 
 
 def main() -> int:
     catalog = load("data/catalog.json")
     projects = load("data/projects.json")
 
-    # имя работы -> (соотношение, подпись, подстрока)
     plan: dict[str, tuple[float, str, str]] = {}
-
     for w in catalog:
         name = Path(w["image"]).stem.replace("-full", "")
         cap = w["title"]["ru"] if isinstance(w["title"], dict) else str(w["title"])
@@ -171,22 +195,20 @@ def main() -> int:
             if not img:
                 continue
             name = Path(img).stem.replace("-full", "")
-            if name in plan:
-                continue
-            plan[name] = (ratio_for(name, None), ptitle, "эскиз")
+            plan.setdefault(name, (ratio_for(name, None), ptitle, "эскиз"))
 
-    print(f"Работ к генерации: {len(plan)}")
+    mode = "--force" if FORCE else ("--thumbs" if REBUILD_THUMBS else "обычный")
+    print(f"Режим: {mode}. Работ: {len(plan)}")
     for name, (ratio, cap, sub) in sorted(plan.items()):
-        make_pair(name, ratio, cap, sub)
+        process(name, ratio, cap, sub)
 
-    # портрет автора
     portrait = PHOTOS / "artist-portrait.jpg"
-    if portrait.exists() and not FORCE:
-        print(f"  пропуск (есть): {portrait.relative_to(ROOT)}")
+    if FORCE or not portrait.exists():
+        render_placeholder(portrait, ratio_for("artist-portrait", None),
+                           "Портрет автора", "фото: Артём Жигалов", 1400)
+        print(f"  плейсхолдер: {portrait.relative_to(ROOT)}")
     else:
-        render(portrait, ratio_for("artist-portrait", None),
-               "Портрет автора", "фото: Артём Жигалов", 1400)
-        print(f"  создан: {portrait.relative_to(ROOT)}")
+        print(f"  ок: {portrait.name}")
 
     print("Готово.")
     return 0

@@ -1,7 +1,7 @@
 // Главная: блок избранных работ из data/catalog.json по списку id
 // в data/site.json (поле featured).
 
-import { getJSON, qs, getLang, pick, escapeHtml } from './util.js';
+import { getJSON, qs, getLang, pick, escapeHtml, thumbImg } from './util.js';
 import { getSite } from './site.js';
 import { revealize } from './ui.js';
 
@@ -29,11 +29,10 @@ export async function initHome() {
 
   mount.innerHTML = works.map((w) => {
     const title = escapeHtml(pick(w.title));
-    const thumb = escapeHtml(w.image.replace('-full', '-thumb'));
     const sub = escapeHtml([pick(w.medium), w.size, w.year].filter(Boolean).join(' · '));
     return `
       <a class="work reveal" href="catalog.html">
-        <span class="work-figure"><img src="${thumb}" alt="${title}" loading="lazy"></span>
+        <span class="work-figure">${thumbImg(w.image, pick(w.title))}</span>
         <span class="work-meta">
           <span class="work-title">${title}</span>
           <span class="work-sub">${sub}</span>

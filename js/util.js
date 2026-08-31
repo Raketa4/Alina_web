@@ -48,3 +48,14 @@ export function urlWithParams(changes) {
 export function param(name) {
   return new URL(location.href).searchParams.get(name);
 }
+
+// <img> с миниатюрой (-thumb) и автоматическим откатом на -full,
+// если миниатюры на сервере нет.
+export function thumbImg(fullPath, alt, extraClass = '') {
+  const full = String(fullPath || '');
+  const thumb = full.replace('-full', '-thumb');
+  const cls = extraClass ? ` class="${extraClass}"` : '';
+  return `<img src="${escapeHtml(thumb)}" alt="${escapeHtml(alt)}"${cls}`
+    + ' loading="lazy" decoding="async"'
+    + ` onerror="this.onerror=null;this.src='${escapeHtml(full)}'">`;
+}
