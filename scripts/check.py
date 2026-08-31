@@ -91,10 +91,21 @@ def check_bilingual(value, where: str) -> None:
 def check_data_schema() -> None:
     global checks_run
 
+    # каждый файл в data/ обязан быть валидным JSON
+    for path in sorted((ROOT / "data").glob("*.json")):
+        checks_run += 1
+        try:
+            json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(f"[невалидный JSON] data/{path.name}: {exc}")
+
     site = load_json("data/site.json")
     if site is not None:
         checks_run += 1
-        require(site, ("email", "social"), "site.json")
+        require(site, ("name", "role", "social"), "site.json")
+        for key in ("name", "role", "intro"):
+            if isinstance(site.get(key), dict):
+                check_bilingual(site[key], f"site.json.{key}")
 
     projects = load_json("data/projects.json")
     if projects is not None:

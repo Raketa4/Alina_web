@@ -1,0 +1,54 @@
+{
+  "education": [
+    {
+      "period": "2017–2023",
+      "ru": "Санкт-Петербургская академия художеств имени Ильи Репина. Художник-живописец; мастерская монументальной живописи под руководством профессора А. К. Быстрова.",
+      "en": "Repin Academy of Arts, St. Petersburg. Painter; monumental painting workshop of Professor A. K. Bystrov."
+    },
+    {
+      "period": "2011–2015",
+      "ru": "Чебоксарское художественное училище. Живописец, преподаватель.",
+      "en": "Cheboksary Art College. Painter and art teacher."
+    }
+  ],
+  "teaching": [
+    {
+      "period": "с 2023",
+      "ru": "Преподаватель Санкт-Петербургской академии художеств имени Ильи Репина.",
+      "en": "Instructor at the Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2025–2026",
+      "ru": "Преподаватель образовательного центра «Сириус», программы «Основы академической художественной школы: скульптура и рисунок».",
+      "en": "Instructor at the Sirius Educational Centre, “Foundations of the Academic Art School: Sculpture and Drawing” programmes."
+    }
+  ],
+  "exhibitions": [
+    { "period": "2026", "ru": "«Посвящение России», центр «Сириус».", "en": "“Dedication to Russia”, Sirius Centre." },
+    { "period": "2026", "ru": "«Палитра России», Санкт-Петербургский союз художников.", "en": "“Palette of Russia”, St. Petersburg Union of Artists." },
+    { "period": "2025", "ru": "Театральная академия Бориса Эйфмана.", "en": "Boris Eifman Theatre Academy." },
+    { "period": "2025", "ru": "«Краски балета», центр «Сириус».", "en": "“Colours of Ballet”, Sirius Centre." },
+    { "period": "2024", "ru": "Выставка фэшн-иллюстрации, Дубай, ОАЭ.", "en": "Fashion illustration exhibition, Dubai, UAE." },
+    { "period": "2024", "ru": "Международный форум «Россия», ВДНХ, Москва.", "en": "International forum “Russia”, VDNKh, Moscow." },
+    { "period": "2023", "ru": "Выставка дипломных работ, Музей Академии художеств, Санкт-Петербург.", "en": "Diploma works exhibition, Academy of Arts Museum, St. Petersburg." },
+    { "period": "2023", "ru": "Международный конкурс академического рисунка.", "en": "International Academic Drawing Competition." }
+  ],
+  "awards": [
+    { "period": "2024", "ru": "Победитель Международного конкурса фэшн-иллюстрации, Дубай, ОАЭ.", "en": "Winner, International Fashion Illustration Competition, Dubai, UAE." },
+    { "period": "2024", "ru": "Почётная грамота Министра культуры Чувашской Республики.", "en": "Certificate of Honour from the Minister of Culture of the Chuvash Republic." },
+    { "period": "2023", "ru": "Лауреат I степени в номинации «Портрет», XV Международный конкурс академического рисунка.", "en": "First Prize, Portrait category, 15th International Academic Drawing Competition." },
+    { "period": "2022", "ru": "Лауреат I степени в номинации «Портрет», XIV Международный конкурс академического рисунка.", "en": "First Prize, Portrait category, 14th International Academic Drawing Competition." }
+  ],
+  "curatorial": [
+    {
+      "period": "2022",
+      "ru": "Выставка «Белые и цветные полосы тумана между небом и землёй» (художник Ирина Иванова), Kunsthalle nummer sieben, Санкт-Петербург.",
+      "en": "Exhibition “White and Coloured Stripes of Fog between Sky and Earth” (artist Irina Ivanova), Kunsthalle nummer sieben, St. Petersburg."
+    }
+  ],
+  "publications": [
+    { "period": "2023–2026", "ru": "Журнал «Юный художник».", "en": "Yuny Khudozhnik (Young Artist) magazine." },
+    { "period": "2023–2026", "ru": "Interior + Design.", "en": "Interior + Design." },
+    { "period": "2023–2026", "ru": "Fontanka.ru и региональные издания.", "en": "Fontanka.ru and regional media." }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "Главная",
+    "about": "Об авторе",
+    "projects": "Проекты",
+    "catalog": "Каталог",
+    "info": "Инфо",
+    "contacts": "Контакты"
+  },
+  "lang": {
+    "ru": "RU",
+    "en": "EN",
+    "switch": "Сменить язык"
+  },
+  "common": {
+    "menu": "Меню",
+    "close": "Закрыть",
+    "loading": "Загрузка…",
+    "toTop": "Наверх"
+  },
+  "home": {
+    "featuredTitle": "Избранные работы",
+    "exploreTitle": "Разделы",
+    "aboutBlurb": "Путь, образование, artist statement и полное CV.",
+    "projectsBlurb": "Тематические серии живописи и монументальные проекты.",
+    "catalogBlurb": "Работы, доступные для приобретения.",
+    "seeAll": "Смотреть каталог"
+  },
+  "about": {
+    "title": "Об авторе",
+    "statementTitle": "Artist statement",
+    "cvTitle": "Curriculum vitae",
+    "education": "Образование",
+    "teaching": "Преподавание",
+    "exhibitions": "Выставки",
+    "awards": "Награды",
+    "curatorial": "Кураторские проекты",
+    "publications": "Публикации"
+  },
+  "projects": {
+    "title": "Проекты",
+    "lead": "Тематические серии и монументальные работы.",
+    "view": "Смотреть проект"
+  },
+  "project": {
+    "back": "Все проекты",
+    "worksTitle": "Работы серии",
+    "seeInCatalog": "Смотреть серию в каталоге",
+    "notFoundTitle": "Проект не найден",
+    "notFoundText": "Возможно, ссылка устарела. Вернитесь к списку проектов."
+  },
+  "catalog": {
+    "title": "Каталог",
+    "lead": "Работы, доступные для приобретения. Стоимость — по запросу.",
+    "filterProject": "Серия",
+    "filterStatus": "Статус",
+    "all": "Все",
+    "statusAvailable": "В наличии",
+    "statusReserved": "В резерве",
+    "statusSold": "Продано",
+    "priceOnRequest": "Цена по запросу",
+    "inquire": "Оставить заявку",
+    "empty": "По выбранным условиям работ нет."
+  },
+  "info": {
+    "title": "Инфо",
+    "lead": "Как приобрести работу, доставка, оплата и оформление."
+  },
+  "contacts": {
+    "title": "Контакты",
+    "lead": "Приобретение работ, заказы, выставочные и кураторские проекты, коллаборации с брендами.",
+    "formName": "Имя",
+    "formContact": "E-mail или Telegram",
+    "formMessage": "Сообщение",
+    "formSend": "Написать",
+    "namePlaceholder": "Как к вам обращаться",
+    "contactPlaceholder": "Куда ответить",
+    "messagePlaceholder": "Коротко о вашем вопросе",
+    "directTitle": "Напрямую",
+    "emailLabel": "E-mail",
+    "emailPending": "уточняется",
+    "telegramLabel": "Telegram",
+    "socialTitle": "Социальные сети",
+    "studioLabel": "Мастерская"
+  },
+  "inquiry": {
+    "subjectWork": "Заявка: «{title}», {year}, {size}",
+    "subjectGeneral": "Сообщение с сайта",
+    "bodyWork": "Здравствуйте, Алина!\n\nМеня интересует работа «{title}» ({year}, {size}).\nПодскажите, пожалуйста, актуальную стоимость и условия приобретения.\n\nМоё имя: \nСпособ связи: ",
+    "bodyGeneral": "Здравствуйте, Алина!\n\n\n\nМоё имя: \nСпособ связи: "
+  },
+  "footer": {
+    "tagline": "Художник-живописец. Санкт-Петербург.",
+    "nav": "Разделы",
+    "contact": "Связь",
+    "privacy": "Данные и приватность",
+    "rights": "Все права на изображения работ принадлежат автору.",
+    "backToTop": "Наверх"
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "text": "Похоже, такой страницы здесь нет.",
+    "home": "На главную"
+  }
+}

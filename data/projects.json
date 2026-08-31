@@ -1,0 +1,59 @@
+[
+  {
+    "slug": "chuvash-wedding",
+    "title": { "ru": "Чувашская свадьба", "en": "The Chuvash Wedding" },
+    "year": "2023",
+    "role": { "ru": "Дипломная картина", "en": "Diploma painting" },
+    "description": {
+      "ru": "Дипломная картина, написанная в мастерской монументальной живописи Академии художеств. Большое полотно соединяет пейзаж, портреты и национальную свадебную церемонию — попытка осмыслить судьбу народа, его традиционный уклад и возможные пути развития. Для автора это гимн чувашскому народу; вдохновением стали рассказы бабушки о её свадьбе, проходившей по национальным традициям.",
+      "en": "A diploma painting created in the monumental painting workshop of the Academy of Arts. The large canvas unites landscape, portraits and a national wedding ceremony — an attempt to comprehend the fate of a people, its traditional way of life and its possible paths of development. For the artist it is a hymn to the Chuvash people, inspired by her grandmother’s stories of her own wedding, held according to national traditions."
+    },
+    "cover": "assets/works/chuvash-wedding-full.jpg",
+    "images": [
+      "assets/works/chuvash-wedding-full.jpg",
+      "assets/works/chuvash-wedding-detail-1-full.jpg",
+      "assets/works/chuvash-wedding-detail-2-full.jpg"
+    ]
+  },
+  {
+    "slug": "mountains-and-sea",
+    "title": { "ru": "Горы и море", "en": "Mountains and Sea" },
+    "year": "2019–2025",
+    "role": { "ru": "Пейзажная серия", "en": "Landscape series" },
+    "description": {
+      "ru": "Пейзажи южной природы, написанные с натуры в разные годы. Крым и Кавказ: горы, море, кипарисы, свет побережья.",
+      "en": "Landscapes of southern nature painted from life over several years. Crimea and the Caucasus: mountains, sea, cypresses and the light of the coast."
+    },
+    "cover": "assets/works/mas-04-full.jpg",
+    "images": [
+      "assets/works/mas-01-full.jpg",
+      "assets/works/mas-02-full.jpg",
+      "assets/works/mas-03-full.jpg",
+      "assets/works/mas-04-full.jpg",
+      "assets/works/mas-05-full.jpg",
+      "assets/works/mas-06-full.jpg",
+      "assets/works/mas-07-full.jpg",
+      "assets/works/mas-08-full.jpg",
+      "assets/works/mas-09-full.jpg",
+      "assets/works/mas-10-full.jpg",
+      "assets/works/mas-11-full.jpg",
+      "assets/works/mas-12-full.jpg"
+    ]
+  },
+  {
+    "slug": "portraits",
+    "title": { "ru": "Портреты", "en": "Portraits" },
+    "year": "2018–2025",
+    "role": { "ru": "Портретная серия", "en": "Portrait series" },
+    "description": {
+      "ru": "О моментах, когда видишь себя по-настоящему. Портрет как встреча и как исследование характера.",
+      "en": "On the moments when you truly see yourself. The portrait as an encounter and as a study of character."
+    },
+    "cover": "assets/works/por-01-full.jpg",
+    "images": [
+      "assets/works/por-01-full.jpg",
+      "assets/works/por-02-full.jpg",
+      "assets/works/por-03-full.jpg"
+    ]
+  }
+]

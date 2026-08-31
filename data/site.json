@@ -1,0 +1,33 @@
+{
+  "name": { "ru": "Алина Хоняк", "en": "Alina Khoniak" },
+  "role": { "ru": "Художник-живописец", "en": "Painter" },
+  "intro": {
+    "ru": "Академическая и монументальная живопись. Петербургская школа, чувашские корни.",
+    "en": "Academic and monumental painting. The St. Petersburg school, Chuvash roots."
+  },
+  "statement": {
+    "ru": [
+      "Я окончила Академию художеств в Санкт-Петербурге (мастерская монументальной живописи проф. А. К. Быстрова). Сейчас работаю в мастерской в Петербурге и преподаю в Академии. Я из Чувашии, с волжских берегов. Мне интересна «дорога-судьба» российской провинции: там я родилась, я чувствую себя собирательницей новых впечатлений и осмысляю давние, из детства.",
+      "Я многое вложила в дипломную картину «Чувашская свадьба» — это собирание смыслов, важных для меня, и скрещение жанров. В большом монументальном полотне я соединила пейзаж, портреты, национальную свадебную церемонию. Это попытка осмыслить судьбу народа, его традиционный уклад и возможные пути развития. Я далека от поиска утраченного рая и не занимаюсь модной ретро-эстетикой. Мне кажется, сегодня этические проблемы понемногу вытесняют эстетические. Для меня эта картина — гимн чувашскому народу. Вдохновением стали рассказы бабушки о её свадьбе, проходившей по национальным традициям.",
+      "Я стремлюсь запечатлеть отражение сегодняшнего мира в перекрестии с прошлым и сполохами будущего. Мне кажется важно быть и на своём месте, и к месту в искусстве. Это не практический подход, это желание обрести своего зрителя. Реакция современников была важна для Петрова-Водкина, моего любимого художника: он очень хотел, чтобы зритель «входил» в картину и мысленно дорабатывал её образы. Мне это близко, и силой моего творчества я обращаюсь к жизни, заимствую сюжеты из её течения, портретирую, работаю в монументальном жанре. Работаю для людей. Я в начале пути."
+    ],
+    "en": [
+      "I graduated from the Academy of Arts in St. Petersburg (the monumental painting workshop of Professor A. K. Bystrov). I now work in a studio in St. Petersburg and teach at the Academy. I am from Chuvashia, from the banks of the Volga. I am drawn to the “road as destiny” of the Russian provinces: I was born there, and I feel myself a gatherer of new impressions while making sense of older ones, from childhood.",
+      "I put a great deal into my diploma painting, “The Chuvash Wedding” — a gathering of meanings important to me and a crossing of genres. In a large monumental canvas I brought together landscape, portraits and a national wedding ceremony. It is an attempt to comprehend the fate of a people, its traditional way of life and its possible paths of development. I am far from searching for a lost paradise and I do not practise fashionable retro aesthetics. It seems to me that today ethical questions are gradually displacing aesthetic ones. For me this painting is a hymn to the Chuvash people. Its inspiration came from my grandmother’s stories about her own wedding, held according to national traditions.",
+      "I strive to capture the reflection of today’s world where it intersects with the past and the flashes of the future. I think it matters to be both in your own place and fitting in art. This is not a practical approach; it is a wish to find my own viewer. The response of contemporaries mattered to Petrov-Vodkin, my favourite artist: he very much wanted the viewer to “enter” the painting and complete its images in their mind. That is close to me, and through the force of my work I turn to life, borrow subjects from its flow, paint portraits and work in the monumental genre. I work for people. I am at the beginning of the path."
+    ]
+  },
+  "portrait": "assets/photos/artist-portrait.jpg",
+  "portrait_credit": { "ru": "Фото: Артём Жигалов", "en": "Photo: Artem Zhigalov" },
+  "location": { "ru": "Санкт-Петербург", "en": "St. Petersburg" },
+  "email": "",
+  "phone": "",
+  "social": {
+    "telegram": "https://t.me/alinakhoniak",
+    "instagram": "https://www.instagram.com/alinakhoniak",
+    "vk": "https://vk.com/alinakhoniak"
+  },
+  "featured": ["mas-04", "mas-03", "mas-08", "mas-05"],
+  "metrika_id": "",
+  "gsc_verification": ""
+}

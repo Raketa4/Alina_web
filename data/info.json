@@ -1,0 +1,88 @@
+[
+  {
+    "id": "how-to-buy",
+    "title": { "ru": "Как приобрести работу", "en": "How to acquire a work" },
+    "body": {
+      "ru": [
+        "В каталоге у каждой работы указан статус: «в наличии», «в резерве» или «продано». Чтобы приобрести работу или уточнить детали, нажмите «Оставить заявку» на её карточке — откроется письмо с уже заполненной темой, либо напишите в Telegram.",
+        "После обращения художник подтверждает наличие, финальную стоимость и сроки. Возможен предварительный просмотр работы в мастерской в Санкт-Петербурге по договорённости."
+      ],
+      "en": [
+        "In the catalogue each work shows its status: “available”, “reserved” or “sold”. To acquire a work or ask a question, use the “Make an enquiry” button on its card — this opens an e-mail with a pre-filled subject — or write on Telegram.",
+        "After your enquiry the artist confirms availability, the final price and the timeline. A preview of the work at the studio in St. Petersburg is possible by arrangement."
+      ]
+    }
+  },
+  {
+    "id": "delivery",
+    "title": { "ru": "Доставка", "en": "Delivery" },
+    "body": {
+      "ru": [
+        "По России — транспортными компаниями СДЭК, «Почта России», «Яндекс Доставка». По миру — EMS и курьерскими службами. Работы упаковываются в жёсткую влагостойкую тару; крупные полотна отправляются в снятом с подрамника виде в тубусе по согласованию с покупателем.",
+        "Стоимость и сроки доставки рассчитываются индивидуально после оформления заявки и зависят от размера работы и адреса."
+      ],
+      "en": [
+        "Within Russia — via CDEK, Russian Post and Yandex Delivery. Internationally — via EMS and courier services. Works are packed in rigid moisture-resistant crates; large canvases can be shipped rolled in a tube, off the stretcher, by agreement with the buyer.",
+        "Delivery cost and timeline are calculated individually after the enquiry and depend on the size of the work and the destination."
+      ]
+    }
+  },
+  {
+    "id": "payment",
+    "title": { "ru": "Оплата", "en": "Payment" },
+    "body": {
+      "ru": [
+        "Оплата по счёту или переводом. Для работ, отправляемых за пределы России, условия оплаты обсуждаются индивидуально.",
+        "Онлайн-оплата на сайте не проводится: каждая сделка сопровождается личной перепиской с художником."
+      ],
+      "en": [
+        "Payment by invoice or bank transfer. For works shipped outside Russia, payment terms are discussed individually.",
+        "There is no online checkout on this site: every purchase is accompanied by direct correspondence with the artist."
+      ]
+    }
+  },
+  {
+    "id": "authenticity",
+    "title": { "ru": "Оформление и подлинность", "en": "Documentation and authenticity" },
+    "body": {
+      "ru": [
+        "Каждая работа сопровождается сертификатом подлинности с названием, годом создания, техникой, размером и подписью автора.",
+        "По запросу предоставляется счёт и закрывающие документы. Для музеев и галерей возможно оформление договора."
+      ],
+      "en": [
+        "Each work comes with a certificate of authenticity stating the title, year, medium, dimensions and the artist’s signature.",
+        "An invoice and closing documents are provided on request. A formal contract can be arranged for museums and galleries."
+      ]
+    }
+  },
+  {
+    "id": "faq",
+    "title": { "ru": "Частые вопросы", "en": "FAQ" },
+    "body": {
+      "ru": [
+        "Можно ли заказать портрет или работу на определённую тему? Да, художник принимает отдельные заказы — напишите в заявке о вашей идее, размере и сроках.",
+        "Работаете ли вы с галереями и кураторами? Да. Для выставочных и кураторских проектов, а также для коллабораций с брендами используйте раздел «Контакты».",
+        "Продаётся ли «Чувашская свадьба»? Дипломное полотно не продаётся; возможны репродукции и участие картины в выставках."
+      ],
+      "en": [
+        "Can I commission a portrait or a work on a particular theme? Yes, the artist accepts individual commissions — describe your idea, the size and the timeline in your enquiry.",
+        "Do you work with galleries and curators? Yes. For exhibition and curatorial projects, and for collaborations with brands, please use the Contacts page.",
+        "Is “The Chuvash Wedding” for sale? The diploma canvas is not for sale; reproductions and exhibition loans are possible."
+      ]
+    }
+  },
+  {
+    "id": "privacy",
+    "title": { "ru": "Данные и приватность", "en": "Data and privacy" },
+    "body": {
+      "ru": [
+        "Сайт не собирает персональные данные через формы: кнопки «Оставить заявку» и форма контактов лишь открывают ваш почтовый клиент с готовым текстом, ничего не отправляя на сервер.",
+        "Для анонимной статистики посещаемости может использоваться Яндекс Метрика. Отключить сбор можно в настройках приватности вашего браузера."
+      ],
+      "en": [
+        "This site does not collect personal data through forms: the “Make an enquiry” buttons and the contact form only open your e-mail client with a ready-made message and send nothing to a server.",
+        "Anonymous traffic statistics may be collected via Yandex Metrica. You can opt out through your browser’s privacy settings."
+      ]
+    }
+  }
+]
