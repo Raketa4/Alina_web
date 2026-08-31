@@ -4,6 +4,7 @@
 проекты, каталог, инфо, контакты. Без сборки — чистые HTML/CSS/JS.
 
 **Адрес:** https://raketa4.github.io/Alina_web/
+**Как обновлять контент (для заказчика):** [docs/content-guide.html](docs/content-guide.html)
 **Дизайн-спека:** [docs/specs/2026-08-31-alina-khoniak-site-design.md](docs/specs/2026-08-31-alina-khoniak-site-design.md)
 **План работ:** [docs/superpowers/plans/2026-08-31-alina-khoniak-site.md](docs/superpowers/plans/2026-08-31-alina-khoniak-site.md)
 
