@@ -6,7 +6,7 @@
 
 **Architecture:** Плоские HTML-файлы в корне репозитория, общий CSS, ванильный JS. Контент вынесен в JSON (`data/`), страницы рендерятся из него на клиенте. Двуязычность — словари `i18n/*.json` по атрибутам `data-i18n`, русский текст вписан в разметку по умолчанию. Без сборки и CI.
 
-**Tech Stack:** HTML5, CSS (custom properties), ES-модули в браузере, Node.js только для локальных скриптов (`scripts/check.mjs`, `scripts/make-placeholders.mjs`).
+**Tech Stack:** HTML5, CSS (custom properties), ES-модули в браузере. Локальные скрипты — Python 3 (`scripts/check.py`, `scripts/make_placeholders.py`), т.к. Node.js на машине нет; Pillow для генерации плейсхолдеров.
 
 **Spec:** `docs/specs/2026-08-31-alina-khoniak-site-design.md`
 
@@ -42,7 +42,7 @@ i18n/ru.json i18n/en.json
 assets/logo.svg assets/favicon.svg assets/favicon-32.png assets/apple-touch-icon.png
 assets/photos/artist-portrait.jpg
 assets/works/<slug>-full.jpg assets/works/<slug>-thumb.jpg
-scripts/check.mjs scripts/make-placeholders.mjs
+scripts/check.py scripts/make_placeholders.py
 robots.txt sitemap.xml README.md
 ```
 
@@ -53,11 +53,11 @@ robots.txt sitemap.xml README.md
 ## Задачи
 
 ### Task 1: Каркас проверок (TDD-основа)
-- [ ] `scripts/check.mjs`: проверка 1 — совпадение ключей `i18n/ru.json` и `i18n/en.json` (глубокий обход, сравнение путей ключей).
+- [ ] `scripts/check.py`: проверка 1 — совпадение ключей `i18n/ru.json` и `i18n/en.json` (глубокий обход, сравнение путей ключей).
 - [ ] Проверка 2 — все файлы `data/*.json` парсятся и проходят минимальную схему (обязательные поля на элемент).
 - [ ] Проверка 3 — каждый путь картинки из `data/*.json` существует на диске.
 - [ ] Проверка 4 — каждый внутренний `href` в `*.html` (без `http`, `mailto:`, `#`) указывает на существующий файл.
-- [ ] Запустить `node scripts/check.mjs` на пустых заглушках данных → убедиться, что проверки честно падают/проходят.
+- [ ] Запустить `python scripts/check.py` на пустых заглушках данных → убедиться, что проверки честно падают/проходят.
 - [ ] Commit: `chore: add static-site consistency checks`.
 
 ### Task 2: Данные и словари
@@ -66,13 +66,13 @@ robots.txt sitemap.xml README.md
 - [ ] `data/projects.json` — 3 серии: `chuvash-wedding`, `mountains-and-sea`, `portraits` с описаниями {ru,en}.
 - [ ] `data/catalog.json` — 12 работ серии «Горы и море» (названия, техника «Холст, масло», размеры, годы с Vigbo, `status:"available"`, `price` отсутствует), + 3 позиции `portraits` со статусом и пометкой уточнения.
 - [ ] `i18n/ru.json` и `i18n/en.json` — ключи интерфейса (меню, кнопки, подписи, статусы, тексты info-страницы, футер).
-- [ ] `node scripts/check.mjs` → проверки 1 и 2 проходят.
+- [ ] `python scripts/check.py` → проверки 1 и 2 проходят.
 - [ ] Commit: `data: add site content, CV, projects and catalog`.
 
 ### Task 3: Плейсхолдеры изображений
-- [ ] `scripts/make-placeholders.mjs`: читает `projects.json` + `catalog.json`, генерирует `-full`/`-thumb` как минимальные валидные JPЕG (или SVG→jpg) с подписью названия и правильным соотношением сторон; портрет `assets/photos/artist-portrait.jpg` (3:4).
+- [ ] `scripts/make_placeholders.py`: читает `projects.json` + `catalog.json`, генерирует `-full`/`-thumb` как минимальные валидные JPЕG (или SVG→jpg) с подписью названия и правильным соотношением сторон; портрет `assets/photos/artist-portrait.jpg` (3:4).
 - [ ] Запустить, проверить появление файлов в `assets/works/`.
-- [ ] `node scripts/check.mjs` → проверка 3 проходит.
+- [ ] `python scripts/check.py` → проверка 3 проходит.
 - [ ] Commit: `assets: generate artwork placeholders`.
 
 ### Task 4: Логотип и фавиконки
@@ -100,7 +100,7 @@ robots.txt sitemap.xml README.md
 - [ ] Полный `<head>` (мета, OG/Twitter, canonical, favicon, шрифты, JSON-LD `WebSite`), шапка, футер — как эталон разметки.
 - [ ] `index.html`: герой (портрет/картина + имя + интро), блок «Избранное» (контейнер под `js/home.js`), входы в разделы.
 - [ ] `js/home.js`: берёт первые N работ с флагом `featured` (или первые из каталога), рендерит карточки-ссылки в каталог.
-- [ ] `node scripts/check.mjs` → проверка 4 проходит для `index.html`.
+- [ ] `python scripts/check.py` → проверка 4 проходит для `index.html`.
 - [ ] Commit: `feat: add page shell and home page`.
 
 ### Task 8: about.html
@@ -129,13 +129,13 @@ robots.txt sitemap.xml README.md
 ### Task 12: SEO-файлы и README
 - [ ] `robots.txt` (allow, ссылка на sitemap), `sitemap.xml` (7 страниц + `project.html?slug=` для трёх серий).
 - [ ] Пройтись по всем `<head>`: уникальные title/description, canonical на `raketa4.github.io/Alina_web/…`, `hreflang` ru/en.
-- [ ] `README.md`: как добавить работу (JSON + 2 файла картинки), как обновить перевод, как править меню (во всех html), как прогнать `node scripts/check.mjs`, как задеплоить (GitHub Pages из `main`, папка root), план Фазы 2.
-- [ ] `node scripts/check.mjs` → всё зелёное.
+- [ ] `README.md`: как добавить работу (JSON + 2 файла картинки), как обновить перевод, как править меню (во всех html), как прогнать `python scripts/check.py`, как задеплоить (GitHub Pages из `main`, папка root), план Фазы 2.
+- [ ] `python scripts/check.py` → всё зелёное.
 - [ ] Commit: `chore: add SEO files and project README`.
 
 ### Task 13: Финальная проверка и деплой-готовность
 - [ ] Локальный просмотр через `python -m http.server` из корня: пройти все страницы, оба языка, фильтры, mailto, мобильную ширину.
-- [ ] Прогнать `node scripts/check.mjs`.
+- [ ] Прогнать `python scripts/check.py`.
 - [ ] Включить GitHub Pages (Settings → Pages → main / root) — вручную пользователем; зафиксировать в README.
 - [ ] Commit любых правок; предложить пользователю `git push`.
 
@@ -144,5 +144,5 @@ robots.txt sitemap.xml README.md
 ## Self-Review
 
 - **Покрытие спеки:** 7 страниц + 404 (Task 7–11), i18n (Task 6), данные (Task 2), плейсхолдеры (Task 3), логотип/фавикон (Task 4), визуал (Task 5), SEO/аналитика (Task 6, 12), проверки (Task 1), README/Фаза 2 (Task 12). Приём заявок — Task 10 и 11. Все разделы спеки покрыты.
-- **Плейсхолдеры в плане:** тексты контента берутся из брифа/Vigbo по ходу задач; английский — черновой перевод (допущение спеки). Схема `check.mjs` описана словами, код пишется в Task 1.
+- **Плейсхолдеры в плане:** тексты контента берутся из брифа/Vigbo по ходу задач; английский — черновой перевод (допущение спеки). Схема `check.py` описана словами, код пишется в Task 1.
 - **Согласованность имён:** `getJSON`, `getLang`, `pick`, `data-i18n`, slug'и (`chuvash-wedding`, `mountains-and-sea`, `portraits`), статусы (`available`/`reserved`/`sold`) — единые во всех задачах.

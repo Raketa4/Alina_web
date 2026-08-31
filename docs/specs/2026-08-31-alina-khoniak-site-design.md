@@ -126,7 +126,7 @@ assets/logo.svg, favicon.svg, favicon-32.png, apple-touch-icon.png
 
 - `status` ∈ `available` | `reserved` | `sold`.
 - `price` необязателен; если отсутствует — на карточке «Цена по запросу».
-- Плейсхолдеры изображений генерирует `scripts/make-placeholders.mjs` —
+- Плейсхолдеры изображений генерирует `scripts/make_placeholders.py` —
   с точными пропорциями и именами из JSON, чтобы замена сводилась к
   перезаписи файла.
 - Каталог стартово заполняется 12 работами серии «Горы и море» (данные с
@@ -146,7 +146,7 @@ assets/logo.svg, favicon.svg, favicon-32.png, apple-touch-icon.png
 
 ## 9. Проверки (вместо тест-фреймворка)
 
-`scripts/check.mjs`, запуск `node scripts/check.mjs`. Проверяет:
+`scripts/check.py`, запуск `python scripts/check.py`. Проверяет:
 
 1. Полное совпадение набора ключей между `i18n/ru.json` и `i18n/en.json`.
 2. Валидность JSON и соответствие схеме всех файлов в `data/`.
@@ -155,7 +155,7 @@ assets/logo.svg, favicon.svg, favicon-32.png, apple-touch-icon.png
    существующие файлы.
 
 Проверки пишутся до реализации соответствующих модулей (TDD).
-`scripts/make-placeholders.mjs` — вспомогательный, покрывается проверкой 3.
+`scripts/make_placeholders.py` — вспомогательный, покрывается проверкой 3.
 
 ## 10. Допущения (правятся в Фазе 2, без кода)
 
