@@ -210,6 +210,7 @@ def check_internal_links() -> None:
     checks_run += 1
     for html in html_files:
         text = html.read_text(encoding="utf-8")
+        text = re.sub(r"<base\b[^>]*>", "", text, flags=re.IGNORECASE)  # <base href> задаёт корень, не ссылка
         for raw in HREF_RE.findall(text):
             link = raw.strip()
             if not link or link.startswith(EXTERNAL_PREFIXES):
