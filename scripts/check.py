@@ -88,6 +88,58 @@ def check_bilingual(value, where: str) -> None:
         fail(f"[схема] {where}: ожидался объект с ключами ru/en")
 
 
+def check_unique_slugs(items: list, name: str) -> None:
+    slugs = [i.get("slug") for i in items]
+    for slug in {x for x in slugs if slugs.count(x) > 1}:
+        fail(f"[схема] {name}: дублирующийся slug '{slug}'")
+
+
+def check_series_schema() -> None:
+    global checks_run
+    series = load_json("data/series.json")
+    if series is None:
+        fail("[схема] series.json отсутствует")
+        return
+    checks_run += 1
+    if not isinstance(series, list) or not series:
+        fail("[схема] series.json: ожидался непустой список")
+        return
+    check_unique_slugs(series, "series.json")
+    if {s.get("slug") for s in series} != {"mountains-and-sea", "portraits"}:
+        fail(f"[схема] series.json: слаги {[s.get('slug') for s in series]}, ожидались mountains-and-sea, portraits")
+    for i, s in enumerate(series):
+        where = f"series.json[{i}]"
+        require(s, ("slug", "title", "summary", "cover", "works"), where)
+        for key in ("title", "summary"):
+            if isinstance(s.get(key), dict):
+                check_bilingual(s[key], f"{where}.{key}")
+        for j, w in enumerate(s.get("works") or []):
+            require(w, ("id", "src", "title"), f"{where}.works[{j}]")
+            for banned in ("status", "price"):
+                if banned in w:
+                    fail(f"[схема] {where}.works[{j}]: поля '{banned}' быть не должно — продажа в магазине")
+
+
+def check_projects_schema() -> None:
+    global checks_run
+    projects = load_json("data/projects.json")
+    if projects is None:
+        return
+    checks_run += 1
+    if not isinstance(projects, list) or not projects:
+        fail("[схема] projects.json: ожидался непустой список")
+        return
+    check_unique_slugs(projects, "projects.json")
+    if {p.get("slug") for p in projects} != {"chuvash-wedding"}:
+        fail(f"[схема] projects.json: слаги {[p.get('slug') for p in projects]}, ожидался chuvash-wedding")
+    for i, p in enumerate(projects):
+        where = f"projects.json[{i}]"
+        require(p, ("slug", "title", "summary", "text", "cover", "images"), where)
+        for key in ("title", "summary", "text"):
+            if isinstance(p.get(key), dict):
+                check_bilingual(p[key], f"{where}.{key}")
+
+
 def check_data_schema() -> None:
     global checks_run
 
@@ -107,46 +159,10 @@ def check_data_schema() -> None:
             if isinstance(site.get(key), dict):
                 check_bilingual(site[key], f"site.json.{key}")
 
-    projects = load_json("data/projects.json")
-    if projects is not None:
-        checks_run += 1
-        if not isinstance(projects, list) or not projects:
-            fail("[схема] projects.json: ожидался непустой список")
-        else:
-            slugs = set()
-            for i, p in enumerate(projects):
-                where = f"projects.json[{i}]"
-                require(p, ("slug", "title", "year", "description", "cover"), where)
-                if isinstance(p.get("title"), dict):
-                    check_bilingual(p["title"], f"{where}.title")
-                if isinstance(p.get("description"), dict):
-                    check_bilingual(p["description"], f"{where}.description")
-                slug = p.get("slug")
-                if slug in slugs:
-                    fail(f"[схема] projects.json: дублирующийся slug '{slug}'")
-                slugs.add(slug)
-
-    catalog = load_json("data/catalog.json")
-    if catalog is not None:
-        checks_run += 1
-        valid_status = {"available", "reserved", "sold"}
-        if not isinstance(catalog, list) or not catalog:
-            fail("[схема] catalog.json: ожидался непустой список")
-        else:
-            ids = set()
-            for i, w in enumerate(catalog):
-                where = f"catalog.json[{i}]"
-                require(w, ("id", "title", "year", "medium", "size", "status", "image"), where)
-                if isinstance(w.get("title"), dict):
-                    check_bilingual(w["title"], f"{where}.title")
-                if isinstance(w.get("medium"), dict):
-                    check_bilingual(w["medium"], f"{where}.medium")
-                if w.get("status") not in valid_status:
-                    fail(f"[схема] {where}: status '{w.get('status')}' не из {sorted(valid_status)}")
-                wid = w.get("id")
-                if wid in ids:
-                    fail(f"[схема] catalog.json: дублирующийся id '{wid}'")
-                ids.add(wid)
+    check_series_schema()
+    check_projects_schema()
+    if (ROOT / "data/catalog.json").exists():
+        fail("[схема] data/catalog.json должен быть удалён — работы живут в series.json")
 
     cv = load_json("data/cv.json")
     if cv is not None:
@@ -161,18 +177,15 @@ def check_data_schema() -> None:
 def collect_image_paths() -> list[tuple[str, str]]:
     """Возвращает список (источник, относительный путь картинки)."""
     out: list[tuple[str, str]] = []
-    projects = load_json("data/projects.json")
-    if isinstance(projects, list):
-        for p in projects:
-            if p.get("cover"):
-                out.append((f"projects/{p.get('slug')}", p["cover"]))
-            for img in p.get("images", []) or []:
+    for p in load_json("data/projects.json") or []:
+        for img in [p.get("cover"), *(p.get("images") or [])]:
+            if img:
                 out.append((f"projects/{p.get('slug')}", img))
-    catalog = load_json("data/catalog.json")
-    if isinstance(catalog, list):
-        for w in catalog:
-            if w.get("image"):
-                out.append((f"catalog/{w.get('id')}", w["image"]))
+    if (ROOT / "data/series.json").exists():
+        for s in load_json("data/series.json") or []:
+            for img in [s.get("cover"), *[w.get("src") for w in s.get("works") or []]]:
+                if img:
+                    out.append((f"series/{s.get('slug')}", img))
     site = load_json("data/site.json")
     if isinstance(site, dict) and site.get("portrait"):
         out.append(("site.portrait", site["portrait"]))
