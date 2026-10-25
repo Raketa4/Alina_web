@@ -13,6 +13,12 @@ export async function initProject() {
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
+    // Раньше серии жили в project.html?slug=… — старые ссылки ведут на серию.
+    const series = await getJSON('data/series.json').catch(() => []);
+    if (slug && series.some((s) => s.slug === slug)) {
+      location.replace(`series-view.html?slug=${encodeURIComponent(slug)}`);
+      return;
+    }
     mount.innerHTML = `
       <div class="state">
         <h1>${escapeHtml(t('project.notFoundTitle'))}</h1>

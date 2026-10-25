@@ -424,9 +424,17 @@ def check_no_captions_in_series() -> None:
 
 # --- Проверка: следов каталога не осталось ------------------------------
 
+SALE_WORDS = ("приобрести", "купить", "цена", "заявк")
+
+
 def check_no_catalog_refs() -> None:
     global checks_run
     checks_run += 1
+    for html in sorted(ROOT.glob("*.html")):
+        head = html.read_text(encoding="utf-8").split("</head>", 1)[0].lower()
+        for word in SALE_WORDS:
+            if word in head:
+                fail(f"[каталог] {html.name}: в <head> осталось «{word}» — продажа ушла в магазин")
     paths = [*ROOT.glob("*.html"), *(ROOT / "js").glob("*.js"), *(ROOT / "i18n").glob("*.json")]
     for path in sorted(paths):
         if "catalog" in path.read_text(encoding="utf-8"):

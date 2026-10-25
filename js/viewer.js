@@ -136,6 +136,9 @@ function wirePointers() {
   let start = null;   // { x, y, vx, vy } — начало перетаскивания/свайпа
   let pinch = null;   // { dist, scale }
   let moved = false;
+  // С pointer capture браузер шлёт click на .viewer-stage, даже если нажали
+  // на изображение, — поэтому «клик по фону» определяем по pointerdown.
+  let downOnBackdrop = false;
 
   const dist = () => {
     const [a, b] = [...pts.values()];
@@ -147,7 +150,8 @@ function wirePointers() {
   };
 
   stage.addEventListener('pointerdown', (e) => {
-    stage.setPointerCapture(e.pointerId);
+    downOnBackdrop = e.target === stage;
+    try { stage.setPointerCapture(e.pointerId); } catch (_) { /* синтетический указатель */ }
     pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
     moved = false;
     if (pts.size === 1) start = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
@@ -185,7 +189,7 @@ function wirePointers() {
 
   // Клик мимо изображения при обычном масштабе закрывает просмотрщик.
   stage.addEventListener('click', (e) => {
-    if (!moved && view.scale === 1 && e.target === stage) close();
+    if (!moved && view.scale === 1 && downOnBackdrop) close();
   });
 }
 
