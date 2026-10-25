@@ -1,0 +1,12 @@
+{
+  "text": {
+    "ru": ["Здесь появятся фотографии процесса работы в мастерской."],
+    "en": ["Photographs of the working process in the studio will appear here."]
+  },
+  "images": [
+    "assets/works/mas-11-full.jpg",
+    "assets/works/mas-12-full.jpg",
+    "assets/works/por-02-full.jpg",
+    "assets/works/por-03-full.jpg"
+  ]
+}

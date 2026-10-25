@@ -180,6 +180,15 @@ def check_data_schema() -> None:
     if isinstance(site, dict) and "featured" in site:
         fail("[схема] site.json: поле featured больше не используется — удалить")
 
+    studio = load_json("data/studio.json")
+    if studio is None:
+        fail("[схема] studio.json отсутствует")
+    else:
+        checks_run += 1
+        require(studio, ("text", "images"), "studio.json")
+        if isinstance(studio.get("text"), dict):
+            check_bilingual(studio["text"], "studio.json.text")
+
     cv = load_json("data/cv.json")
     if cv is not None:
         checks_run += 1
@@ -211,6 +220,9 @@ def collect_image_paths() -> list[tuple[str, str]]:
         for key, sec in (load_json("data/sections.json") or {}).items():
             for img in sec.get("images") or []:
                 out.append((f"sections/{key}", img))
+    if (ROOT / "data/studio.json").exists():
+        for img in (load_json("data/studio.json") or {}).get("images") or []:
+            out.append(("studio", img))
     site = load_json("data/site.json")
     if isinstance(site, dict) and site.get("portrait"):
         out.append(("site.portrait", site["portrait"]))
