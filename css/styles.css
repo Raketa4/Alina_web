@@ -158,6 +158,148 @@ button { font: inherit; color: inherit; }
 }
 .cv-row .period { color: var(--ink-soft); font-size: var(--step-small); padding-top: 0.2em; }
 
+/* --- шапка -------------------------------------------------- */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 30;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 28px;
+  background: var(--bg);
+  transition: background-color 0.45s ease;
+}
+.menu-open .site-header { background: transparent; }
+
+.wordmark {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.header-tools { display: flex; align-items: center; gap: 22px; }
+
+.lang-switch { display: flex; gap: 8px; font-size: var(--step-small); }
+.lang-switch button {
+  background: none; border: 0; padding: 2px 0; cursor: pointer;
+  color: var(--ink-soft);
+}
+.lang-switch button[aria-pressed="true"] { color: var(--ink); }
+
+/* Бургер: три полоски по 2px с шагом 8px; открыто — крестик. */
+.menu-toggle {
+  position: relative;
+  width: 32px; height: 24px;
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.menu-toggle span {
+  position: absolute; left: 0; right: 0;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.35s ease, opacity 0.25s ease, top 0.35s ease;
+}
+.menu-toggle span:nth-child(1) { top: 3px; }
+.menu-toggle span:nth-child(2) { top: 11px; }
+.menu-toggle span:nth-child(3) { top: 19px; }
+.menu-open .menu-toggle span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
+.menu-open .menu-toggle span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+
+/* --- меню-плитка ------------------------------------------ */
+
+body.menu-open { overflow: hidden; }
+
+.menu-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  padding: 76px 28px 28px;
+  background: #5f9fb8 url('../assets/photos/menu-bg.jpg') center / cover no-repeat;
+  overflow: auto;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.menu-open .menu-layer { opacity: 1; }
+
+/* 2 квадрата в ряд, 4 ряда; вся плитка вписана в экран. */
+.menu-grid {
+  --side: min(calc((100vh - 134px) / 4), calc((100vw - 66px) / 2));
+  display: grid;
+  grid-template-columns: repeat(2, var(--side));
+  grid-auto-rows: var(--side);
+  justify-content: center;
+  padding: 2px 0 0 2px;
+}
+
+/* Белые квадраты вплотную; прозрачная рамка 2px — сквозь неё видна картина. */
+.menu-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: -2px 0 0 -2px;
+  padding: 8% 6% 16px;
+  overflow: hidden;
+  background: #fff;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.25s;
+}
+.menu-open .menu-cell { opacity: 1; transform: none; }
+.menu-open .menu-cell:nth-child(1) { transition-delay: 0.05s; }
+.menu-open .menu-cell:nth-child(2) { transition-delay: 0.10s; }
+.menu-open .menu-cell:nth-child(3) { transition-delay: 0.15s; }
+.menu-open .menu-cell:nth-child(4) { transition-delay: 0.20s; }
+.menu-open .menu-cell:nth-child(5) { transition-delay: 0.25s; }
+.menu-open .menu-cell:nth-child(6) { transition-delay: 0.30s; }
+.menu-open .menu-cell:nth-child(7) { transition-delay: 0.35s; }
+.menu-open .menu-cell:nth-child(8) { transition-delay: 0.40s; }
+.menu-cell:not(.is-disabled):hover { background-color: var(--hover); }
+.menu-cell.is-disabled { cursor: default; }
+
+.menu-title {
+  font-size: clamp(16px, calc(var(--side) * 0.09), 32px);
+  text-decoration: none;
+}
+.menu-cell[data-id="home"] .menu-title { text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* На низких экранах квадрат бывает ~130px — список из 5 пунктов
+   должен поместиться, поэтому шрифт и интерлиньяж ужимаются вместе с ним. */
+.menu-sub {
+  margin: 0.7em 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(9px, calc(var(--side) * 0.055), 17px);
+  line-height: 1.45;
+}
+.menu-sub a, a.menu-title { border-bottom: 1px solid transparent; }
+.menu-sub a { text-decoration: none; }
+.menu-sub a:hover, a.menu-title:hover { border-bottom-color: currentColor; }
+
+/* --- подвал ------------------------------------------------- */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-top: clamp(3rem, 8vw, 6rem);
+  padding: 1.5rem 28px 2rem;
+  border-top: 1px solid var(--rule);
+  font-size: var(--step-small);
+  color: var(--ink-soft);
+}
+.footer-links { display: flex; gap: 1.25rem; }
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { color: var(--ink); }
+
 /* --- reveal ------------------------------------------------- */
 
 /* Контент виден по умолчанию; анимация включается только когда JS
@@ -174,6 +316,13 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 900px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 800px) {
+  .site-header { padding-inline: 16px; }
+  .menu-layer { padding: 68px 16px 16px; }
+  .menu-grid { --side: calc((100vw - 42px) / 2); }
+  .site-footer { padding-inline: 16px; }
 }
 
 @media (max-width: 560px) {

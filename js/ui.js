@@ -1,4 +1,4 @@
-// Поведение интерфейса: мобильное меню, проявление при скролле,
+// Поведение интерфейса: проявление при скролле,
 // увеличение изображений, год в футере. ES-модуль.
 
 import { qs, qsa } from './util.js';
@@ -8,7 +8,6 @@ import { getSite } from './site.js';
 let revealObserver = null;
 
 export function initUI() {
-  initNav();
   initReveal();
   initLightbox();
   initYear();
@@ -26,26 +25,6 @@ async function hydrateChrome() {
       : social[key];
     if (href) a.setAttribute('href', href);
     else a.closest('[data-site-optional]')?.remove();
-  });
-}
-
-function initNav() {
-  const toggle = qs('.nav-toggle');
-  const nav = qs('#site-nav');
-  if (!toggle || !nav) return;
-
-  const close = () => {
-    nav.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded', 'false');
-  };
-
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-  qsa('a', nav).forEach((a) => a.addEventListener('click', close));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') close();
   });
 }
 

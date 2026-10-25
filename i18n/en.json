@@ -95,11 +95,29 @@
     "contact": "Contact",
     "privacy": "Data and privacy",
     "rights": "All rights to the images of the works belong to the artist.",
-    "backToTop": "Top"
+    "backToTop": "Top",
+    "copyright": "Alina Khoniak"
   },
   "notFound": {
     "title": "Page not found",
     "text": "There doesn’t seem to be a page here.",
     "home": "Go to home"
+  },
+  "menu": {
+    "home": "Alina Khoniak",
+    "studio": "Studio",
+    "about": "About",
+    "cv": "CV",
+    "statement": "Artist statement",
+    "teaching": "Teaching",
+    "curatorial": "Curatorial practice",
+    "publications": "Publications",
+    "shop": "Shop",
+    "series": "Series",
+    "info": "Info",
+    "projects": "Projects",
+    "contacts": "Contacts",
+    "open": "Menu",
+    "close": "Close"
   }
 }

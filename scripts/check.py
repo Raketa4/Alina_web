@@ -243,9 +243,89 @@ def check_fonts() -> None:
         fail("[шрифты] styles.css: --bg в :root должен быть #FFFFFF")
 
 
+# --- Проверка: меню-плитка и общая шапка -------------------------------
+
+MENU_ORDER = ["home", "studio", "about", "shop", "series", "info", "projects", "contacts"]
+ABOUT_CHILDREN = ["cv", "statement", "teaching", "curatorial", "publications"]
+
+
+def i18n_has(d: dict, key: str) -> bool:
+    node = d
+    for part in key.split("."):
+        if not isinstance(node, dict) or part not in node:
+            return False
+        node = node[part]
+    return isinstance(node, str)
+
+
+def check_menu() -> None:
+    global checks_run
+    menu = load_json("data/menu.json")
+    ru = load_json("i18n/ru.json") or {}
+    if menu is None:
+        fail("[меню] data/menu.json отсутствует")
+        return
+    checks_run += 1
+    ids = [m.get("id") for m in menu] if isinstance(menu, list) else []
+    if ids != MENU_ORDER:
+        fail(f"[меню] порядок пунктов {ids}, ожидался {MENU_ORDER}")
+    items = list(menu) if isinstance(menu, list) else []
+    for m in items:
+        if m.get("id") == "about":
+            kids = [c.get("id") for c in m.get("children", [])]
+            if kids != ABOUT_CHILDREN:
+                fail(f"[меню] подпункты «Об авторе» {kids}, ожидались {ABOUT_CHILDREN}")
+            items += m.get("children", [])
+        if m.get("id") == "shop" and "href" in m:
+            fail("[меню] у пункта shop не должно быть href (ссылка берётся из site.shop_url)")
+    for m in items:
+        if m.get("i18n") and not i18n_has(ru, m["i18n"]):
+            fail(f"[меню] ключ {m['i18n']} отсутствует в i18n/ru.json")
+        if m.get("href") and not (ROOT / m["href"]).exists():
+            fail(f"[меню] {m.get('id')}: файл не найден — {m['href']}")
+
+
+def check_no_inline_chrome() -> None:
+    global checks_run
+    checks_run += 1
+    for html in sorted(ROOT.glob("*.html")):
+        text = html.read_text(encoding="utf-8")
+        for cls in ("site-header", "site-nav", "site-footer"):
+            if f'class="{cls}"' in text:
+                fail(f"[разметка] {html.name} содержит {cls} — шапку и подвал вставляет js/chrome.js")
+
+
+I18N_KEY_RES = (
+    re.compile(r'data-i18n="([\w.]+)"'),
+    re.compile(r'data-i18n-attr="([^"]+)"'),
+    re.compile(r"\bt\('([\w.]+)'\)"),
+)
+
+
+def check_i18n_keys_used_exist() -> None:
+    global checks_run
+    ru = load_json("i18n/ru.json")
+    if ru is None:
+        return
+    checks_run += 1
+    for path in [*sorted(ROOT.glob("*.html")), *sorted((ROOT / "js").glob("*.js"))]:
+        text = path.read_text(encoding="utf-8")
+        if path.suffix == ".js":  # примеры в комментариях — не использование ключей
+            text = re.sub(r"^\s*//.*$", "", text, flags=re.M)
+        keys = set(I18N_KEY_RES[0].findall(text)) | set(I18N_KEY_RES[2].findall(text))
+        for attr in I18N_KEY_RES[1].findall(text):
+            keys |= {pair.split(":", 1)[1].strip() for pair in attr.split(",") if ":" in pair}
+        for key in sorted(keys):
+            if not i18n_has(ru, key):
+                fail(f"[i18n] {path.name}: ключ '{key}' отсутствует в ru.json")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "menu": check_menu,
+    "chrome": check_no_inline_chrome,
+    "keys": check_i18n_keys_used_exist,
     "i18n": check_i18n_parity,
     "schema": check_data_schema,
     "images": check_images_exist,
