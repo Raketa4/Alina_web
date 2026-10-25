@@ -41,5 +41,9 @@
   },
   "metrika_id": "",
   "gsc_verification": "",
-  "shop_url": ""
+  "shop_url": "",
+  "about_short": {
+    "ru": "Художник-живописец, выпускница Академии художеств в Санкт-Петербурге (мастерская монументальной живописи проф. А. К. Быстрова). Работает в мастерской в Петербурге и преподаёт в Академии; родом из Чувашии.",
+    "en": "Painter, graduate of the Academy of Arts in St. Petersburg (monumental painting workshop of Professor A. K. Bystrov). Works in a studio in St. Petersburg and teaches at the Academy; originally from Chuvashia."
+  }
 }

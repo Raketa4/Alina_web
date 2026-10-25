@@ -173,6 +173,19 @@ button { font: inherit; color: inherit; }
 .card-title { font-size: var(--step-h3); margin-top: 0.4rem; }
 .card-summary { color: var(--ink-soft); max-width: 44ch; }
 
+/* --- об авторе ------------------------------------------------- */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+}
+.about-portrait { margin: 0; }
+.about-portrait figcaption { margin-top: 0.5rem; font-size: var(--step-small); color: var(--ink-soft); }
+.about-links { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: var(--step-h3); }
+.section-photos { margin-top: clamp(2rem, 4vw, 3rem); }
+
 /* --- CV --------------------------------------------------------- */
 
 .cv-section { margin-bottom: clamp(2rem, 4vw, 3rem); }
@@ -393,6 +406,7 @@ body.viewer-open { overflow: hidden; }
 
 @media (max-width: 900px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  .about { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {

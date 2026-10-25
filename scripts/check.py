@@ -207,6 +207,10 @@ def collect_image_paths() -> list[tuple[str, str]]:
         for img in [(home.get("hero") or {}).get("image"), *(home.get("photos") or [])]:
             if img:
                 out.append(("home", img))
+    if (ROOT / "data/sections.json").exists():
+        for key, sec in (load_json("data/sections.json") or {}).items():
+            for img in sec.get("images") or []:
+                out.append((f"sections/{key}", img))
     site = load_json("data/site.json")
     if isinstance(site, dict) and site.get("portrait"):
         out.append(("site.portrait", site["portrait"]))
@@ -407,9 +411,33 @@ def check_no_catalog_refs() -> None:
             fail(f"[каталог] {path.relative_to(ROOT).as_posix()}: упоминание catalog")
 
 
+# --- Проверка: «Об авторе» и подразделы ---------------------------------
+
+ABOUT_SECTIONS = ("cv", "statement", "teaching", "curatorial", "publications")
+
+
+def check_about_sections() -> None:
+    global checks_run
+    checks_run += 1
+    for name in ABOUT_SECTIONS:
+        page = ROOT / f"{name}.html"
+        if not page.exists():
+            fail(f"[об авторе] {name}.html отсутствует")
+        elif f'data-section="{name}"' not in page.read_text(encoding="utf-8"):
+            fail(f"[об авторе] {name}.html: нет data-section=\"{name}\"")
+    sections = load_json("data/sections.json")
+    if sections is not None:
+        for key in ("teaching", "curatorial", "publications"):
+            if not (sections.get(key) or {}).get("images"):
+                fail(f"[об авторе] sections.json: у '{key}' нет images")
+    site = load_json("data/site.json") or {}
+    check_bilingual(site.get("about_short"), "site.json.about_short")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,
     "notfound": check_detail_pages_have_not_found,
     "captions": check_no_captions_in_series,
