@@ -40,14 +40,10 @@
     "publications": "Publications"
   },
   "projects": {
-    "title": "Projects",
-    "lead": "Thematic series and monumental works.",
-    "view": "View project"
+    "title": "Projects"
   },
   "project": {
     "back": "All projects",
-    "worksTitle": "Works in the series",
-    "seeInCatalog": "View the series in the catalogue",
     "notFoundTitle": "Project not found",
     "notFoundText": "The link may be out of date. Return to the list of projects."
   },

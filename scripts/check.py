@@ -375,9 +375,21 @@ def check_no_captions_in_series() -> None:
             fail(f"[страницы] series-view.js: '{bad}' — под работами в серии подписей быть не должно")
 
 
+# --- Проверка: следов каталога не осталось ------------------------------
+
+def check_no_catalog_refs() -> None:
+    global checks_run
+    checks_run += 1
+    paths = [*ROOT.glob("*.html"), *(ROOT / "js").glob("*.js"), *(ROOT / "i18n").glob("*.json")]
+    for path in sorted(paths):
+        if "catalog" in path.read_text(encoding="utf-8"):
+            fail(f"[каталог] {path.relative_to(ROOT).as_posix()}: упоминание catalog")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "nocatalog": check_no_catalog_refs,
     "notfound": check_detail_pages_have_not_found,
     "captions": check_no_captions_in_series,
     "viewer": check_viewer,
