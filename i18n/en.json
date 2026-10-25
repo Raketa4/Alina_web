@@ -3,7 +3,6 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "catalog": "Catalogue",
     "info": "Info",
     "contacts": "Contacts"
   },
@@ -16,15 +15,9 @@
     "menu": "Menu",
     "close": "Close",
     "loading": "Loading…",
-    "toTop": "Top"
-  },
-  "home": {
-    "featuredTitle": "Selected works",
-    "exploreTitle": "Sections",
-    "aboutBlurb": "Background, education, artist statement and full CV.",
-    "projectsBlurb": "Thematic painting series and monumental projects.",
-    "catalogBlurb": "Works available to acquire.",
-    "seeAll": "View the catalogue"
+    "toTop": "Top",
+    "prev": "Previous",
+    "next": "Next"
   },
   "about": {
     "title": "About",
@@ -35,59 +28,31 @@
     "exhibitions": "Exhibitions",
     "awards": "Awards",
     "curatorial": "Curatorial projects",
-    "publications": "Publications"
+    "publications": "Publications",
+    "sections": "Sections"
   },
   "projects": {
-    "title": "Projects",
-    "lead": "Thematic series and monumental works.",
-    "view": "View project"
+    "title": "Projects"
   },
   "project": {
     "back": "All projects",
-    "worksTitle": "Works in the series",
-    "seeInCatalog": "View the series in the catalogue",
     "notFoundTitle": "Project not found",
     "notFoundText": "The link may be out of date. Return to the list of projects."
   },
-  "catalog": {
-    "title": "Catalogue",
-    "lead": "Works available to acquire. Prices on request.",
-    "filterProject": "Series",
-    "filterStatus": "Status",
-    "all": "All",
-    "statusAvailable": "Available",
-    "statusReserved": "Reserved",
-    "statusSold": "Sold",
-    "priceOnRequest": "Price on request",
-    "inquire": "Make an enquiry",
-    "empty": "No works match the selected filters."
-  },
   "info": {
-    "title": "Info",
-    "lead": "How to acquire a work, delivery, payment and documentation."
+    "title": "Info"
   },
   "contacts": {
     "title": "Contacts",
-    "lead": "Acquiring works, commissions, exhibition and curatorial projects, collaborations with brands.",
     "formName": "Name",
-    "formContact": "E-mail or Telegram",
+    "formEmail": "E-mail",
     "formMessage": "Message",
-    "formSend": "Compose",
-    "namePlaceholder": "How to address you",
-    "contactPlaceholder": "Where to reply",
-    "messagePlaceholder": "A few words about your question",
-    "directTitle": "Directly",
+    "formSend": "Send",
+    "consent": "I consent to the processing of my personal data",
+    "consentLink": "details",
+    "sent": "Thank you! Your message has been sent.",
     "emailLabel": "E-mail",
-    "emailPending": "to be confirmed",
-    "telegramLabel": "Telegram",
-    "socialTitle": "Social media",
-    "studioLabel": "Studio"
-  },
-  "inquiry": {
-    "subjectWork": "Enquiry: “{title}”, {year}, {size}",
-    "subjectGeneral": "Message from the website",
-    "bodyWork": "Hello Alina,\n\nI am interested in the work “{title}” ({year}, {size}).\nCould you tell me the current price and the terms of purchase?\n\nMy name: \nHow to reach me: ",
-    "bodyGeneral": "Hello Alina,\n\n\n\nMy name: \nHow to reach me: "
+    "socialTitle": "Social media"
   },
   "footer": {
     "tagline": "Painter. St. Petersburg.",
@@ -95,11 +60,35 @@
     "contact": "Contact",
     "privacy": "Data and privacy",
     "rights": "All rights to the images of the works belong to the artist.",
-    "backToTop": "Top"
+    "backToTop": "Top",
+    "copyright": "Alina Khoniak"
   },
   "notFound": {
     "title": "Page not found",
     "text": "There doesn’t seem to be a page here.",
     "home": "Go to home"
+  },
+  "menu": {
+    "home": "Alina Khoniak",
+    "studio": "Studio",
+    "about": "About",
+    "cv": "CV",
+    "statement": "Artist statement",
+    "teaching": "Teaching",
+    "curatorial": "Curatorial practice",
+    "publications": "Publications",
+    "shop": "Shop",
+    "series": "Series",
+    "info": "Info",
+    "projects": "Projects",
+    "contacts": "Contacts",
+    "open": "Menu",
+    "close": "Close"
+  },
+  "series": {
+    "title": "Series",
+    "back": "Series",
+    "notFoundTitle": "Series not found",
+    "notFoundText": "There is no such series. See all series."
   }
 }

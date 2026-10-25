@@ -35,98 +35,14 @@
   </script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="wordmark" href="index.html">
-        <span class="wordmark-main">Алина Хоняк</span>
-        <span class="wordmark-sub">Alina Khoniak</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span class="nav-toggle-bar" aria-hidden="true"></span>
-        <span class="sr-only" data-i18n="common.menu">Меню</span>
-      </button>
-      <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
-        <ul>
-          <li><a href="index.html" data-i18n="nav.home">Главная</a></li>
-          <li><a href="about.html" aria-current="page" data-i18n="nav.about">Об авторе</a></li>
-          <li><a href="projects.html" data-i18n="nav.projects">Проекты</a></li>
-          <li><a href="catalog.html" data-i18n="nav.catalog">Каталог</a></li>
-          <li><a href="info.html" data-i18n="nav.info">Инфо</a></li>
-          <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-        </ul>
-        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.switch">
-          <button type="button" data-lang="ru">RU</button>
-          <span aria-hidden="true">/</span>
-          <button type="button" data-lang="en">EN</button>
-        </div>
-      </nav>
-    </div>
-  </header>
 
   <main id="main">
     <div class="container page-head">
-      <p class="eyebrow" data-i18n="nav.about">Об авторе</p>
       <h1 data-i18n="about.title">Об авторе</h1>
     </div>
-    <hr class="rule">
-
-    <section class="section container">
-      <div class="hero hero--top">
-        <div>
-          <h2 data-i18n="about.statementTitle">Artist statement</h2>
-          <div class="prose" id="statement">
-            <p>Я окончила Академию художеств в Санкт-Петербурге (мастерская монументальной живописи проф. А. К. Быстрова). Сейчас работаю в мастерской в Петербурге и преподаю в Академии. Я из Чувашии, с волжских берегов. Мне интересна «дорога-судьба» российской провинции: там я родилась, я чувствую себя собирательницей новых впечатлений и осмысляю давние, из детства.</p>
-            <p>Я многое вложила в дипломную картину «Чувашская свадьба» — это собирание смыслов, важных для меня, и скрещение жанров. В большом монументальном полотне я соединила пейзаж, портреты, национальную свадебную церемонию. Это попытка осмыслить судьбу народа, его традиционный уклад и возможные пути развития. Для меня эта картина — гимн чувашскому народу.</p>
-            <p>Я стремлюсь запечатлеть отражение сегодняшнего мира в перекрестии с прошлым и сполохами будущего. Силой моего творчества я обращаюсь к жизни, заимствую сюжеты из её течения, портретирую, работаю в монументальном жанре. Работаю для людей. Я в начале пути.</p>
-          </div>
-        </div>
-        <figure class="hero-figure">
-          <img src="assets/photos/artist-portrait.jpg" alt="Алина Хоняк">
-          <figcaption id="portrait-credit">Фото: Артём Жигалов</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <hr class="rule">
-
-    <section class="section container">
-      <div class="section-head">
-        <h2 data-i18n="about.cvTitle">Curriculum vitae</h2>
-      </div>
-      <div id="cv"></div>
-    </section>
+    <section class="container" id="about"></section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="wordmark-main">Алина Хоняк</span>
-        <p data-i18n="footer.tagline">Художник-живописец. Санкт-Петербург.</p>
-      </div>
-      <nav class="footer-nav" aria-label="Разделы">
-        <p class="footer-col-title" data-i18n="footer.nav">Разделы</p>
-        <ul>
-          <li><a href="about.html" data-i18n="nav.about">Об авторе</a></li>
-          <li><a href="projects.html" data-i18n="nav.projects">Проекты</a></li>
-          <li><a href="catalog.html" data-i18n="nav.catalog">Каталог</a></li>
-          <li><a href="info.html" data-i18n="nav.info">Инфо</a></li>
-          <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-        </ul>
-      </nav>
-      <div class="footer-contact">
-        <p class="footer-col-title" data-i18n="footer.contact">Связь</p>
-        <ul>
-          <li><a data-site-link="telegram" href="https://t.me/alinakhoniak" data-i18n="contacts.telegramLabel">Telegram</a></li>
-          <li><a href="contacts.html" data-i18n="nav.contacts">Контакты</a></li>
-          <li><a href="info.html#privacy" data-i18n="footer.privacy">Данные и приватность</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-base">
-      <span>© <span class="js-year">2026</span> Алина Хоняк / Alina Khoniak</span>
-      <span data-i18n="footer.rights">Все права на изображения работ принадлежат автору.</span>
-    </div>
-  </footer>
 
   <script type="module">
     import { bootPage } from './js/page.js';

@@ -1,85 +1,85 @@
 # Сайт Алины Хоняк
 
-Двуязычный (RU/EN) статический сайт-портфолио художницы: главная, об авторе,
-проекты, каталог, инфо, контакты. Без сборки — чистые HTML/CSS/JS.
+Двуязычный (RU/EN) статический сайт-портфолио художницы в стиле jkim.ru:
+белые страницы, шрифт Onest, меню-плитка из 8 квадратов поверх картины.
+Без сборки — чистые HTML/CSS/JS.
 
 **Адрес:** https://raketa4.github.io/Alina_web/
 **Как обновлять контент (для заказчика):** [docs/content-guide.html](docs/content-guide.html)
-**Дизайн-спека:** [docs/specs/2026-08-31-alina-khoniak-site-design.md](docs/specs/2026-08-31-alina-khoniak-site-design.md)
-**План работ:** [docs/superpowers/plans/2026-08-31-alina-khoniak-site.md](docs/superpowers/plans/2026-08-31-alina-khoniak-site.md)
+**Дизайн-спека редизайна:** [docs/superpowers/specs/2026-10-25-redesign-menu-design.md](docs/superpowers/specs/2026-10-25-redesign-menu-design.md)
+**Эталон меню:** [docs/superpowers/specs/2026-10-25-menu-mockup.html](docs/superpowers/specs/2026-10-25-menu-mockup.html)
+**План редизайна:** [docs/superpowers/plans/2026-10-25-redesign-menu.md](docs/superpowers/plans/2026-10-25-redesign-menu.md)
 
 ## Структура
 
 ```
-*.html            — страницы (шапка и футер продублированы в каждой)
+index.html                 главная
+series.html                список серий         series-view.html?slug=  одна серия (только фото)
+projects.html              список проектов      project.html?slug=      один проект (текст + фото)
+studio.html                мастерская
+about.html                 портрет и короткий рассказ
+cv.html statement.html teaching.html curatorial.html publications.html — подразделы «Об авторе»
+info.html contacts.html 404.html
+
 css/styles.css    — вся вёрстка, палитра и типографика в :root
-js/               — ES-модули; каждая страница вызывает bootPage() из page.js
+js/page.js        — bootPage(): шапка/меню/подвал → язык → интерфейс → страница → аналитика
+js/chrome.js      — шапка, меню-плитка и подвал (вставляются в каждую страницу из data/menu.json)
+js/viewer.js      — просмотрщик с зумом для всех [data-zoom] (листает в пределах data-gallery)
+js/cards.js       — сетка обложек для серий и проектов
+js/*.js           — модули страниц
 data/*.json       — весь контент (правится без кода)
 i18n/ru.json,en.json — словари интерфейса (наборы ключей обязаны совпадать)
 assets/works/     — изображения работ: <id>-full.jpg (~1600px) и <id>-thumb.jpg (~800px)
-assets/photos/    — портрет автора
-scripts/          — вспомогательные скрипты на Python
+assets/photos/    — портрет автора, фон меню (menu-bg.jpg)
+scripts/          — check.py (проверки), make_placeholders.py, make_icons.py
 ```
 
-## Как обновлять контент (Фаза 2)
+## Где какой контент
 
-### Добавить/изменить работу в каталоге
-1. Открыть `data/catalog.json`, добавить объект:
-   ```json
-   {
-     "id": "mas-13",
-     "title": { "ru": "Название", "en": "Title" },
-     "year": "2025",
-     "medium": { "ru": "Холст, масло", "en": "Oil on canvas" },
-     "size": "50 × 70 см",
-     "status": "available",        // available | reserved | sold
-     "project": "mountains-and-sea",
-     "image": "assets/works/mas-13-full.jpg",
-     "price": "180 000 ₽"           // необязательно; нет поля → «Цена по запросу»
-   }
-   ```
-2. Положить файлы `assets/works/mas-13-full.jpg` и `assets/works/mas-13-thumb.jpg`
-   (большая сторона ≈ 1600 и 800 px соответственно).
-3. Прогнать `python scripts/check.py` — не должно быть ошибок.
+| Раздел | Файл |
+|---|---|
+| Меню (8 квадратов, подразделы «Об авторе») | `data/menu.json` + блок `menu` в `i18n/*.json` |
+| Главная | `data/home.json` |
+| Серии и их работы | `data/series.json` |
+| Проекты | `data/projects.json` |
+| Мастерская | `data/studio.json` |
+| Портрет, короткий рассказ, statement, почта, соцсети, `shop_url` | `data/site.json` |
+| CV и тексты подразделов «Об авторе» | `data/cv.json` |
+| Фото подразделов «Об авторе» | `data/sections.json` |
+| Инфо (персональные данные, обмен и возврат) | `data/info.json` |
 
-### Заменить плейсхолдеры настоящими фото работ
-Просто перезаписать файлы в `assets/works/` тем же именем. Скрипт
-`python scripts/make_placeholders.py` создаёт недостающие плейсхолдеры и
-**не трогает** уже существующие файлы (пересоздать все — флаг `--force`).
+У работ в `series.json` есть название, год, техника и размер — на сайте они
+не выводятся (только в `alt`), но сохраняются для будущего магазина.
 
-### Обновить проект/серию
-`data/projects.json` — поля `title`, `description`, `year`, `role`,
-`cover`, `images[]`. `slug` менять нельзя (он в ссылках и sitemap).
+## Магазин
 
-### CV, artist statement, тексты «Инфо»
-`data/cv.json`, поле `statement` в `data/site.json`, `data/info.json`.
+Вписать адрес в `data/site.json` → `shop_url`. Квадрат «Магазин» станет
+ссылкой (открывается в новой вкладке). Пустое поле — квадрат неактивен.
 
-### Контакты, соцсети, аналитика
-`data/site.json`:
-- `email` — как только появится, заработают кнопки «Оставить заявку» (mailto).
-  Пока пусто — заявки уходят в Telegram.
-- `social.telegram` / `instagram` / `vk` — ссылки.
-- `metrika_id` — вписать номер счётчика Яндекс.Метрики, и она подключится сама.
-- `gsc_verification` — при верификации Google Search Console положить HTML-файл
-  подтверждения в корень репозитория (см. как в проекте raketa4.github.io).
-  ⚠️ Скачанные файлы подтверждения бывают заражены тегами kaspersky-labs.com —
-  проверить и вычистить перед коммитом.
+## Форма связи
 
-### Перевод (EN)
-`i18n/en.json` — интерфейс; `data/*.json` — длинные тексты (поле `en`).
-Наборы ключей `ru.json` и `en.json` должны совпадать — это проверяет `check.py`.
-
-### Меню
-Навигация продублирована в каждом `*.html`. При изменении пунктов
-править во всех файлах.
+`contacts.html` отправляет форму обычным POST на
+`https://formsubmit.co/alinakhoniak@gmail.com` (адрес также подставляется
+из `site.json` → `email`). После отправки FormSubmit возвращает на
+`contacts.html?sent=1`. **При первой отправке FormSubmit присылает на почту
+письмо активации — его нужно подтвердить один раз.**
 
 ## Проверка
 
 ```
-python scripts/check.py
+python scripts/check.py            # все проверки
+python scripts/check.py menu form  # только перечисленные
 ```
-Проверяет: совпадение ключей словарей, схему данных, наличие всех
-картинок, отсутствие битых внутренних ссылок.
+Проверяет: ключи словарей и их использование, схему данных, наличие всех
+картинок, внутренние ссылки, шрифты, меню, форму, отсутствие каталога.
+
+```
+python scripts/browser_check.py
+```
+Браузерные проверки в фоновом Edge/Chrome (`tests/browser.html`): просмотрщик
+не закрывается от клика по картинке, старые ссылки серий перенаправляются,
+меню-плитка помещается без обрезки на 8 размерах экрана (от 360×640 до
+1440×900, включая повёрнутый телефон).
 
 ## Локальный просмотр
 
@@ -92,14 +92,15 @@ python -m http.server 8000
 ## Деплой
 
 GitHub Pages из ветки `main`, папка `/` (root).
-Settings → Pages → Source: Deploy from a branch → main → /(root).
 
-## Что осталось (Фаза 2)
+## Что осталось
 
-- Настоящие изображения работ и портрет.
-- E-mail для заявок, телефон, точные ссылки соцсетей.
+- Настоящие фото работ и портрет (сейчас в `assets/works/` и
+  `assets/photos/artist-portrait.jpg` — заглушки с названием).
+- Тексты и фото для Мастерской, Преподавательской, Кураторской, Публикаций.
+- Проверить черновики в `data/info.json` и `about_short` в `site.json`.
+- Ссылка на магазин (`shop_url`).
 - Утверждённый Алиной английский перевод.
 - ID Яндекс.Метрики, верификация Google Search Console.
-- Детали работ серии «Портреты» (сейчас только в проекте, не в каталоге).
-- При покупке домена — файл `CNAME` в корне и обновление `canonical`/`og:url`/
-  `sitemap.xml`/`robots.txt` на новый адрес.
+- При покупке домена — файл `CNAME` и замена адреса в `canonical`/`og:url`/
+  `sitemap.xml`/`robots.txt`/`_next` формы/`<base>` в `404.html`.

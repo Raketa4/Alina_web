@@ -1,6 +1,12 @@
 {
-  "name": { "ru": "Алина Хоняк", "en": "Alina Khoniak" },
-  "role": { "ru": "Художник-живописец", "en": "Painter" },
+  "name": {
+    "ru": "Алина Хоняк",
+    "en": "Alina Khoniak"
+  },
+  "role": {
+    "ru": "Художник-живописец",
+    "en": "Painter"
+  },
   "intro": {
     "ru": "Академическая и монументальная живопись. Петербургская школа, чувашские корни.",
     "en": "Academic and monumental painting. The St. Petersburg school, Chuvash roots."
@@ -18,16 +24,26 @@
     ]
   },
   "portrait": "assets/photos/artist-portrait.jpg",
-  "portrait_credit": { "ru": "Фото: Артём Жигалов", "en": "Photo: Artem Zhigalov" },
-  "location": { "ru": "Санкт-Петербург", "en": "St. Petersburg" },
-  "email": "",
+  "portrait_credit": {
+    "ru": "Фото: Артём Жигалов",
+    "en": "Photo: Artem Zhigalov"
+  },
+  "location": {
+    "ru": "Санкт-Петербург",
+    "en": "St. Petersburg"
+  },
+  "email": "alinakhoniak@gmail.com",
   "phone": "",
   "social": {
     "telegram": "https://t.me/alinakhoniak",
     "instagram": "https://www.instagram.com/alinakhoniak",
     "vk": "https://vk.com/alinakhoniak"
   },
-  "featured": ["mas-04", "mas-03", "mas-08", "mas-05"],
   "metrika_id": "",
-  "gsc_verification": ""
+  "gsc_verification": "",
+  "shop_url": "",
+  "about_short": {
+    "ru": "Художник-живописец, выпускница Академии художеств в Санкт-Петербурге (мастерская монументальной живописи проф. А. К. Быстрова). Работает в мастерской в Петербурге и преподаёт в Академии; родом из Чувашии.",
+    "en": "Painter, graduate of the Academy of Arts in St. Petersburg (monumental painting workshop of Professor A. K. Bystrov). Works in a studio in St. Petersburg and teaches at the Academy; originally from Chuvashia."
+  }
 }

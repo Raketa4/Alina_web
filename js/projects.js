@@ -1,7 +1,7 @@
-// Список проектов: карточки серий из data/projects.json.
+// Список проектов: обложки из data/projects.json.
 
-import { getJSON, qs, pick, escapeHtml, thumbImg } from './util.js';
-import { t } from './i18n.js';
+import { getJSON, qs, pick } from './util.js';
+import { renderCards } from './cards.js';
 import { revealize } from './ui.js';
 
 export async function initProjects() {
@@ -9,26 +9,12 @@ export async function initProjects() {
   if (!mount) return;
 
   const projects = await getJSON('data/projects.json');
-
-  mount.innerHTML = projects.map((p) => {
-    const title = escapeHtml(pick(p.title));
-    const role = escapeHtml(pick(p.role) || '');
-    const meta = escapeHtml([role, p.year].filter(Boolean).join(' · '));
-    const desc = escapeHtml(pick(p.description) || '');
-    const href = `project.html?slug=${encodeURIComponent(p.slug)}`;
-    return `
-      <article class="work project-card reveal">
-        <a class="work-figure hover-zoom" href="${href}" aria-label="${title}">
-          ${thumbImg(p.cover || '', pick(p.title))}
-        </a>
-        <div class="work-meta">
-          <h3 class="work-title">${title}</h3>
-          <span class="work-sub">${meta}</span>
-          <p>${desc}</p>
-          <a class="link link--accent" href="${href}">${escapeHtml(t('projects.view'))}</a>
-        </div>
-      </article>`;
-  }).join('');
+  mount.innerHTML = renderCards(projects.map((p) => ({
+    href: `project.html?slug=${encodeURIComponent(p.slug)}`,
+    cover: p.cover,
+    title: pick(p.title),
+    summary: pick(p.summary),
+  })));
 
   revealize(mount);
 }

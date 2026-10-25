@@ -1,51 +1,34 @@
-// Главная: блок избранных работ из data/catalog.json по списку id
-// в data/site.json (поле featured).
+// Главная: «Чувашская свадьба» с текстом, ниже фотографии и описание.
+// Всё из data/home.json.
 
 import { getJSON, qs, getLang, pick, escapeHtml, thumbImg } from './util.js';
-import { getSite } from './site.js';
 import { revealize } from './ui.js';
 
 export async function initHome() {
-  const lang = getLang();
-  const site = await getSite();
-
-  hydrateHero(site, lang);
-
-  const mount = qs('#featured-works');
+  const mount = qs('#home');
   if (!mount) return;
 
-  const catalog = await getJSON('data/catalog.json');
+  const lang = getLang();
+  const home = await getJSON('data/home.json');
+  const hero = home.hero || {};
+  const paras = (home.text?.[lang] || home.text?.ru || [])
+    .map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+  const photos = (home.photos || []).map((src, i) => `
+        <button type="button" class="reveal" data-zoom="${escapeHtml(src)}" data-gallery="home">
+          ${thumbImg(src, `${i + 1}`)}
+        </button>`).join('');
 
-  const byId = new Map(catalog.map((w) => [w.id, w]));
-  const ids = Array.isArray(site.featured) && site.featured.length
-    ? site.featured
-    : catalog.slice(0, 4).map((w) => w.id);
-
-  const works = ids.map((id) => byId.get(id)).filter(Boolean);
-  if (!works.length) {
-    mount.closest('.section')?.remove();
-    return;
-  }
-
-  mount.innerHTML = works.map((w) => {
-    const title = escapeHtml(pick(w.title));
-    const sub = escapeHtml([pick(w.medium), w.size, w.year].filter(Boolean).join(' · '));
-    return `
-      <a class="work reveal" href="catalog.html">
-        <span class="work-figure">${thumbImg(w.image, pick(w.title))}</span>
-        <span class="work-meta">
-          <span class="work-title">${title}</span>
-          <span class="work-sub">${sub}</span>
-        </span>
-      </a>`;
-  }).join('');
+  mount.innerHTML = `
+    <section class="container hero">
+      <button type="button" class="hero-figure" data-zoom="${escapeHtml(hero.image || '')}">
+        <img src="${escapeHtml(hero.image || '')}" alt="${escapeHtml(pick({ ru: 'Чувашская свадьба', en: 'The Chuvash Wedding' }))}">
+      </button>
+      <p class="lead hero-text">${escapeHtml(pick(hero.text, lang))}</p>
+    </section>
+    <section class="container section">
+      <div class="photo-grid">${photos}</div>
+      <div class="prose home-text">${paras}</div>
+    </section>`;
 
   revealize(mount);
-}
-
-function hydrateHero(site, lang) {
-  const set = (sel, value) => { const n = qs(sel); if (n && value) n.textContent = value; };
-  set('#hero-role', pick(site.role, lang));
-  set('#hero-name', pick(site.name, lang));
-  set('#hero-intro', pick(site.intro, lang));
 }

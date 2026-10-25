@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>RUNNING</title>
+<!-- Браузерные проверки: страница сайта грузится во фрейм нужного размера,
+     результат пишется в <title> как "PASS …" или "FAIL …".
+     Запуск: python scripts/browser_check.py -->
+<style>body { margin: 0; } iframe { border: 0; display: block; }</style>
+</head>
+<body>
+<iframe id="f"></iframe>
+<script>
+const q = new URLSearchParams(location.search);
+const frame = document.getElementById('f');
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const done = (ok, msg) => { document.title = `${ok ? 'PASS' : 'FAIL'} ${msg}`; };
+
+function load(src, w = 1440, h = 900) {
+  frame.width = w;
+  frame.height = h;
+  return new Promise((resolve) => {
+    frame.onload = async () => { await wait(1500); resolve(frame.contentWindow); };
+    frame.src = src;
+  });
+}
+
+const cases = {
+  // Клик по самому изображению не закрывает просмотрщик (браузер с pointer
+  // capture доставляет click на .viewer-stage — эмулируем именно это).
+  async 'viewer-click-image'() {
+    const win = await load('../series-view.html?slug=mountains-and-sea');
+    const d = win.document;
+    d.querySelector('[data-zoom]').click();
+    await wait(300);
+    const stage = d.querySelector('.viewer-stage');
+    const img = d.querySelector('.viewer-img');
+    const opts = { bubbles: true, cancelable: true, pointerId: 1, clientX: 10, clientY: 10 };
+    img.dispatchEvent(new win.PointerEvent('pointerdown', opts));
+    stage.dispatchEvent(new win.PointerEvent('pointerup', opts));
+    stage.dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+    const open = !d.querySelector('.viewer').hidden;
+    // а клик по пустому полю по-прежнему закрывает
+    stage.dispatchEvent(new win.PointerEvent('pointerdown', opts));
+    stage.dispatchEvent(new win.PointerEvent('pointerup', opts));
+    stage.dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+    const closed = d.querySelector('.viewer').hidden;
+    return [open && closed, `image-click keeps open=${open}, backdrop-click closes=${closed}`];
+  },
+
+  // Меню при размере w×h: текст ни одного квадрата не обрезан и не вылезает
+  // вбок; на компьютере (шире 800px) с экраном от 620px в высоту вся плитка
+  // помещается без прокрутки. Ниже и на телефонах слой прокручивается.
+  async 'menu-fit'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../index.html', w, h);
+    const d = win.document;
+    d.querySelector('.menu-toggle').click();
+    await wait(1200);
+    const bad = [];
+    d.querySelectorAll('.menu-cell').forEach((c) => {
+      const r = c.getBoundingClientRect();
+      if (c.scrollHeight > c.clientHeight + 1) bad.push(`${c.dataset.id}:overflow+${c.scrollHeight - c.clientHeight}`);
+      if (c.scrollWidth > c.clientWidth + 1) bad.push(`${c.dataset.id}:wide+${c.scrollWidth - c.clientWidth}`);
+      if (r.left < -1 || r.right > w + 1) bad.push(`${c.dataset.id}:offscreen-x`);
+      if (w > 800 && h >= 620 && r.bottom > h + 1) bad.push(`${c.dataset.id}:below-fold`);
+    });
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
+  // Старые адреса серий через project.html ведут на страницу серии.
+  async 'old-series-slug'() {
+    const win = await load('../project.html?slug=portraits');
+    const path = win.location.pathname + win.location.search;
+    return [path.endsWith('series-view.html?slug=portraits'), path];
+  },
+};
+
+(async () => {
+  const name = q.get('case');
+  try {
+    const [ok, msg] = await cases[name]();
+    done(ok, `${name}: ${msg}`);
+  } catch (err) {
+    done(false, `${name}: ${err}`);
+  }
+})();
+</script>
+</body>
+</html>

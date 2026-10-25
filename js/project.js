@@ -1,6 +1,6 @@
-// Страница одной серии: project.html?slug=…
+// Один проект: project.html?slug=… — текст и фотографии.
 
-import { getJSON, qs, param, pick, escapeHtml, thumbImg } from './util.js';
+import { getJSON, qs, param, pick, getLang, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
 
@@ -13,12 +13,17 @@ export async function initProject() {
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
+    // Раньше серии жили в project.html?slug=… — старые ссылки ведут на серию.
+    const series = await getJSON('data/series.json').catch(() => []);
+    if (slug && series.some((s) => s.slug === slug)) {
+      location.replace(`series-view.html?slug=${encodeURIComponent(slug)}`);
+      return;
+    }
     mount.innerHTML = `
       <div class="state">
-        <p class="eyebrow">404</p>
         <h1>${escapeHtml(t('project.notFoundTitle'))}</h1>
         <p>${escapeHtml(t('project.notFoundText'))}</p>
-        <a class="btn" href="projects.html">${escapeHtml(t('project.back'))}</a>
+        <a class="link" href="projects.html">← ${escapeHtml(t('project.back'))}</a>
       </div>`;
     return;
   }
@@ -26,27 +31,23 @@ export async function initProject() {
   const title = pick(project.title);
   document.title = `${title} — ${pick({ ru: 'Алина Хоняк', en: 'Alina Khoniak' })}`;
 
-  const meta = escapeHtml([pick(project.role), project.year].filter(Boolean).join(' · '));
-  const gallery = (project.images || []).map((src, i) => `
-      <figure class="work reveal">
-        <button class="work-figure hover-zoom" type="button" data-zoom="${escapeHtml(src)}" aria-label="${escapeHtml(title)} — ${i + 1}">
+  const lang = getLang();
+  const paras = (project.text?.[lang] || project.text?.ru || [])
+    .map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+  const photos = (project.images || []).map((src, i) => `
+        <button type="button" class="reveal" data-zoom="${escapeHtml(src)}" data-gallery="project">
           ${thumbImg(src, `${title} — ${i + 1}`)}
-        </button>
-      </figure>`).join('');
+        </button>`).join('');
 
   mount.innerHTML = `
-    <div class="page-head">
+    <div class="container page-head">
       <div class="back-link"><a class="link" href="projects.html">← ${escapeHtml(t('project.back'))}</a></div>
-      <p class="eyebrow">${meta}</p>
       <h1>${escapeHtml(title)}</h1>
-      <p class="lead">${escapeHtml(pick(project.description) || '')}</p>
-      <p class="catalog-cta"><a class="link link--accent" href="catalog.html?project=${encodeURIComponent(project.slug)}">${escapeHtml(t('project.seeInCatalog'))}</a></p>
+      <div class="prose">${paras}</div>
     </div>
-    <hr class="rule">
-    <div class="section">
-      <h2 class="eyebrow section-label">${escapeHtml(t('project.worksTitle'))}</h2>
-      <div class="gallery-grid">${gallery}</div>
-    </div>`;
+    <section class="container">
+      <div class="photo-grid">${photos}</div>
+    </section>`;
 
   revealize(mount);
 }

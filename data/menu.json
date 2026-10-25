@@ -1,0 +1,19 @@
+[
+  { "id": "home", "i18n": "menu.home", "href": "index.html" },
+  { "id": "studio", "i18n": "menu.studio", "href": "studio.html" },
+  {
+    "id": "about", "i18n": "menu.about", "href": "about.html",
+    "children": [
+      { "id": "cv", "i18n": "menu.cv", "href": "cv.html" },
+      { "id": "statement", "i18n": "menu.statement", "href": "statement.html" },
+      { "id": "teaching", "i18n": "menu.teaching", "href": "teaching.html" },
+      { "id": "curatorial", "i18n": "menu.curatorial", "href": "curatorial.html" },
+      { "id": "publications", "i18n": "menu.publications", "href": "publications.html" }
+    ]
+  },
+  { "id": "shop", "i18n": "menu.shop" },
+  { "id": "series", "i18n": "menu.series", "href": "series.html" },
+  { "id": "info", "i18n": "menu.info", "href": "info.html" },
+  { "id": "projects", "i18n": "menu.projects", "href": "projects.html" },
+  { "id": "contacts", "i18n": "menu.contacts", "href": "contacts.html" }
+]

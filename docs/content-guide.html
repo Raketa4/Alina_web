@@ -330,10 +330,10 @@
     <p class="toc-label">Разделы</p>
     <ol>
       <li><a href="#osnovnoe"><span>0</span> Общий порядок</a></li>
-      <li><a href="#izbrannoe"><span>1</span> Избранные работы и тексты главной</a></li>
-      <li><a href="#portret"><span>2</span> Портрет и «Об авторе»</a></li>
-      <li><a href="#katalog"><span>3</span> Каталог работ</a></li>
-      <li><a href="#prochee"><span>4</span> Прочие изменения</a></li>
+      <li><a href="#glavnaya"><span>1</span> Главная</a></li>
+      <li><a href="#serii"><span>2</span> Серии и проекты</a></li>
+      <li><a href="#avtor"><span>3</span> Об авторе и мастерская</a></li>
+      <li><a href="#prochee"><span>4</span> Меню, магазин, контакты, инфо</a></li>
       <li><a href="#spravka"><span>·</span> Справка: файлы и размеры</a></li>
     </ol>
   </nav>
@@ -352,7 +352,7 @@
 
       <ol class="steps">
         <li>Открыть нужный файл, внести правку, сохранить (кодировка — <strong>UTF‑8</strong>).</li>
-        <li>Если добавляли или меняли картинки — выполнить в папке проекта: <code>python scripts/make_placeholders.py</code> (создаст недостающие миниатюры).</li>
+        <li>Если добавляли или меняли картинки работ — выполнить в папке проекта: <code>python scripts/make_placeholders.py</code> (создаст недостающие миниатюры).</li>
         <li>Проверить: <code>python scripts/check.py</code> — в ответе должно быть <code>OK</code>. Если есть ошибки — они названы построчно, поправить и повторить.</li>
         <li>Загрузить изменённые файлы на GitHub: репозиторий <code>Alina_web</code> → <strong>Add file → Upload files</strong> → перетащить файлы → <strong>Commit changes</strong>.</li>
         <li>Через 1–2 минуты сайт обновится: <a href="https://raketa4.github.io/Alina_web/">raketa4.github.io/Alina_web</a></li>
@@ -363,154 +363,99 @@
         <p>Каждое значение — в двойных кавычках <code>"…"</code>. Между элементами списка — запятая. После <em>последнего</em> элемента перед <code>]</code> или <code>}</code> запятой <strong>нет</strong>. Не удалять скобки <code>{ }</code> и <code>[ ]</code>. Кавычки — только прямые <code>"</code>, не «ёлочки».</p>
       </div>
 
-      <p>Все тексты двуязычные: у каждого поля есть пара <code>"ru"</code> и <code>"en"</code>. Меняете русский — поменяйте и английский рядом.</p>
+      <p>Все тексты двуязычные: у каждого поля есть пара <code>"ru"</code> и <code>"en"</code>. Меняете русский — поменяйте и английский рядом. Тексты из нескольких абзацев — это <strong>список</strong>: каждый абзац в кавычках, через запятую.</p>
     </section>
 
-    <section id="izbrannoe">
-      <h2><span class="num">1</span> Избранные работы и тексты главной</h2>
+    <section id="glavnaya">
+      <h2><span class="num">1</span> Главная</h2>
+      <p>Файл <span class="filechip">data/home.json</span>:</p>
+      <div class="table-scroll">
+        <table class="field-table">
+          <thead><tr><th>Поле</th><th>Что это</th></tr></thead>
+          <tbody>
+            <tr><td><code>hero.image</code></td><td>большая картина вверху (сейчас «Чувашская свадьба»)</td></tr>
+            <tr><td><code>hero.text</code></td><td>текст под ней</td></tr>
+            <tr><td><code>photos</code></td><td>список фотографий ниже, в нужном порядке</td></tr>
+            <tr><td><code>text</code></td><td>абзацы описания под фотографиями</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-      <h3>Избранные работы</h3>
-      <p>Это крупные работы в блоке «Избранные работы» на главной странице. Задаются списком в файле <span class="filechip">data/site.json</span>, поле <code>"featured"</code> — это <strong>id работ из каталога</strong>, в нужном порядке (обычно 3–4 штуки).</p>
+    <section id="serii">
+      <h2><span class="num">2</span> Серии и проекты</h2>
+
+      <h3>Серии</h3>
+      <p>Файл <span class="filechip">data/series.json</span> — список серий. У серии: <code>title</code> (название), <code>summary</code> (короткое описание под обложкой), <code>cover</code> (обложка) и <code>works</code> — список работ. На странице серии показываются только изображения, без подписей; название, год, техника и размер работы нужны для поисковиков и будущего магазина.</p>
 
       <figure class="code">
-        <figcaption>data/site.json<button class="copy-btn" type="button">Копировать</button></figcaption>
-        <pre>"featured": ["mas-04", "mas-03", "mas-08", "mas-05"],</pre>
+        <figcaption>data/series.json — одна работа в списке works<button class="copy-btn" type="button">Копировать</button></figcaption>
+        <pre>{
+  "id": "mas-13",
+  "src": "assets/works/mas-13-full.jpg",
+  "title": { "ru": "Название работы", "en": "Work title" },
+  "year": "2025",
+  "medium": { "ru": "Холст, масло", "en": "Oil on canvas" },
+  "size": "50 × 70 см"
+}</pre>
       </figure>
 
-      <ul>
-        <li><strong>Поменять состав или порядок</strong> — переставить или заменить id в списке.</li>
-        <li><strong>Убрать работу с главной</strong> — удалить её id из списка. В каталоге работа останется.</li>
-        <li><strong>Добавить новую работу в избранное</strong> — сначала добавить её в каталог (раздел 3), затем вписать её <code>id</code> сюда.</li>
-      </ul>
+      <p><strong>Новая серия</strong> — скопировать блок серии целиком, придумать <code>slug</code> латиницей (он попадёт в адрес страницы) и добавить строку в <span class="filechip">sitemap.xml</span>. Поле <code>slug</code> у существующих серий не менять.</p>
 
+      <h3>Проекты</h3>
+      <p>Файл <span class="filechip">data/projects.json</span> — то же устройство: <code>title</code>, <code>summary</code>, <code>cover</code>, плюс <code>text</code> (абзацы на странице проекта) и <code>images</code> (список фотографий).</p>
+
+      <h3>Картинки к работам</h3>
+      <ol class="steps">
+        <li>Экспортировать фото в JPEG, большая сторона <strong>≈ 1600 px</strong>.</li>
+        <li>Положить в <code>assets/works/</code> под именем <code>&lt;id&gt;-full.jpg</code>.</li>
+        <li>Выполнить <code>python scripts/make_placeholders.py</code> — миниатюра <code>&lt;id&gt;-thumb.jpg</code> создастся автоматически.</li>
+      </ol>
       <div class="callout note">
-        <span class="tag">Важно</span>
-        <p>id в <code>"featured"</code> обязан существовать в <span class="filechip">data/catalog.json</span>. Несуществующий id просто не покажется.</p>
+        <span class="tag">Сейчас на сайте заглушки</span>
+        <p>Файлы в <code>assets/works/</code> и портрет — временные картинки с названием на бежевом фоне. Чтобы поставить настоящие фото, положите их под теми же именами и выполните <code>python scripts/make_placeholders.py --thumbs</code>.</p>
       </div>
+    </section>
 
-      <h3>Тексты и главное изображение</h3>
+    <section id="avtor">
+      <h2><span class="num">3</span> Об авторе и мастерская</h2>
       <div class="table-scroll">
         <table class="field-table">
           <thead><tr><th>Что</th><th>Где</th></tr></thead>
           <tbody>
-            <tr><td>Подпись над именем<br><em>«Художник-живописец»</em></td><td><span class="filechip">data/site.json</span> → <code>"role"</code></td></tr>
-            <tr><td>Абзац под именем</td><td><span class="filechip">data/site.json</span> → <code>"intro"</code></td></tr>
-            <tr><td>Большая картина в шапке главной</td><td>заменить файл <code>assets/works/chuvash-wedding-full.jpg</code> тем же именем, либо поменять <code>src</code> в <code>index.html</code> (строка с <code>hero-figure</code>)</td></tr>
+            <tr><td>Портрет</td><td>файл <code>assets/photos/artist-portrait.jpg</code> (≈ 1200 × 1600 px), подпись — <span class="filechip">data/site.json</span> → <code>"portrait_credit"</code></td></tr>
+            <tr><td>Короткий рассказ рядом с портретом</td><td><span class="filechip">data/site.json</span> → <code>"about_short"</code></td></tr>
+            <tr><td>Artist statement</td><td><span class="filechip">data/site.json</span> → <code>"statement"</code></td></tr>
+            <tr><td>CV (образование, выставки, награды)</td><td><span class="filechip">data/cv.json</span></td></tr>
+            <tr><td>Тексты «Преподавательская деятельность», «Кураторская практика», «Публикации»</td><td><span class="filechip">data/cv.json</span> → разделы <code>teaching</code>, <code>curatorial</code>, <code>publications</code>; записи вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code></td></tr>
+            <tr><td>Фото к этим трём разделам</td><td><span class="filechip">data/sections.json</span> → <code>images</code> у нужного раздела</td></tr>
+            <tr><td>Мастерская: описание и фото</td><td><span class="filechip">data/studio.json</span> → <code>text</code> и <code>images</code></td></tr>
           </tbody>
         </table>
       </div>
-    </section>
-
-    <section id="portret">
-      <h2><span class="num">2</span> Портрет автора и страница «Об авторе»</h2>
-
-      <h3>Фото автора</h3>
-      <ol class="steps">
-        <li>Подготовить вертикальный кадр, примерно <strong>1200 × 1600 px</strong>, JPEG.</li>
-        <li>Положить в <code>assets/photos/</code> под именем <code>artist-portrait.jpg</code> (заменив текущий файл — имя то же).</li>
-        <li>Подпись под фото — <span class="filechip">data/site.json</span> → <code>"portrait_credit"</code> (сейчас «Фото: Артём Жигалов»).</li>
-      </ol>
-
-      <h3>Artist statement</h3>
-      <p>Текст в <span class="filechip">data/site.json</span> → <code>"statement"</code>. Это <strong>список абзацев</strong> — каждый абзац в кавычках, через запятую. Абзацев может быть сколько угодно.</p>
-
-      <figure class="code">
-        <figcaption>data/site.json<button class="copy-btn" type="button">Копировать</button></figcaption>
-        <pre>"statement": {
-  "ru": [
-    "Первый абзац…",
-    "Второй абзац…"
-  ],
-  "en": [
-    "First paragraph…",
-    "Second paragraph…"
-  ]
-},</pre>
-      </figure>
-
-      <div class="callout note">
-        <span class="tag">Необязательно, но желательно</span>
-        <p>Тот же русский текст дублируется в <span class="filechip">about.html</span> между <code>&lt;div class="prose" id="statement"&gt;</code> и <code>&lt;/div&gt;</code> — это запасной вариант для поисковых систем. Посетители видят версию из JSON.</p>
-      </div>
-
-      <h3>CV</h3>
-      <p>Образование, преподавание, выставки, награды, кураторские проекты, публикации — файл <span class="filechip">data/cv.json</span>. Внутри каждого раздела — список записей вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code>.</p>
-    </section>
-
-    <section id="katalog">
-      <h2><span class="num">3</span> Каталог работ</h2>
-
-      <p>Файл <span class="filechip">data/catalog.json</span> — список работ. Каждая работа — блок в фигурных скобках. Чтобы <strong>добавить работу</strong>, скопируйте блок и вставьте перед закрывающей <code>]</code>, не забыв запятую между блоками:</p>
-
-      <figure class="code">
-        <figcaption>data/catalog.json — один блок работы<button class="copy-btn" type="button">Копировать</button></figcaption>
-        <pre>{
-  "id": "mas-13",
-  "title": { "ru": "Название работы", "en": "Work title" },
-  "year": "2025",
-  "medium": { "ru": "Холст, масло", "en": "Oil on canvas" },
-  "size": "50 × 70 см",
-  "status": "available",
-  "project": "mountains-and-sea",
-  "image": "assets/works/mas-13-full.jpg",
-  "price": "180 000 ₽"
-}</pre>
-      </figure>
-
-      <div class="table-scroll">
-        <table class="field-table">
-          <thead><tr><th>Поле</th><th>Что вписать</th></tr></thead>
-          <tbody>
-            <tr><td><code>id</code></td><td>уникальный, латиницей. Это же имя у файла картинки.</td></tr>
-            <tr><td><code>status</code></td><td><code>available</code> — в наличии · <code>reserved</code> — в резерве · <code>sold</code> — продано (у проданных кнопка заявки заменяется на «Продано»).</td></tr>
-            <tr><td><code>project</code></td><td>slug серии из <span class="filechip">data/projects.json</span>: <code>mountains-and-sea</code>, <code>portraits</code>, <code>chuvash-wedding</code>. Если работа вне серии — убрать строку целиком.</td></tr>
-            <tr><td><code>price</code></td><td>необязательно. Без этого поля на карточке будет «Цена по запросу».</td></tr>
-            <tr><td><code>image</code></td><td>всегда <code>assets/works/&lt;id&gt;-full.jpg</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h3>Картинки к работе</h3>
-      <ol class="steps">
-        <li>Экспортировать фото работы в JPEG, большая сторона <strong>≈ 1600 px</strong>.</li>
-        <li>Положить в <code>assets/works/</code> под именем <code>&lt;id&gt;-full.jpg</code> (например <code>mas-13-full.jpg</code>).</li>
-        <li>Выполнить <code>python scripts/make_placeholders.py</code> — миниатюра <code>&lt;id&gt;-thumb.jpg</code> создастся автоматически.</li>
-      </ol>
-      <div class="callout note">
-        <span class="tag">Заменить фото у существующей работы</span>
-        <p>Положить новый файл под тем же именем и выполнить <code>python scripts/make_placeholders.py --thumbs</code> — миниатюры пересоберутся из новых фото.</p>
-      </div>
-
-      <h3>Изменить или убрать работу</h3>
-      <ul>
-        <li><strong>Правка описания</strong> — поменять поля <code>title</code>, <code>medium</code>, <code>size</code>, <code>year</code> у нужного блока.</li>
-        <li><strong>Работа продана</strong> — заменить <code>"available"</code> на <code>"sold"</code>.</li>
-        <li><strong>Удалить работу</strong> — удалить весь её блок (и запятую). Если она была в <code>"featured"</code> — убрать оттуда её id.</li>
-      </ul>
     </section>
 
     <section id="prochee">
-      <h2><span class="num">4</span> Прочие изменения</h2>
+      <h2><span class="num">4</span> Меню, магазин, контакты, инфо</h2>
 
-      <h3>Контакты</h3>
-      <p>Файл <span class="filechip">data/site.json</span>:</p>
+      <h3>Меню</h3>
+      <p>Восемь квадратов меню описаны в <span class="filechip">data/menu.json</span>, названия — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span> (блок <code>"menu"</code>). Фон открытого меню — <code>assets/photos/menu-bg.jpg</code>: чтобы сменить картину, замените файл тем же именем.</p>
+
+      <h3>Магазин</h3>
+      <p>Когда магазин появится, впишите его адрес в <span class="filechip">data/site.json</span> → <code>"shop_url"</code> (например <code>"https://shop.example.ru"</code>). Квадрат «Магазин» станет ссылкой и будет открывать магазин в новой вкладке. Пока поле пустое, квадрат не нажимается.</p>
+
+      <h3>Контакты и форма</h3>
       <ul>
-        <li><code>"email"</code> — пока пусто, заявки уходят в Telegram. Впишите адрес — кнопки «Оставить заявку» начнут открывать письмо.</li>
-        <li><code>"phone"</code>, <code>"location"</code> — телефон и город.</li>
-        <li><code>"social"</code> — ссылки <code>telegram</code>, <code>instagram</code>, <code>vk</code>. Можно добавить <code>behance</code>, <code>facebook</code>.</li>
+        <li>Почта — <span class="filechip">data/site.json</span> → <code>"email"</code>; соцсети — <code>"social"</code> (<code>telegram</code>, <code>instagram</code>, <code>vk</code>).</li>
+        <li>Письма из формы приходят на эту почту через сервис <strong>FormSubmit</strong>. При самой первой отправке FormSubmit пришлёт на почту письмо «Activate Form» — нужно один раз нажать в нём кнопку подтверждения, иначе письма не будут доходить.</li>
+        <li>Если меняете почту — поменяйте её и в <code>contacts.html</code> (адрес в <code>action</code> формы), и снова подтвердите FormSubmit.</li>
       </ul>
 
-      <h3>Проекты / серии</h3>
-      <p><span class="filechip">data/projects.json</span> — <code>title</code>, <code>description</code>, <code>year</code>, <code>role</code>, <code>cover</code> (обложка) и <code>images</code> (список картинок серии). Поле <code>slug</code> не менять — оно в ссылках и карте сайта.</p>
-
-      <h3>Тексты страницы «Инфо»</h3>
-      <p><span class="filechip">data/info.json</span> — разделы «Как приобрести», «Доставка», «Оплата» и т. д. Поле <code>body</code> — список абзацев.</p>
-
-      <h3>Меню сайта</h3>
-      <p>Пункты меню продублированы в каждом файле <code>*.html</code>. Если меняете названия пунктов — правьте во всех файлах. Обычно трогать не нужно.</p>
+      <h3>Инфо</h3>
+      <p><span class="filechip">data/info.json</span> — «Согласие на обработку персональных данных» и «Обмен и возврат». Сейчас это черновики, их нужно проверить перед публикацией. Поле <code>body</code> — список абзацев.</p>
 
       <h3>Английский язык</h3>
-      <p>Интерфейс (кнопки, подписи) — <span class="filechip">i18n/en.json</span>. Длинные тексты — поля <code>"en"</code> внутри файлов <span class="filechip">data/</span>. Наборы ключей в <code>ru.json</code> и <code>en.json</code> обязаны совпадать — это проверяет <code>check.py</code>.</p>
+      <p>Интерфейс (меню, кнопки, подписи) — <span class="filechip">i18n/en.json</span>. Длинные тексты — поля <code>"en"</code> внутри файлов <span class="filechip">data/</span>. Наборы ключей в <code>ru.json</code> и <code>en.json</code> обязаны совпадать — это проверяет <code>check.py</code>.</p>
 
       <h3>Аналитика и поисковые системы</h3>
       <ul>
@@ -523,7 +468,7 @@
       </div>
 
       <h3>Свой домен</h3>
-      <p>Когда появится домен: создать в корне файл <code>CNAME</code> с адресом домена и заменить <code>raketa4.github.io/Alina_web</code> на новый адрес в <code>canonical</code>, <code>og:url</code>, <span class="filechip">sitemap.xml</span>, <span class="filechip">robots.txt</span> и в теге <code>&lt;base&gt;</code> файла <code>404.html</code>.</p>
+      <p>Когда появится домен: создать в корне файл <code>CNAME</code> с адресом домена и заменить <code>raketa4.github.io/Alina_web</code> на новый адрес в <code>canonical</code>, <code>og:url</code>, <span class="filechip">sitemap.xml</span>, <span class="filechip">robots.txt</span>, в поле <code>_next</code> формы в <code>contacts.html</code> и в теге <code>&lt;base&gt;</code> файла <code>404.html</code>.</p>
     </section>
 
     <section id="spravka">
@@ -534,14 +479,18 @@
         <table class="field-table">
           <thead><tr><th>Файл</th><th>Отвечает за</th></tr></thead>
           <tbody>
-            <tr><td><code>data/site.json</code></td><td>имя, вступление, artist statement, портрет, контакты, соцсети, избранное, счётчик Метрики</td></tr>
-            <tr><td><code>data/catalog.json</code></td><td>каталог работ</td></tr>
-            <tr><td><code>data/projects.json</code></td><td>серии / проекты</td></tr>
-            <tr><td><code>data/cv.json</code></td><td>CV на странице «Об авторе»</td></tr>
+            <tr><td><code>data/menu.json</code></td><td>8 квадратов меню и подразделы «Об авторе»</td></tr>
+            <tr><td><code>data/site.json</code></td><td>имя, короткий рассказ, artist statement, портрет, почта, соцсети, ссылка на магазин, счётчик Метрики</td></tr>
+            <tr><td><code>data/home.json</code></td><td>главная</td></tr>
+            <tr><td><code>data/series.json</code></td><td>серии и их работы</td></tr>
+            <tr><td><code>data/projects.json</code></td><td>проекты</td></tr>
+            <tr><td><code>data/studio.json</code></td><td>мастерская</td></tr>
+            <tr><td><code>data/cv.json</code></td><td>CV и тексты подразделов «Об авторе»</td></tr>
+            <tr><td><code>data/sections.json</code></td><td>фото подразделов «Об авторе»</td></tr>
             <tr><td><code>data/info.json</code></td><td>тексты страницы «Инфо»</td></tr>
-            <tr><td><code>i18n/ru.json</code>, <code>i18n/en.json</code></td><td>подписи интерфейса (меню, кнопки, статусы)</td></tr>
+            <tr><td><code>i18n/ru.json</code>, <code>i18n/en.json</code></td><td>подписи интерфейса</td></tr>
             <tr><td><code>assets/works/</code></td><td>изображения работ</td></tr>
-            <tr><td><code>assets/photos/</code></td><td>портрет автора</td></tr>
+            <tr><td><code>assets/photos/</code></td><td>портрет и фон меню</td></tr>
           </tbody>
         </table>
       </div>
@@ -554,7 +503,7 @@
             <tr><td>Работа, крупно</td><td>большая сторона ≈ 1600 px</td><td><code>&lt;id&gt;-full.jpg</code></td></tr>
             <tr><td>Работа, миниатюра</td><td>≈ 800 px <em>(создаёт скрипт)</em></td><td><code>&lt;id&gt;-thumb.jpg</code></td></tr>
             <tr><td>Портрет автора</td><td>≈ 1200 × 1600 px, вертикальный</td><td><code>artist-portrait.jpg</code></td></tr>
-            <tr><td>Картина на главной</td><td>горизонтальная, большая сторона ≈ 1600 px</td><td><code>chuvash-wedding-full.jpg</code></td></tr>
+            <tr><td>Фон меню</td><td>≈ 1000 × 1600 px и больше, вертикальный</td><td><code>menu-bg.jpg</code></td></tr>
           </tbody>
         </table>
       </div>

@@ -1,0 +1,20 @@
+{
+  "teaching": {
+    "images": [
+      "assets/works/mas-05-full.jpg",
+      "assets/works/mas-06-full.jpg"
+    ]
+  },
+  "curatorial": {
+    "images": [
+      "assets/works/mas-07-full.jpg",
+      "assets/works/mas-08-full.jpg"
+    ]
+  },
+  "publications": {
+    "images": [
+      "assets/works/mas-09-full.jpg",
+      "assets/works/mas-10-full.jpg"
+    ]
+  }
+}

@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://raketa4.github.io/Alina_web/index.html</loc><priority>1.0</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/about.html</loc><priority>0.8</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/series.html</loc><priority>0.9</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/series-view.html?slug=mountains-and-sea</loc><priority>0.8</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/series-view.html?slug=portraits</loc><priority>0.8</priority></url>
   <url><loc>https://raketa4.github.io/Alina_web/projects.html</loc><priority>0.8</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/catalog.html</loc><priority>0.9</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/info.html</loc><priority>0.5</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/project.html?slug=chuvash-wedding</loc><priority>0.8</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/studio.html</loc><priority>0.6</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/about.html</loc><priority>0.7</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/cv.html</loc><priority>0.6</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/statement.html</loc><priority>0.6</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/teaching.html</loc><priority>0.5</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/curatorial.html</loc><priority>0.5</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/publications.html</loc><priority>0.5</priority></url>
+  <url><loc>https://raketa4.github.io/Alina_web/info.html</loc><priority>0.3</priority></url>
   <url><loc>https://raketa4.github.io/Alina_web/contacts.html</loc><priority>0.6</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/project.html?slug=chuvash-wedding</loc><priority>0.7</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/project.html?slug=mountains-and-sea</loc><priority>0.7</priority></url>
-  <url><loc>https://raketa4.github.io/Alina_web/project.html?slug=portraits</loc><priority>0.7</priority></url>
 </urlset>

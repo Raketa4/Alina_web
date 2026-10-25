@@ -1,0 +1,222 @@
+[
+  {
+    "slug": "mountains-and-sea",
+    "title": {
+      "ru": "Горы и море",
+      "en": "Mountains and Sea"
+    },
+    "summary": {
+      "ru": "Пейзажи южной природы, написанные с натуры в разные годы.",
+      "en": "Landscapes of southern nature painted from life over several years."
+    },
+    "cover": "assets/works/mas-04-full.jpg",
+    "works": [
+      {
+        "id": "mas-01",
+        "src": "assets/works/mas-01-full.jpg",
+        "title": {
+          "ru": "Гора Олимп. Диптих, часть I",
+          "en": "Mount Olympus. Diptych, part I"
+        },
+        "year": "2020",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "40 × 40 см"
+      },
+      {
+        "id": "mas-02",
+        "src": "assets/works/mas-02-full.jpg",
+        "title": {
+          "ru": "Гора Олимп. Диптих, часть II",
+          "en": "Mount Olympus. Diptych, part II"
+        },
+        "year": "2020",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "40 × 40 см"
+      },
+      {
+        "id": "mas-03",
+        "src": "assets/works/mas-03-full.jpg",
+        "title": {
+          "ru": "Фиолент",
+          "en": "Fiolent"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "40 × 58 см"
+      },
+      {
+        "id": "mas-04",
+        "src": "assets/works/mas-04-full.jpg",
+        "title": {
+          "ru": "Кипарисы",
+          "en": "Cypresses"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "63 × 70 см"
+      },
+      {
+        "id": "mas-05",
+        "src": "assets/works/mas-05-full.jpg",
+        "title": {
+          "ru": "Золотой закат над бухтой",
+          "en": "Golden Sunset over the Bay"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "40 × 57 см"
+      },
+      {
+        "id": "mas-06",
+        "src": "assets/works/mas-06-full.jpg",
+        "title": {
+          "ru": "Гора Монах",
+          "en": "Monk Mountain"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "54 × 55 см"
+      },
+      {
+        "id": "mas-07",
+        "src": "assets/works/mas-07-full.jpg",
+        "title": {
+          "ru": "Агурские водопады",
+          "en": "Agur Waterfalls"
+        },
+        "year": "2025",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "50 × 40 см"
+      },
+      {
+        "id": "mas-08",
+        "src": "assets/works/mas-08-full.jpg",
+        "title": {
+          "ru": "Морской рассвет",
+          "en": "Sea Dawn"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "70 × 50 см"
+      },
+      {
+        "id": "mas-09",
+        "src": "assets/works/mas-09-full.jpg",
+        "title": {
+          "ru": "Амфитеатр",
+          "en": "Amphitheatre"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "35 × 36 см"
+      },
+      {
+        "id": "mas-10",
+        "src": "assets/works/mas-10-full.jpg",
+        "title": {
+          "ru": "Медведь-гора",
+          "en": "Bear Mountain"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "30 × 40 см"
+      },
+      {
+        "id": "mas-11",
+        "src": "assets/works/mas-11-full.jpg",
+        "title": {
+          "ru": "Курортный город",
+          "en": "Resort City"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "40 × 50 см"
+      },
+      {
+        "id": "mas-12",
+        "src": "assets/works/mas-12-full.jpg",
+        "title": {
+          "ru": "Древний монастырь",
+          "en": "Ancient Monastery"
+        },
+        "year": "2019",
+        "medium": {
+          "ru": "Холст, масло",
+          "en": "Oil on canvas"
+        },
+        "size": "50 × 70 см"
+      }
+    ]
+  },
+  {
+    "slug": "portraits",
+    "title": {
+      "ru": "Портреты",
+      "en": "Portraits"
+    },
+    "summary": {
+      "ru": "О моментах, когда видишь себя по-настоящему.",
+      "en": "On the moments when you truly see yourself."
+    },
+    "cover": "assets/works/por-01-full.jpg",
+    "works": [
+      {
+        "id": "por-01",
+        "src": "assets/works/por-01-full.jpg",
+        "title": {
+          "ru": "Портрет 1",
+          "en": "Portrait 1"
+        }
+      },
+      {
+        "id": "por-02",
+        "src": "assets/works/por-02-full.jpg",
+        "title": {
+          "ru": "Портрет 2",
+          "en": "Portrait 2"
+        }
+      },
+      {
+        "id": "por-03",
+        "src": "assets/works/por-03-full.jpg",
+        "title": {
+          "ru": "Портрет 3",
+          "en": "Portrait 3"
+        }
+      }
+    ]
+  }
+]
