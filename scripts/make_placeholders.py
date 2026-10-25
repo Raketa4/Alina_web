@@ -7,7 +7,7 @@
   python scripts/make_placeholders.py --force      всё заново плейсхолдерами
 
 Что делает обычный режим (ничего не ломает):
-  • для каждой работы из data/catalog.json и data/projects.json проверяет
+  • для каждой работы из data/series.json и data/projects.json проверяет
     пару файлов assets/works/<id>-full.jpg и <id>-thumb.jpg;
   • если -full нет — рисует серый плейсхолдер с названием;
   • если -thumb нет, но -full есть (в т.ч. настоящее фото) — делает
@@ -180,14 +180,15 @@ def process(name: str, ratio: float, caption: str, sub: str) -> None:
 
 
 def main() -> int:
-    catalog = load("data/catalog.json")
+    series = load("data/series.json")
     projects = load("data/projects.json")
 
     plan: dict[str, tuple[float, str, str]] = {}
-    for w in catalog:
-        name = Path(w["image"]).stem.replace("-full", "")
-        cap = w["title"]["ru"] if isinstance(w["title"], dict) else str(w["title"])
-        plan[name] = (ratio_for(name, w.get("size")), cap, w.get("size", ""))
+    for s in series:
+        for w in s.get("works") or []:
+            name = Path(w["src"]).stem.replace("-full", "")
+            cap = w["title"]["ru"] if isinstance(w["title"], dict) else str(w["title"])
+            plan[name] = (ratio_for(name, w.get("size")), cap, w.get("size", ""))
 
     for p in projects:
         ptitle = p["title"]["ru"] if isinstance(p["title"], dict) else str(p["title"])
