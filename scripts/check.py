@@ -456,9 +456,32 @@ def check_about_sections() -> None:
     check_bilingual(site.get("about_short"), "site.json.about_short")
 
 
+# --- Проверка: форма связи ---------------------------------------------
+
+FORM_ACTION = "https://formsubmit.co/alinakhoniak@gmail.com"
+FORM_NEXT = "https://raketa4.github.io/Alina_web/contacts.html?sent=1"
+
+
+def check_contact_form() -> None:
+    global checks_run
+    checks_run += 1
+    html = (ROOT / "contacts.html").read_text(encoding="utf-8")
+    if f'action="{FORM_ACTION}"' not in html:
+        fail(f"[форма] contacts.html: action формы должен быть {FORM_ACTION}")
+    for name in ("name", "email", "message", "consent"):
+        if f'name="{name}"' not in html:
+            fail(f"[форма] contacts.html: нет поля name=\"{name}\"")
+    if f'name="_next" value="{FORM_NEXT}"' not in html:
+        fail(f"[форма] contacts.html: скрытое поле _next должно вести на {FORM_NEXT}")
+    site = load_json("data/site.json") or {}
+    if site.get("email") != "alinakhoniak@gmail.com":
+        fail("[форма] site.json: email должен быть alinakhoniak@gmail.com")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "form": check_contact_form,
     "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,
     "notfound": check_detail_pages_have_not_found,

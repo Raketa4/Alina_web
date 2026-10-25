@@ -44,20 +44,15 @@
   },
   "contacts": {
     "title": "Контакты",
-    "lead": "Приобретение работ, заказы, выставочные и кураторские проекты, коллаборации с брендами.",
     "formName": "Имя",
-    "formContact": "E-mail или Telegram",
+    "formEmail": "E-mail",
     "formMessage": "Сообщение",
-    "formSend": "Написать",
-    "namePlaceholder": "Как к вам обращаться",
-    "contactPlaceholder": "Куда ответить",
-    "messagePlaceholder": "Коротко о вашем вопросе",
-    "directTitle": "Напрямую",
-    "emailLabel": "E-mail",
-    "emailPending": "уточняется",
-    "telegramLabel": "Telegram",
-    "socialTitle": "Социальные сети",
-    "studioLabel": "Мастерская"
+    "formSend": "Отправить",
+    "consent": "Я согласен(на) на обработку персональных данных",
+    "consentLink": "подробнее",
+    "sent": "Спасибо! Сообщение отправлено.",
+    "emailLabel": "Почта",
+    "socialTitle": "Соцсети"
   },
   "footer": {
     "tagline": "Художник-живописец. Санкт-Петербург.",

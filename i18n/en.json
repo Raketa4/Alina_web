@@ -44,20 +44,15 @@
   },
   "contacts": {
     "title": "Contacts",
-    "lead": "Acquiring works, commissions, exhibition and curatorial projects, collaborations with brands.",
     "formName": "Name",
-    "formContact": "E-mail or Telegram",
+    "formEmail": "E-mail",
     "formMessage": "Message",
-    "formSend": "Compose",
-    "namePlaceholder": "How to address you",
-    "contactPlaceholder": "Where to reply",
-    "messagePlaceholder": "A few words about your question",
-    "directTitle": "Directly",
+    "formSend": "Send",
+    "consent": "I consent to the processing of my personal data",
+    "consentLink": "details",
+    "sent": "Thank you! Your message has been sent.",
     "emailLabel": "E-mail",
-    "emailPending": "to be confirmed",
-    "telegramLabel": "Telegram",
-    "socialTitle": "Social media",
-    "studioLabel": "Studio"
+    "socialTitle": "Social media"
   },
   "footer": {
     "tagline": "Painter. St. Petersburg.",
