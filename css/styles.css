@@ -300,6 +300,51 @@ body.menu-open { overflow: hidden; }
 .footer-links a { text-decoration: none; }
 .footer-links a:hover { color: var(--ink); }
 
+/* --- просмотрщик ------------------------------------------- */
+
+body.viewer-open { overflow: hidden; }
+
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--bg);
+}
+.viewer-stage {
+  position: absolute;
+  inset: 56px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+  cursor: zoom-in;
+}
+.viewer-stage.is-zoomed { cursor: grab; }
+.viewer-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  transform-origin: center;
+  user-select: none;
+  will-change: transform;
+}
+.viewer-btn {
+  position: absolute;
+  width: 44px; height: 44px;
+  border: 0; background: none; cursor: pointer;
+  font-size: 22px; line-height: 1;
+}
+.viewer-close { top: 10px; right: 14px; }
+.viewer-prev { left: 10px; top: 50%; transform: translateY(-50%); }
+.viewer-next { right: 10px; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 600px) {
+  .viewer-stage { inset: 56px 0; }
+  .viewer-prev, .viewer-next { top: auto; bottom: 6px; transform: none; }
+}
+
 /* --- reveal ------------------------------------------------- */
 
 /* Контент виден по умолчанию; анимация включается только когда JS

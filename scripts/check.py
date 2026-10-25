@@ -320,9 +320,28 @@ def check_i18n_keys_used_exist() -> None:
                 fail(f"[i18n] {path.name}: ключ '{key}' отсутствует в ru.json")
 
 
+# --- Проверка: просмотрщик ---------------------------------------------
+
+def check_viewer() -> None:
+    global checks_run
+    checks_run += 1
+    if "initLightbox" in (ROOT / "js/ui.js").read_text(encoding="utf-8"):
+        fail("[просмотрщик] js/ui.js всё ещё содержит initLightbox")
+    viewer = ROOT / "js/viewer.js"
+    if not viewer.exists():
+        fail("[просмотрщик] js/viewer.js отсутствует")
+    elif "export function initViewer" not in viewer.read_text(encoding="utf-8"):
+        fail("[просмотрщик] js/viewer.js не экспортирует initViewer")
+    ru = load_json("i18n/ru.json") or {}
+    for key in ("common.prev", "common.next", "common.close"):
+        if not i18n_has(ru, key):
+            fail(f"[просмотрщик] нет ключа {key} в i18n/ru.json")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "viewer": check_viewer,
     "menu": check_menu,
     "chrome": check_no_inline_chrome,
     "keys": check_i18n_keys_used_exist,

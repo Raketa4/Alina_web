@@ -16,7 +16,9 @@
     "menu": "Menu",
     "close": "Close",
     "loading": "Loading…",
-    "toTop": "Top"
+    "toTop": "Top",
+    "prev": "Previous",
+    "next": "Next"
   },
   "home": {
     "featuredTitle": "Selected works",
