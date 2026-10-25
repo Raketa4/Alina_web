@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Меню — макет</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=Onest:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#111; --font:'Golos Text', Arial, sans-serif; }
+  body.f-onest { --font:'Onest', Arial, sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#fff; color:var(--ink); font-family:var(--font); font-size:14px; }
+
+  /* Панель управления макетом (не часть сайта) */
+  .ctrl { position:fixed; left:16px; bottom:16px; z-index:50; background:#111; color:#fff;
+          padding:10px 14px; border-radius:8px; font:12px/1.6 Arial, sans-serif; display:flex; gap:16px; flex-wrap:wrap; }
+  .ctrl b { font-weight:600; margin-right:6px; }
+  .ctrl button { font:inherit; background:#333; color:#fff; border:0; padding:3px 9px; border-radius:4px; cursor:pointer; }
+  .ctrl button.on { background:#fff; color:#111; }
+
+  /* Сайт */
+  header { position:fixed; inset:0 0 auto 0; display:flex; justify-content:space-between; align-items:center;
+           padding:20px 28px; z-index:30; }
+  .logo { font-size:15px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; color:inherit; }
+  .menu-btn { width:32px; height:24px; background:none; border:0; cursor:pointer; padding:0; position:relative; }
+  .menu-btn span { position:absolute; left:0; right:0; height:2px; background:var(--ink); transition:transform .35s ease, opacity .25s ease, top .35s ease; }
+  .menu-btn span:nth-child(1){ top:3px; } .menu-btn span:nth-child(2){ top:11px; } .menu-btn span:nth-child(3){ top:19px; }
+  body.open .menu-btn span:nth-child(1){ top:11px; transform:rotate(45deg); }
+  body.open .menu-btn span:nth-child(2){ opacity:0; }
+  body.open .menu-btn span:nth-child(3){ top:11px; transform:rotate(-45deg); }
+  body.no-x.open .menu-btn span:nth-child(1){ top:4px; transform:none; }
+  body.no-x.open .menu-btn span:nth-child(2){ opacity:1; }
+  body.no-x.open .menu-btn span:nth-child(3){ top:18px; transform:none; }
+
+  .home { min-height:100vh; padding:90px 28px 40px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; align-content:start; }
+  .home .ph { aspect-ratio:3/4; background:#ececec; display:flex; align-items:flex-end; padding:10px; color:#888; font-size:12px; }
+
+  /* Фон меню — картина «Гладиолусы» */
+  .overlay {
+    position:fixed; inset:0; z-index:20; padding:76px 28px 28px;
+    background:#5f9fb8 url('../../../assets/photos/menu-bg.jpg') center / cover no-repeat;
+    opacity:0; visibility:hidden; transition:opacity .45s ease, visibility .45s; overflow:auto;
+  }
+  body.open .overlay { opacity:1; visibility:visible; }
+  /* Два квадрата в ряд, 4 ряда.
+     «Вписать»: квадраты подогнаны так, чтобы все 8 помещались на экран.
+     «Крупно»: квадраты на всю ширину, меню прокручивается. */
+  .grid { --side: min(calc((100vh - 104px - 30px) / 4), calc((100vw - 56px - 10px) / 2));
+          display:grid; grid-template-columns:repeat(2, var(--side)); grid-auto-rows:var(--side);
+          justify-content:center; gap:0; }
+  body.big .grid { --side: calc((100vw - 56px - 10px) / 2); }
+  .cell { position:relative; padding:8% 18px 16px; overflow:hidden; text-decoration:none; color:inherit; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; text-align:center;
+          opacity:0; transform:translateY(12px); transition:opacity .4s ease, transform .4s ease, background .25s; }
+  body.open .cell { opacity:1; transform:none; }
+  body.open .cell:nth-child(1){transition-delay:.05s} body.open .cell:nth-child(2){transition-delay:.1s}
+  body.open .cell:nth-child(3){transition-delay:.15s} body.open .cell:nth-child(4){transition-delay:.2s}
+  body.open .cell:nth-child(5){transition-delay:.25s} body.open .cell:nth-child(6){transition-delay:.3s}
+  body.open .cell:nth-child(7){transition-delay:.35s} body.open .cell:nth-child(8){transition-delay:.4s}
+  .name { text-transform:uppercase; letter-spacing:.06em; }
+  .num { font-size:12px; opacity:.55; }
+  .title { font-size:clamp(16px, calc(var(--side) * .09), 32px); margin-top:6px; }
+  .sub { margin:12px 0 0; padding:0; list-style:none; font-size:clamp(11px, calc(var(--side) * .055), 17px); line-height:1.6; }
+  .sub a { color:inherit; text-decoration:none; border-bottom:1px solid transparent; }
+  .sub a:hover { border-color:currentColor; }
+  .hint { margin-top:10px; font-size:clamp(11px, calc(var(--side) * .05), 15px); opacity:.6; }
+
+  /* Белые квадраты с рамкой 2px */
+  .cell { background:#fff; border:2px solid transparent; background-clip:padding-box; }
+  .cell:hover { background:#f6f3ee; }
+  /* Вариант A: квадраты вплотную, общие рамки */
+  body.v-a .grid { gap:0; padding:2px 0 0 2px; }
+  body.v-a .cell { margin:-2px 0 0 -2px; }
+  /* Вариант B: отдельные «окошки» с зазором, сквозь который виден холст */
+  body.v-b .grid { gap:10px; }
+
+  @media (max-width:800px){
+    .grid, body.big .grid { --side: calc((100vw - 32px - 10px) / 2); }
+    .overlay { padding:68px 16px 16px; }
+    header { padding:18px 16px; }
+    .home { grid-template-columns:1fr 1fr; padding:80px 16px 40px; }
+  }
+</style>
+</head>
+<body class="v-a f-onest">
+  <header>
+    <a class="logo" href="#">Алина Хоняк</a>
+    <button class="menu-btn" id="mb" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  </header>
+
+  <main class="home">
+    <div class="ph">работа</div><div class="ph">работа</div><div class="ph">работа</div>
+    <div class="ph">работа</div><div class="ph">работа</div><div class="ph">работа</div>
+  </main>
+
+  <div class="overlay">
+    <nav class="grid">
+      <a class="cell" href="#"><span class="title name">Алина Хоняк</span></a>
+      <a class="cell" href="#"><span class="title">Мастерская</span></a>
+      <div class="cell"><span class="title">Об авторе</span>
+        <ul class="sub">
+          <li><a href="#">CV</a></li>
+          <li><a href="#">Artist statement</a></li>
+          <li><a href="#">Преподавательская деятельность</a></li>
+          <li><a href="#">Кураторская практика</a></li>
+          <li><a href="#">Публикации</a></li>
+        </ul></div>
+      <a class="cell" href="#"><span class="title">Магазин</span></a>
+      <a class="cell" href="#"><span class="title">Серии</span></a>
+      <a class="cell" href="#"><span class="title">Инфо</span></a>
+      <a class="cell" href="#"><span class="title">Проекты</span></a>
+      <a class="cell" href="#"><span class="title">Контакты</span></a>
+    </nav>
+  </div>
+
+<script>
+  const b = document.body, mb = document.getElementById('mb');
+  mb.onclick = () => b.classList.toggle('open');
+  const group = (attr, fn) => document.querySelectorAll('['+attr+']').forEach(x => x.onclick = () => {
+    fn(x.getAttribute(attr));
+    document.querySelectorAll('['+attr+']').forEach(y => y.classList.toggle('on', y===x));
+  });
+  group('data-s', v => b.classList.toggle('big', v==='big'));
+  group('data-x', v => b.classList.toggle('no-x', v==='no'));
+  document.querySelectorAll('[data-v]').forEach(x => x.onclick = () => {
+    b.classList.remove('v-a','v-b'); b.classList.add('v-'+x.dataset.v);
+    document.querySelectorAll('[data-v]').forEach(y => y.classList.toggle('on', y===x));
+  });
+  document.querySelectorAll('[data-f]').forEach(x => x.onclick = () => {
+    b.classList.toggle('f-onest', x.dataset.f==='onest');
+    document.querySelectorAll('[data-f]').forEach(y => y.classList.toggle('on', y===x));
+  });
+</script>
+</body>
+</html>
