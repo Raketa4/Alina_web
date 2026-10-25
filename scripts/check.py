@@ -164,6 +164,22 @@ def check_data_schema() -> None:
     if (ROOT / "data/catalog.json").exists():
         fail("[схема] data/catalog.json должен быть удалён — работы живут в series.json")
 
+    home = load_json("data/home.json")
+    if home is None:
+        fail("[схема] home.json отсутствует")
+    else:
+        checks_run += 1
+        hero = home.get("hero") or {}
+        require(hero, ("image", "text"), "home.json.hero")
+        require(home, ("photos", "text"), "home.json")
+        for key in ("text",):
+            if isinstance(hero.get(key), dict):
+                check_bilingual(hero[key], f"home.json.hero.{key}")
+        if isinstance(home.get("text"), dict):
+            check_bilingual(home["text"], "home.json.text")
+    if isinstance(site, dict) and "featured" in site:
+        fail("[схема] site.json: поле featured больше не используется — удалить")
+
     cv = load_json("data/cv.json")
     if cv is not None:
         checks_run += 1
@@ -186,6 +202,11 @@ def collect_image_paths() -> list[tuple[str, str]]:
             for img in [s.get("cover"), *[w.get("src") for w in s.get("works") or []]]:
                 if img:
                     out.append((f"series/{s.get('slug')}", img))
+    if (ROOT / "data/home.json").exists():
+        home = load_json("data/home.json") or {}
+        for img in [(home.get("hero") or {}).get("image"), *(home.get("photos") or [])]:
+            if img:
+                out.append(("home", img))
     site = load_json("data/site.json")
     if isinstance(site, dict) and site.get("portrait"):
         out.append(("site.portrait", site["portrait"]))

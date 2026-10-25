@@ -3,7 +3,6 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "catalog": "Catalogue",
     "info": "Info",
     "contacts": "Contacts"
   },
@@ -19,14 +18,6 @@
     "toTop": "Top",
     "prev": "Previous",
     "next": "Next"
-  },
-  "home": {
-    "featuredTitle": "Selected works",
-    "exploreTitle": "Sections",
-    "aboutBlurb": "Background, education, artist statement and full CV.",
-    "projectsBlurb": "Thematic painting series and monumental projects.",
-    "catalogBlurb": "Works available to acquire.",
-    "seeAll": "View the catalogue"
   },
   "about": {
     "title": "About",
@@ -46,19 +37,6 @@
     "back": "All projects",
     "notFoundTitle": "Project not found",
     "notFoundText": "The link may be out of date. Return to the list of projects."
-  },
-  "catalog": {
-    "title": "Catalogue",
-    "lead": "Works available to acquire. Prices on request.",
-    "filterProject": "Series",
-    "filterStatus": "Status",
-    "all": "All",
-    "statusAvailable": "Available",
-    "statusReserved": "Reserved",
-    "statusSold": "Sold",
-    "priceOnRequest": "Price on request",
-    "inquire": "Make an enquiry",
-    "empty": "No works match the selected filters."
   },
   "info": {
     "title": "Info",
@@ -80,12 +58,6 @@
     "telegramLabel": "Telegram",
     "socialTitle": "Social media",
     "studioLabel": "Studio"
-  },
-  "inquiry": {
-    "subjectWork": "Enquiry: “{title}”, {year}, {size}",
-    "subjectGeneral": "Message from the website",
-    "bodyWork": "Hello Alina,\n\nI am interested in the work “{title}” ({year}, {size}).\nCould you tell me the current price and the terms of purchase?\n\nMy name: \nHow to reach me: ",
-    "bodyGeneral": "Hello Alina,\n\n\n\nMy name: \nHow to reach me: "
   },
   "footer": {
     "tagline": "Painter. St. Petersburg.",

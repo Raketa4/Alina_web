@@ -145,6 +145,21 @@ button { font: inherit; color: inherit; }
 }
 .photo-grid img { width: 100%; }
 
+/* --- главная ---------------------------------------------------------- */
+
+.hero { padding-top: clamp(1rem, 3vw, 2rem); }
+.hero-figure {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.hero-figure img { width: 100%; max-height: calc(100vh - var(--header-h) - 2rem); object-fit: contain; }
+.hero-text { margin-top: clamp(1.25rem, 3vw, 2rem); }
+.home-text { margin-top: clamp(2rem, 5vw, 3.5rem); }
+
 /* Обложки серий и проектов: картинка, название, короткое описание. */
 .cards {
   display: grid;

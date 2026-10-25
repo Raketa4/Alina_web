@@ -1,0 +1,23 @@
+{
+  "hero": {
+    "image": "assets/works/chuvash-wedding-full.jpg",
+    "text": {
+      "ru": "Академическая и монументальная живопись. Петербургская школа, чувашские корни.",
+      "en": "Academic and monumental painting. The St. Petersburg school, Chuvash roots."
+    }
+  },
+  "photos": [
+    "assets/works/chuvash-wedding-detail-1-full.jpg",
+    "assets/works/chuvash-wedding-detail-2-full.jpg",
+    "assets/works/mas-04-full.jpg",
+    "assets/works/por-01-full.jpg"
+  ],
+  "text": {
+    "ru": [
+      "Я окончила Академию художеств в Санкт-Петербурге (мастерская монументальной живописи проф. А. К. Быстрова). Сейчас работаю в мастерской в Петербурге и преподаю в Академии. Я из Чувашии, с волжских берегов. Мне интересна «дорога-судьба» российской провинции: там я родилась, я чувствую себя собирательницей новых впечатлений и осмысляю давние, из детства."
+    ],
+    "en": [
+      "I graduated from the Academy of Arts in St. Petersburg (the monumental painting workshop of Professor A. K. Bystrov). I now work in a studio in St. Petersburg and teach at the Academy. I am from Chuvashia, from the banks of the Volga. I am drawn to the “road as destiny” of the Russian provinces: I was born there, and I feel myself a gatherer of new impressions while making sense of older ones, from childhood."
+    ]
+  }
+}
