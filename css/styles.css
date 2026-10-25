@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap&subset=cyrillic,cyrillic-ext,latin,latin-ext');
 
 :root {
-  --bg: #F7F5F1;
+  --bg: #FFFFFF;
   --bg-sink: #F1EDE6;
   --ink: #1E1B18;
   --ink-soft: #4A443D;
