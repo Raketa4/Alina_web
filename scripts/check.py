@@ -222,13 +222,46 @@ def check_internal_links() -> None:
                 fail(f"[ссылка] {html.name}: битая внутренняя ссылка — {link}")
 
 
+# --- Проверка: шрифты и фон --------------------------------------------
+
+FORBIDDEN_FONTS = ("Cormorant", "EB Garamond", "EB+Garamond", "family=Inter", "Oracle", "Alpha_Book")
+
+
+def check_fonts() -> None:
+    global checks_run
+    checks_run += 1
+    css = (ROOT / "css/styles.css").read_text(encoding="utf-8")
+    for path in [ROOT / "css/styles.css", *sorted(ROOT.glob("*.html"))]:
+        text = path.read_text(encoding="utf-8")
+        for bad in FORBIDDEN_FONTS:
+            if bad in text:
+                fail(f"[шрифты] {path.name}: найден запрещённый шрифт '{bad}'")
+    if "family=Onest" not in css:
+        fail("[шрифты] styles.css: не подключён Onest")
+    root = re.search(r":root\s*\{([^}]*)\}", css)
+    if not root or not re.search(r"--bg:\s*#FFFFFF\s*;", root.group(1), re.IGNORECASE):
+        fail("[шрифты] styles.css: --bg в :root должен быть #FFFFFF")
+
+
 # --- main --------------------------------------------------------------
 
+CHECKS = {
+    "i18n": check_i18n_parity,
+    "schema": check_data_schema,
+    "images": check_images_exist,
+    "links": check_internal_links,
+    "fonts": check_fonts,
+}
+
+
 def main() -> int:
-    check_i18n_parity()
-    check_data_schema()
-    check_images_exist()
-    check_internal_links()
+    # python scripts/check.py [имя ...] — запустить только перечисленные проверки
+    names = sys.argv[1:] or list(CHECKS)
+    for name in names:
+        if name not in CHECKS:
+            print(f"Неизвестная проверка: {name}. Доступны: {', '.join(CHECKS)}")
+            return 2
+        CHECKS[name]()
 
     if errors:
         print(f"НАЙДЕНЫ ОШИБКИ ({len(errors)}):\n")
