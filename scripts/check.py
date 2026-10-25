@@ -189,6 +189,16 @@ def check_data_schema() -> None:
         if isinstance(studio.get("text"), dict):
             check_bilingual(studio["text"], "studio.json.text")
 
+    info = load_json("data/info.json")
+    if info is not None:
+        checks_run += 1
+        ids = [x.get("id") for x in info] if isinstance(info, list) else []
+        if ids != ["privacy", "returns"]:
+            fail(f"[схема] info.json: разделы {ids}, ожидались ['privacy', 'returns']")
+        privacy = next((x for x in info if x.get("id") == "privacy"), {}) if isinstance(info, list) else {}
+        if "FormSubmit" not in " ".join((privacy.get("body") or {}).get("ru") or []):
+            fail("[схема] info.json: политика privacy должна упоминать FormSubmit")
+
     cv = load_json("data/cv.json")
     if cv is not None:
         checks_run += 1

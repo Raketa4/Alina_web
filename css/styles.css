@@ -126,6 +126,8 @@ button { font: inherit; color: inherit; }
 .prose { max-width: 62ch; }
 .prose p { font-size: 1.05rem; }
 
+.info-block { max-width: 66ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+
 /* --- сетки изображений ------------------------------------------------ */
 
 /* Сетка фотографий: кнопки data-zoom с <img> внутри. */
