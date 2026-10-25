@@ -121,5 +121,11 @@
     "contacts": "Contacts",
     "open": "Menu",
     "close": "Close"
+  },
+  "series": {
+    "title": "Series",
+    "back": "Series",
+    "notFoundTitle": "Series not found",
+    "notFoundText": "There is no such series. See all series."
   }
 }

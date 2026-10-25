@@ -351,9 +351,35 @@ def check_viewer() -> None:
             fail(f"[просмотрщик] нет ключа {key} в i18n/ru.json")
 
 
+# --- Проверка: страницы серий и проектов --------------------------------
+
+def check_detail_pages_have_not_found() -> None:
+    global checks_run
+    checks_run += 1
+    for rel in ("js/series-view.js", "js/project.js"):
+        path = ROOT / rel
+        if not path.exists() or "notFoundTitle" not in path.read_text(encoding="utf-8"):
+            fail(f"[страницы] {rel}: нет состояния «не найдено» для неизвестного slug")
+
+
+def check_no_captions_in_series() -> None:
+    global checks_run
+    checks_run += 1
+    path = ROOT / "js/series-view.js"
+    if not path.exists():
+        fail("[страницы] js/series-view.js отсутствует")
+        return
+    text = path.read_text(encoding="utf-8")
+    for bad in ("work-meta", "work-title", "medium", "size", "price", "status"):
+        if bad in text:
+            fail(f"[страницы] series-view.js: '{bad}' — под работами в серии подписей быть не должно")
+
+
 # --- main --------------------------------------------------------------
 
 CHECKS = {
+    "notfound": check_detail_pages_have_not_found,
+    "captions": check_no_captions_in_series,
     "viewer": check_viewer,
     "menu": check_menu,
     "chrome": check_no_inline_chrome,
