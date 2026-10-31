@@ -60,11 +60,17 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 
 ## Контакты
 
-`contacts.html` сделана по образцу jkim.ru/contact: блок связи (почта и
-Telegram) и мастерская — фото `assets/photos/contacts-studio.jpg` слева, текст
-и кнопка «Записаться на визит» справа. Формы обратной связи нет. Почта —
-`site.json` → `email`, Telegram для связи и записи — `contact_telegram`
-(в подвале — `social.telegram`). Тексты — блок `contacts` в `i18n/*.json`.
+`contacts.html` сделана по образцу jkim.ru/contact: блок «Связь с художником»
+(почта, Telegram и под ними форма обратной связи) и мастерская — фото
+`assets/photos/contacts-studio.jpg` слева, текст и кнопка «Записаться на визит»
+справа. Почта — `site.json` → `email`, Telegram для связи и записи —
+`contact_telegram` (в подвале — `social.telegram`). Тексты — блок `contacts`
+в `i18n/*.json`.
+
+Форма отправляется обычным POST на `https://formsubmit.co/alinakhoniak@gmail.com`
+(адрес также подставляется из `site.json` → `email`). После отправки FormSubmit
+возвращает на `contacts.html?sent=1`. **При первой отправке FormSubmit присылает
+на почту письмо активации — его нужно подтвердить один раз.**
 
 ## Проверка
 
@@ -107,10 +113,11 @@ GitHub Pages из ветки `main`, папка `/` (root).
 - Проверить `about_short` в `site.json`.
 - Алине — проверить документы «Инфо» (`data/info.json`, тексты взяты с
   mashayankovskaya.store и alina.bugleeva.ru с её реквизитами): в оферте оплата
-  через ЮKassa (пп. 4.4–4.5) и «печатная, текстильная продукция» (п. 2.1).
+  через ЮKassa (пп. 4.4–4.5) и «печатная, текстильная продукция» (п. 2.1);
+  в политике не упомянут FormSubmit (форма связи, сервер в США).
 - Ссылка на магазин (`shop_url`).
 - Утверждённый Алиной английский перевод.
 - ID Яндекс.Метрики, верификация Google Search Console.
 - При покупке домена — файл `CNAME` и замена адреса в `canonical`/`og:url`/
-  `sitemap.xml`/`robots.txt`/`<base>` в `404.html` и адреса
+  `sitemap.xml`/`robots.txt`/`_next` формы/`<base>` в `404.html` и адреса
   сайта в `data/info.json` (политика и оферта).

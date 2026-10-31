@@ -114,8 +114,8 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
-  // Контакты как на jkim.ru/contact: формы нет; вверху блок связи (на телефоне
-  // по центру); ниже фото 2:3 от левого края — на компьютере половина ширины
+  // Контакты как на jkim.ru/contact: вверху блок связи (на телефоне по центру)
+  // с формой обратной связи под фразой с почтой; ниже фото 2:3 от левого края — на компьютере половина ширины
   // и текст справа, на телефоне во всю ширину и текст под ним; кнопка
   // «Записаться на визит» во всю ширину колонки ведёт в Telegram.
   async 'contacts-layout'() {
@@ -128,7 +128,6 @@ const cases = {
     const img = d.querySelector('.contacts-photo img');
     const text = d.querySelector('.contacts-studio-text');
     const btn = d.querySelector('a.contacts-book');
-    if (d.querySelector('form')) bad.push('form');
     if (!intro || !img || !text || !btn) return [false, `${w}x${h} missing-blocks`];
     if (!img.complete) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); });
     if (!img.naturalWidth) bad.push('img-not-loaded');
@@ -158,6 +157,19 @@ const cases = {
     if (btn.getAttribute('href') !== tg || btn.target !== '_blank') bad.push('btn-link');
     if (!intro.querySelector('a[href="mailto:alinakhoniak@gmail.com"]')) bad.push('no-mail');
     if (!intro.querySelector(`a[href="${tg}"]`)) bad.push('no-telegram');
+    // форма обратной связи — в блоке связи, под фразой с почтой
+    const form = intro.querySelector('form#contact-form');
+    const phrase = intro.querySelector('.contacts-muted');
+    if (!form) bad.push('no-form');
+    else {
+      if (form.getBoundingClientRect().top < phrase.getBoundingClientRect().bottom) bad.push('form-not-below');
+      ['name', 'email', 'message', 'consent'].forEach((n) => {
+        if (!form.querySelector(`[name="${n}"][required]`)) bad.push(`field-${n}`);
+      });
+      if (!form.querySelector('a[href="info.html#consent"]')) bad.push('no-consent-link');
+      const f = form.getBoundingClientRect();
+      if (f.left < -1 || f.right > cw + 1) bad.push('form-offscreen');
+    }
     if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },

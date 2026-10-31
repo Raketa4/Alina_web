@@ -54,7 +54,14 @@
     "studioHours": "By appointment",
     "studioPlace": "St. Petersburg",
     "book": "Book a visit",
-    "photoAlt": "Alina Khoniak at work in her studio"
+    "photoAlt": "Alina Khoniak at work in her studio",
+    "formName": "Name",
+    "formEmail": "E-mail",
+    "formMessage": "Message",
+    "formSend": "Send",
+    "consent": "I consent to the processing of my personal data",
+    "consentLink": "details",
+    "sent": "Thank you! Your message has been sent."
   },
   "footer": {
     "tagline": "Painter. St. Petersburg.",
