@@ -166,6 +166,9 @@ const cases = {
       if (!lead) bad.push('no-form-intro');
       else if (lead.getBoundingClientRect().top < phrase.getBoundingClientRect().bottom
         || form.getBoundingClientRect().top < lead.getBoundingClientRect().bottom) bad.push('form-intro-order');
+      else if (lead.getBoundingClientRect().top - phrase.getBoundingClientRect().bottom < 28) {
+        bad.push(`form-intro-gap=${Math.round(lead.getBoundingClientRect().top - phrase.getBoundingClientRect().bottom)}`);
+      }
       if (form.getBoundingClientRect().top < phrase.getBoundingClientRect().bottom) bad.push('form-not-below');
       ['name', 'email', 'message', 'consent'].forEach((n) => {
         if (!form.querySelector(`[name="${n}"][required]`)) bad.push(`field-${n}`);
