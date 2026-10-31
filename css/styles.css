@@ -126,7 +126,37 @@ button { font: inherit; color: inherit; }
 .prose { max-width: 62ch; }
 .prose p { font-size: 1.05rem; }
 
-.info-block { max-width: 66ch; margin-bottom: clamp(2rem, 4vw, 3rem); }
+/* Инфо: раскрывающийся список; чёрные линии — как в меню. */
+.info-list { max-width: 72ch; border-top: 1px solid var(--ink); }
+.info-item {
+  border-bottom: 1px solid var(--ink);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+.info-item > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.info-item > summary::-webkit-details-marker { display: none; }
+.info-item > summary::after {
+  content: '+';
+  flex: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+.info-item[open] > summary::after { transform: rotate(45deg); }
+.info-title { margin: 0; font-size: var(--step-h3); }
+.info-body { padding-bottom: 2rem; overflow-wrap: anywhere; }
+.info-body h3 { font-size: 1.05rem; font-weight: 500; margin: 1.8em 0 0.6em; }
+.info-body h4 { font-size: 1rem; font-weight: 500; margin: 1.3em 0 0.4em; }
+.info-body ul { margin: 0 0 1.1em; padding-left: 1.2em; }
+.info-body li { margin-bottom: 0.3em; }
+.info-note { color: var(--ink-soft); font-size: var(--step-small); margin-top: 0; }
 
 /* --- сетки изображений ------------------------------------------------ */
 

@@ -114,6 +114,65 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // «Инфо»: пять документов раскрывающимся списком — сначала всё свёрнуто,
+  // клик по заголовку открывает и закрывает; адрес с #id открывает нужный
+  // пункт и прокручивает к нему; ссылка [..](#privacy) внутри открывает политику.
+  async 'info-accordion'() {
+    const bad = [];
+    let win = await load('../info.html', 1280, 800);
+    let d = win.document;
+    const ids = [...d.querySelectorAll('details.info-item')].map((x) => x.id);
+    if (ids.join() !== 'delivery,returns,privacy,consent,offer') bad.push(`ids=${ids}`);
+    if (d.querySelector('details.info-item[open]')) bad.push('open-by-default');
+    const first = d.querySelector('details.info-item');
+    const summary = first && first.querySelector('summary');
+    if (!summary || !summary.textContent.trim()) bad.push('no-summary');
+    else {
+      summary.click();
+      if (!first.open) bad.push('click-no-open');
+      summary.click();
+      if (first.open) bad.push('click-no-close');
+    }
+
+    // другой query — иначе смена одного #хэша не перезагружает фрейм
+    win = await load('../info.html?from=link#consent', 1280, 800);
+    d = win.document;
+    const consent = d.getElementById('consent');
+    const open = [...d.querySelectorAll('details.info-item[open]')].map((x) => x.id);
+    if (open.join() !== 'consent') bad.push(`hash-open=${open}`);
+    if (consent) {
+      const top = consent.getBoundingClientRect().top;
+      const header = d.querySelector('.site-header').getBoundingClientRect().bottom;
+      if (top < header - 1 || top > 800 / 2) bad.push(`hash-scroll-top=${Math.round(top)}`);
+      const link = consent.querySelector('a[href="#privacy"]');
+      if (!link) bad.push('no-privacy-link');
+      else {
+        link.click();
+        await wait(300);
+        if (!d.getElementById('privacy').open) bad.push('privacy-link-no-open');
+      }
+    }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // «Инфо» на английском: доставка и возврат — по-английски, а политика,
+  // согласие и оферта — русский текст с пометкой «только на русском».
+  async 'info-en'() {
+    const bad = [];
+    const win = await load('../info.html?lang=en', 1280, 800);
+    const d = win.document;
+    const note = (id) => !!d.querySelector(`#${id} .info-note`);
+    ['delivery', 'returns'].forEach((id) => {
+      if (note(id)) bad.push(`${id}:note`);
+      if (/[а-яё]/i.test(d.querySelector(`#${id} .info-body`)?.textContent || 'я')) bad.push(`${id}:cyrillic`);
+    });
+    ['privacy', 'consent', 'offer'].forEach((id) => {
+      if (!note(id)) bad.push(`${id}:no-note`);
+      if (d.querySelector(`#${id} .info-body`)?.lang !== 'ru') bad.push(`${id}:no-lang-ru`);
+    });
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
   // Старые адреса серий через project.html ведут на страницу серии.
   async 'old-series-slug'() {
     const win = await load('../project.html?slug=portraits');

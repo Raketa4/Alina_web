@@ -40,7 +40,8 @@
     "notFoundText": "The link may be out of date. Return to the list of projects."
   },
   "info": {
-    "title": "Info"
+    "title": "Info",
+    "ruOnly": "This document is available in Russian only."
   },
   "contacts": {
     "title": "Contacts",

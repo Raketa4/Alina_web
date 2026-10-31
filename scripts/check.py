@@ -189,16 +189,6 @@ def check_data_schema() -> None:
         if isinstance(studio.get("text"), dict):
             check_bilingual(studio["text"], "studio.json.text")
 
-    info = load_json("data/info.json")
-    if info is not None:
-        checks_run += 1
-        ids = [x.get("id") for x in info] if isinstance(info, list) else []
-        if ids != ["privacy", "returns"]:
-            fail(f"[схема] info.json: разделы {ids}, ожидались ['privacy', 'returns']")
-        privacy = next((x for x in info if x.get("id") == "privacy"), {}) if isinstance(info, list) else {}
-        if "FormSubmit" not in " ".join((privacy.get("body") or {}).get("ru") or []):
-            fail("[схема] info.json: политика privacy должна упоминать FormSubmit")
-
     cv = load_json("data/cv.json")
     if cv is not None:
         checks_run += 1
@@ -441,6 +431,62 @@ def check_no_catalog_refs() -> None:
             fail(f"[каталог] {path.relative_to(ROOT).as_posix()}: упоминание catalog")
 
 
+# --- Проверка: «Инфо» — пять документов раскрывающимся списком ---------
+
+INFO_IDS = ["delivery", "returns", "privacy", "consent", "offer"]
+INFO_EN_REQUIRED = ("delivery", "returns")  # юридические документы — только на русском
+# Реквизиты и контакты сайтов, с которых взяты тексты, — не должны остаться.
+INFO_FOREIGN = ("Замков", "Бекаревич", "Буглеев", "Янковск", "yankovskayart", "mankovsky",
+                "mashayankovskaya", "bugleeva", "772378468917", "780108229300", "667902535516",
+                "318774600334104", "325665800222720", "155 6568", "155-65-68", "723-03-59", "Почтой России",
+                "Почта России", "Свердловск", "Екатеринбург", "YANKOVSK", "Маши")
+INFO_MUST = {
+    "delivery": ("СДЭК", "Самовывоз", "t.me/alinakhoniak", "+7 (911) 165-42-47"),
+    "returns": ("7 дней", "10 рабочих дней", "индивидуальному заказу", "alinakhoniak@gmail.com"),
+    "privacy": ("Хоняк Алин", "210403881900", "324210000076842", "Вурнары", "alinakhoniak@gmail.com"),
+    "consent": ("Хоняк Алин", "210403881900", "324210000076842", "alinakhoniak@gmail.com", "(#privacy)"),
+    "offer": ("Хоняк Алин", "Хоняк Алина Алексеевна", "210403881900", "324210000076842",
+              "Чувашская Республика - Чувашия, Вурнарский район, поселок городского типа Вурнары",
+              "+7 (911) 165-42-47", "alinakhoniak@gmail.com", "индивидуальному заказу",
+              "31.10.2026", "(#privacy)"),
+}
+
+
+def check_info() -> None:
+    global checks_run
+    info = load_json("data/info.json")
+    if info is None:
+        fail("[инфо] data/info.json отсутствует")
+        return
+    checks_run += 1
+    items = info if isinstance(info, list) else []
+    ids = [x.get("id") for x in items]
+    if ids != INFO_IDS:
+        fail(f"[инфо] разделы {ids}, ожидались {INFO_IDS}")
+    raw = (ROOT / "data/info.json").read_text(encoding="utf-8")
+    for word in INFO_FOREIGN:
+        if word in raw:
+            fail(f"[инфо] info.json: осталось «{word}» — чужие реквизиты или контакты")
+    for item in items:
+        sid = item.get("id")
+        title, body = item.get("title") or {}, item.get("body") or {}
+        if not (title.get("ru") and title.get("en")):
+            fail(f"[инфо] {sid}: нужен заголовок ru и en")
+        ru = body.get("ru")
+        if not (isinstance(ru, list) and ru and all(isinstance(x, str) and x for x in ru)):
+            fail(f"[инфо] {sid}: body.ru — непустой список строк")
+            continue
+        if sid in INFO_EN_REQUIRED and not body.get("en"):
+            fail(f"[инфо] {sid}: нужен английский текст body.en")
+        text = " ".join(ru)
+        for must in INFO_MUST.get(sid, ()):
+            if must not in text:
+                fail(f"[инфо] {sid}: нет «{must}»")
+    contacts = (ROOT / "contacts.html").read_text(encoding="utf-8")
+    if 'href="info.html#consent"' not in contacts:
+        fail("[инфо] contacts.html: ссылка у согласия должна вести на info.html#consent")
+
+
 # --- Проверка: «Об авторе» и подразделы ---------------------------------
 
 ABOUT_SECTIONS = ("cv", "statement", "teaching", "curatorial", "publications")
@@ -490,6 +536,7 @@ def check_contact_form() -> None:
 
 CHECKS = {
     "form": check_contact_form,
+    "info": check_info,
     "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,
     "notfound": check_detail_pages_have_not_found,
