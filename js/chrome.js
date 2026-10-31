@@ -1,4 +1,4 @@
-// Общая «обвязка» каждой страницы: шапка, меню-плитка и подвал.
+// Общая «обвязка» каждой страницы: шапка, меню и подвал.
 // Пункты меню — data/menu.json, ссылки соцсетей и магазина — data/site.json.
 // Вызывается до applyTranslations: подписи проставляются через data-i18n.
 
@@ -38,6 +38,8 @@ function headerHtml() {
     </header>`;
 }
 
+// В каждом прямоугольнике только название. Подпункты «Об авторе» (children)
+// в меню не выводятся — их список на самой странице about.html.
 function menuHtml(menu, site) {
   const cells = menu.map((item) => {
     const title = `<span class="menu-title" data-i18n="${escapeHtml(item.i18n)}"></span>`;
@@ -45,15 +47,6 @@ function menuHtml(menu, site) {
       return site.shop_url
         ? `<a class="menu-cell" data-id="shop" href="${escapeHtml(site.shop_url)}" target="_blank" rel="noopener">${title}</a>`
         : `<div class="menu-cell is-disabled" data-id="shop" aria-disabled="true">${title}</div>`;
-    }
-    if (item.children) {
-      const sub = item.children.map((c) => `
-          <li><a href="${escapeHtml(c.href)}" data-i18n="${escapeHtml(c.i18n)}"></a></li>`).join('');
-      return `
-        <div class="menu-cell" data-id="${escapeHtml(item.id)}">
-          <a class="menu-title" href="${escapeHtml(item.href)}" data-i18n="${escapeHtml(item.i18n)}"></a>
-          <ul class="menu-sub">${sub}</ul>
-        </div>`;
     }
     return `<a class="menu-cell" data-id="${escapeHtml(item.id)}" href="${escapeHtml(item.href)}">${title}</a>`;
   }).join('');
@@ -98,8 +91,10 @@ function wireMenu() {
   const open = () => {
     clearTimeout(hideTimer);
     layer.hidden = false;
-    // кадр на применение display, затем класс — чтобы сработал переход
-    requestAnimationFrame(() => document.body.classList.add('menu-open'));
+    // пересчёт стилей применяет display, затем класс — чтобы сработал переход
+    // (без ожидания кадра: в фоновом браузере проверок кадры не рисуются)
+    void layer.offsetWidth;
+    document.body.classList.add('menu-open');
     toggle.setAttribute('aria-expanded', 'true');
     toggle.setAttribute('aria-label', t('menu.close'));
   };

@@ -289,79 +289,79 @@ button { font: inherit; color: inherit; }
 .menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
 .menu-open .menu-toggle span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
 
-/* --- меню-плитка ------------------------------------------ */
+/* --- меню-сетка ------------------------------------------- */
 
 body.menu-open { overflow: hidden; }
 
+/* Белый слой; сетка стоит сразу под шапкой, по центру. Слой — контейнер
+   размеров: 100cqw/100cqh в сетке — его ширина и высота без отступов. */
 .menu-layer {
+  --menu-pad-b: 24px;
   position: fixed;
   inset: 0;
   z-index: 20;
-  padding: 76px 28px 28px;
-  background: #5f9fb8 url('../assets/photos/menu-bg.jpg') center / cover no-repeat;
-  overflow: auto;
+  container-type: size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--header-h) 0 var(--menu-pad-b);
+  background: var(--bg);
+  overflow: hidden;
   opacity: 0;
   transition: opacity 0.45s ease;
 }
 .menu-open .menu-layer { opacity: 1; }
 
-/* 2 квадрата в ряд, 4 ряда; вся плитка вписана в экран. */
+/* 2 × 4 прямоугольника 1,3 : 1 (как в образце liars.co), чёрные линии 1px.
+   Сетка во всю ширину экрана, а если так не помещается по высоте — во всю
+   высоту, по центру, с рамкой вокруг. Во всю ширину сетка на 2px шире
+   экрана, и боковые линии рамки уходят за его края — как на телефоне в образце.
+   Высота 4 рядов = ширина сетки / 0,65. */
 .menu-grid {
-  --side: min(calc((100vh - 134px) / 4), calc((100vw - 66px) / 2));
+  --grid-w: min(calc(100cqw + 2px), calc(100cqh * 0.65));
+  flex: none;
+  width: var(--grid-w);
   display: grid;
-  grid-template-columns: repeat(2, var(--side));
-  grid-auto-rows: var(--side);
-  justify-content: center;
-  padding: 2px 0 0 2px;
+  grid-template-columns: repeat(2, 1fr);
+  border: 1px solid var(--ink);
+  border-bottom: 0;
 }
 
-/* Белые квадраты вплотную; прозрачная рамка 2px — сквозь неё видна картина. */
 .menu-cell {
+  aspect-ratio: 1.3 / 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  margin: -2px 0 0 -2px;
-  padding: 8% 6% 16px;
+  justify-content: center;
+  padding: 0 8px;
   overflow: hidden;
-  background: #fff;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  text-align: center;
   text-decoration: none;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.25s;
+  border-bottom: 1px solid var(--ink);
+  transition: background-color 0.25s;
 }
-.menu-open .menu-cell { opacity: 1; transform: none; }
-.menu-open .menu-cell:nth-child(1) { transition-delay: 0.05s; }
-.menu-open .menu-cell:nth-child(2) { transition-delay: 0.10s; }
-.menu-open .menu-cell:nth-child(3) { transition-delay: 0.15s; }
-.menu-open .menu-cell:nth-child(4) { transition-delay: 0.20s; }
-.menu-open .menu-cell:nth-child(5) { transition-delay: 0.25s; }
-.menu-open .menu-cell:nth-child(6) { transition-delay: 0.30s; }
-.menu-open .menu-cell:nth-child(7) { transition-delay: 0.35s; }
-.menu-open .menu-cell:nth-child(8) { transition-delay: 0.40s; }
+.menu-cell:nth-child(odd) { border-right: 1px solid var(--ink); }
 .menu-cell:not(.is-disabled):hover { background-color: var(--hover); }
 .menu-cell.is-disabled { cursor: default; }
+.menu-cell:focus-visible { outline-offset: -5px; }
 
+/* Названия проявляются по очереди; линии сетки стоят на месте. */
 .menu-title {
-  font-size: clamp(16px, calc(var(--side) * 0.09), 32px);
-  text-decoration: none;
+  font-size: clamp(11px, calc(var(--grid-w) * 0.0425), 24px);
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .menu-cell[data-id="home"] .menu-title { text-transform: uppercase; letter-spacing: 0.06em; }
-
-/* На низких экранах квадрат бывает ~130px — список из 5 пунктов
-   должен поместиться, поэтому шрифт и интерлиньяж ужимаются вместе с ним. */
-.menu-sub {
-  margin: 0.7em 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: clamp(9px, calc(var(--side) * 0.055), 17px);
-  line-height: 1.45;
-}
-.menu-sub a, a.menu-title { border-bottom: 1px solid transparent; }
-.menu-sub a { text-decoration: none; }
-.menu-sub a:hover, a.menu-title:hover { border-bottom-color: currentColor; }
+.menu-open .menu-title { opacity: 1; transform: none; }
+.menu-open .menu-cell:nth-child(1) .menu-title { transition-delay: 0.05s; }
+.menu-open .menu-cell:nth-child(2) .menu-title { transition-delay: 0.10s; }
+.menu-open .menu-cell:nth-child(3) .menu-title { transition-delay: 0.15s; }
+.menu-open .menu-cell:nth-child(4) .menu-title { transition-delay: 0.20s; }
+.menu-open .menu-cell:nth-child(5) .menu-title { transition-delay: 0.25s; }
+.menu-open .menu-cell:nth-child(6) .menu-title { transition-delay: 0.30s; }
+.menu-open .menu-cell:nth-child(7) .menu-title { transition-delay: 0.35s; }
+.menu-open .menu-cell:nth-child(8) .menu-title { transition-delay: 0.40s; }
 
 /* --- подвал ------------------------------------------------- */
 
@@ -454,25 +454,9 @@ body.viewer-open { overflow: hidden; }
 
 @media (max-width: 800px) {
   .site-header { padding-inline: 16px; }
-  .menu-layer { padding: 68px 16px 16px; }
-  .menu-grid { --side: calc((100vw - 42px) / 2); }
+  /* на телефоне сетка доходит до низа экрана — так она остаётся во всю ширину */
+  .menu-layer { --menu-pad-b: 0px; }
   .site-footer { padding-inline: 16px; }
-}
-
-/* Невысокие экраны ноутбуков: плитка поджимается, отступы уменьшаются;
-   ниже ~600px квадрат не становится меньше 124px — слой прокручивается. */
-@media (min-width: 801px) and (max-height: 760px) {
-  .menu-layer { padding-top: var(--header-h); padding-bottom: 16px; }
-  .menu-grid { --side: max(124px, min(calc((100vh - var(--header-h) - 20px) / 4), calc((100vw - 66px) / 2))); }
-  .menu-cell { padding: 6%; }
-  .menu-title { line-height: 1.15; }
-  .menu-sub { margin-top: 0.35em; line-height: 1.3; }
-}
-
-/* Телефон, повёрнутый горизонтально: квадраты по ширине, слой прокручивается. */
-@media (max-height: 520px) {
-  .menu-layer { padding: 60px 16px 16px; }
-  .menu-grid { --side: min(calc((100vw - 42px) / 2), 260px); }
 }
 
 @media (max-width: 560px) {

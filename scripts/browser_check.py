@@ -35,13 +35,16 @@ BROWSERS = [
 CASES = [
     "case=viewer-click-image",
     "case=old-series-slug",
+    "case=menu-fit&w=1920&h=1080",
     "case=menu-fit&w=1440&h=900",
     "case=menu-fit&w=1366&h=650",
     "case=menu-fit&w=1280&h=600",
     "case=menu-fit&w=1366&h=620",
     "case=menu-fit&w=915&h=412",
     "case=menu-fit&w=844&h=390",
+    "case=menu-fit&w=768&h=1024",
     "case=menu-fit&w=390&h=844",
+    "case=menu-fit&w=390&h=664&edge=1",  # iPhone с панелями Safari
     "case=menu-fit&w=360&h=640",
 ]
 
@@ -72,6 +75,7 @@ def main() -> int:
             url = f"http://127.0.0.1:{port}/tests/browser.html?{case}"
             out = subprocess.run(
                 [browser, "--headless=new", "--disable-gpu", "--window-size=1600,1000",
+                 "--run-all-compositor-stages-before-draw",
                  "--virtual-time-budget=15000", "--dump-dom", url],
                 capture_output=True, text=True, encoding="utf-8", timeout=120,
             ).stdout

@@ -303,9 +303,9 @@ def check_fonts() -> None:
         fail("[шрифты] styles.css: --bg в :root должен быть #FFFFFF")
 
 
-# --- Проверка: меню-плитка и общая шапка -------------------------------
+# --- Проверка: меню и общая шапка -------------------------------------
 
-MENU_ORDER = ["home", "studio", "about", "shop", "series", "info", "projects", "contacts"]
+MENU_ORDER = ["home", "studio", "about", "shop", "series", "projects", "info", "contacts"]
 ABOUT_CHILDREN = ["cv", "statement", "teaching", "curatorial", "publications"]
 
 

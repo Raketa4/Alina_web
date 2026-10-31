@@ -439,10 +439,10 @@
       <h2><span class="num">4</span> Меню, магазин, контакты, инфо</h2>
 
       <h3>Меню</h3>
-      <p>Восемь квадратов меню описаны в <span class="filechip">data/menu.json</span>, названия — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span> (блок <code>"menu"</code>). Фон открытого меню — <code>assets/photos/menu-bg.jpg</code>: чтобы сменить картину, замените файл тем же именем.</p>
+      <p>Восемь прямоугольников меню описаны в <span class="filechip">data/menu.json</span>, названия — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span> (блок <code>"menu"</code>). Подразделы «Об авторе» (CV, Artist statement и другие) в меню не показываются — они списком на странице «Об авторе»; их порядок тоже задаётся в <span class="filechip">data/menu.json</span>.</p>
 
       <h3>Магазин</h3>
-      <p>Когда магазин появится, впишите его адрес в <span class="filechip">data/site.json</span> → <code>"shop_url"</code> (например <code>"https://shop.example.ru"</code>). Квадрат «Магазин» станет ссылкой и будет открывать магазин в новой вкладке. Пока поле пустое, квадрат не нажимается.</p>
+      <p>Когда магазин появится, впишите его адрес в <span class="filechip">data/site.json</span> → <code>"shop_url"</code> (например <code>"https://shop.example.ru"</code>). Прямоугольник «Магазин» станет ссылкой и будет открывать магазин в новой вкладке. Пока поле пустое, он не нажимается.</p>
 
       <h3>Контакты и форма</h3>
       <ul>
@@ -479,7 +479,7 @@
         <table class="field-table">
           <thead><tr><th>Файл</th><th>Отвечает за</th></tr></thead>
           <tbody>
-            <tr><td><code>data/menu.json</code></td><td>8 квадратов меню и подразделы «Об авторе»</td></tr>
+            <tr><td><code>data/menu.json</code></td><td>8 прямоугольников меню и подразделы «Об авторе»</td></tr>
             <tr><td><code>data/site.json</code></td><td>имя, короткий рассказ, artist statement, портрет, почта, соцсети, ссылка на магазин, счётчик Метрики</td></tr>
             <tr><td><code>data/home.json</code></td><td>главная</td></tr>
             <tr><td><code>data/series.json</code></td><td>серии и их работы</td></tr>
@@ -503,7 +503,6 @@
             <tr><td>Работа, крупно</td><td>большая сторона ≈ 1600 px</td><td><code>&lt;id&gt;-full.jpg</code></td></tr>
             <tr><td>Работа, миниатюра</td><td>≈ 800 px <em>(создаёт скрипт)</em></td><td><code>&lt;id&gt;-thumb.jpg</code></td></tr>
             <tr><td>Портрет автора</td><td>≈ 1200 × 1600 px, вертикальный</td><td><code>artist-portrait.jpg</code></td></tr>
-            <tr><td>Фон меню</td><td>≈ 1000 × 1600 px и больше, вертикальный</td><td><code>menu-bg.jpg</code></td></tr>
           </tbody>
         </table>
       </div>

@@ -13,7 +13,7 @@
   },
   { "id": "shop", "i18n": "menu.shop" },
   { "id": "series", "i18n": "menu.series", "href": "series.html" },
-  { "id": "info", "i18n": "menu.info", "href": "info.html" },
   { "id": "projects", "i18n": "menu.projects", "href": "projects.html" },
+  { "id": "info", "i18n": "menu.info", "href": "info.html" },
   { "id": "contacts", "i18n": "menu.contacts", "href": "contacts.html" }
 ]

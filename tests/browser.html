@@ -48,9 +48,11 @@ const cases = {
     return [open && closed, `image-click keeps open=${open}, backdrop-click closes=${closed}`];
   },
 
-  // Меню при размере w×h: текст ни одного квадрата не обрезан и не вылезает
-  // вбок; на компьютере (шире 800px) с экраном от 620px в высоту вся плитка
-  // помещается без прокрутки. Ниже и на телефонах слой прокручивается.
+  // Меню при размере w×h — как у liars.co: белый фон, 8 прямоугольников
+  // 2 × 4 с пропорцией 1,3 : 1, разделённых чёрными линиями; в каждом только
+  // надпись, строго по центру, не обрезана. Сетка сразу под шапкой, по центру,
+  // целиком на экране и упирается либо в края экрана, либо почти в низ
+  // (тогда вокруг неё рамка). С edge=1 — обязательно от края до края.
   async 'menu-fit'() {
     const w = +q.get('w');
     const h = +q.get('h');
@@ -58,14 +60,57 @@ const cases = {
     const d = win.document;
     d.querySelector('.menu-toggle').click();
     await wait(1200);
+    d.getAnimations().forEach((a) => a.finish()); // проверяем итог, а не ход анимации
     const bad = [];
-    d.querySelectorAll('.menu-cell').forEach((c) => {
-      const r = c.getBoundingClientRect();
-      if (c.scrollHeight > c.clientHeight + 1) bad.push(`${c.dataset.id}:overflow+${c.scrollHeight - c.clientHeight}`);
-      if (c.scrollWidth > c.clientWidth + 1) bad.push(`${c.dataset.id}:wide+${c.scrollWidth - c.clientWidth}`);
-      if (r.left < -1 || r.right > w + 1) bad.push(`${c.dataset.id}:offscreen-x`);
-      if (w > 800 && h >= 620 && r.bottom > h + 1) bad.push(`${c.dataset.id}:below-fold`);
+    if (!d.body.classList.contains('menu-open')) bad.push('not-open');
+    const dark = (s) => parseFloat(s.width) >= 1
+      && (s.color.match(/\d+/g) || []).slice(0, 3).every((v) => +v < 40);
+    const line = (cs, side) => ({ width: cs[`border${side}Width`], color: cs[`border${side}Color`] });
+
+    const ls = win.getComputedStyle(d.querySelector('.menu-layer'));
+    if (ls.backgroundImage !== 'none' || ls.backgroundColor !== 'rgb(255, 255, 255)') bad.push('bg-not-white');
+
+    const cells = [...d.querySelectorAll('.menu-cell')];
+    const rects = cells.map((c) => c.getBoundingClientRect());
+    const cols = new Set(rects.map((r) => Math.round(r.left))).size;
+    const rows = new Set(rects.map((r) => Math.round(r.top))).size;
+    if (cells.length !== 8 || cols !== 2 || rows !== 4) bad.push(`grid=${cells.length}:${cols}x${rows}`);
+
+    cells.forEach((c, i) => {
+      const r = rects[i];
+      const id = c.dataset.id;
+      const ratio = r.width / r.height;
+      if (Math.abs(ratio - 1.3) > 0.03) bad.push(`${id}:ratio=${ratio.toFixed(2)}`);
+      if (id !== 'shop' && !c.matches('a[href]')) bad.push(`${id}:not-link`);
+      if (c.children.length !== 1) bad.push(`${id}:children=${c.children.length}`);
+      const title = c.firstElementChild;
+      const t = title.getBoundingClientRect();
+      const dx = (t.left + t.right - r.left - r.right) / 2;
+      const dy = (t.top + t.bottom - r.top - r.bottom) / 2;
+      if (Math.abs(dx) > 1.5 || Math.abs(dy) > 1.5) bad.push(`${id}:offcenter=${dx.toFixed(1)},${dy.toFixed(1)}`);
+      if (parseFloat(win.getComputedStyle(title).fontSize) < 11) bad.push(`${id}:tiny-font`);
+      if (!dark(line(win.getComputedStyle(c), 'Bottom'))) bad.push(`${id}:no-line`);
+      if (c.scrollHeight > c.clientHeight + 1) bad.push(`${id}:overflow+${c.scrollHeight - c.clientHeight}`);
+      if (c.scrollWidth > c.clientWidth + 1) bad.push(`${id}:wide+${c.scrollWidth - c.clientWidth}`);
     });
+
+    if (rects.length) {
+      const L = Math.min(...rects.map((r) => r.left));
+      const R = Math.max(...rects.map((r) => r.right));
+      const T = Math.min(...rects.map((r) => r.top));
+      const B = Math.max(...rects.map((r) => r.bottom));
+      const headerBottom = d.querySelector('.site-header').getBoundingClientRect().bottom;
+      if (L < -1 || R > w + 1) bad.push('offscreen-x');
+      if (B > h + 1) bad.push('below-fold');
+      if (Math.abs(T - headerBottom) > 2) bad.push(`top=${Math.round(T)}`);
+      if (Math.abs(L - (w - R)) > 1.5) bad.push(`not-centered=${L.toFixed(1)}|${(w - R).toFixed(1)}`);
+      const framed = L > 1.5;
+      if (framed && B < h - 40) bad.push('too-small');
+      if (q.get('edge') && framed) bad.push(`not-edge-to-edge=${L.toFixed(1)}`);
+      const gs = win.getComputedStyle(d.querySelector('.menu-grid'));
+      if (!dark(line(gs, 'Top'))) bad.push('no-top-line');
+      if (framed && !dark(line(gs, 'Left'))) bad.push('no-frame');
+    }
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 

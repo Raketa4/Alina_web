@@ -1,13 +1,14 @@
 # Сайт Алины Хоняк
 
 Двуязычный (RU/EN) статический сайт-портфолио художницы в стиле jkim.ru:
-белые страницы, шрифт Onest, меню-плитка из 8 квадратов поверх картины.
+белые страницы, шрифт Onest, меню — белая сетка 2 × 4 из прямоугольников
+с чёрными линиями (образец — мобильное меню liars.co).
 Без сборки — чистые HTML/CSS/JS.
 
 **Адрес:** https://raketa4.github.io/Alina_web/
 **Как обновлять контент (для заказчика):** [docs/content-guide.html](docs/content-guide.html)
 **Дизайн-спека редизайна:** [docs/superpowers/specs/2026-10-25-redesign-menu-design.md](docs/superpowers/specs/2026-10-25-redesign-menu-design.md)
-**Эталон меню:** [docs/superpowers/specs/2026-10-25-menu-mockup.html](docs/superpowers/specs/2026-10-25-menu-mockup.html)
+**Меню (с 31.10.2026):** раздел 4а спеки; прежний макет с картиной (картина-фон удалена 31.10.2026) — [docs/superpowers/specs/2026-10-25-menu-mockup.html](docs/superpowers/specs/2026-10-25-menu-mockup.html)
 **План редизайна:** [docs/superpowers/plans/2026-10-25-redesign-menu.md](docs/superpowers/plans/2026-10-25-redesign-menu.md)
 
 ## Структура
@@ -23,14 +24,14 @@ info.html contacts.html 404.html
 
 css/styles.css    — вся вёрстка, палитра и типографика в :root
 js/page.js        — bootPage(): шапка/меню/подвал → язык → интерфейс → страница → аналитика
-js/chrome.js      — шапка, меню-плитка и подвал (вставляются в каждую страницу из data/menu.json)
+js/chrome.js      — шапка, меню и подвал (вставляются в каждую страницу из data/menu.json)
 js/viewer.js      — просмотрщик с зумом для всех [data-zoom] (листает в пределах data-gallery)
 js/cards.js       — сетка обложек для серий и проектов
 js/*.js           — модули страниц
 data/*.json       — весь контент (правится без кода)
 i18n/ru.json,en.json — словари интерфейса (наборы ключей обязаны совпадать)
 assets/works/     — изображения работ: <id>-full.jpg (~1600px) и <id>-thumb.jpg (~800px)
-assets/photos/    — портрет автора, фон меню (menu-bg.jpg)
+assets/photos/    — портрет автора
 scripts/          — check.py (проверки), make_placeholders.py, make_icons.py
 ```
 
@@ -38,7 +39,7 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 
 | Раздел | Файл |
 |---|---|
-| Меню (8 квадратов, подразделы «Об авторе») | `data/menu.json` + блок `menu` в `i18n/*.json` |
+| Меню (8 прямоугольников; подразделы «Об авторе» — списком на about.html) | `data/menu.json` + блок `menu` в `i18n/*.json` |
 | Главная | `data/home.json` |
 | Серии и их работы | `data/series.json` |
 | Проекты | `data/projects.json` |
@@ -53,8 +54,8 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 
 ## Магазин
 
-Вписать адрес в `data/site.json` → `shop_url`. Квадрат «Магазин» станет
-ссылкой (открывается в новой вкладке). Пустое поле — квадрат неактивен.
+Вписать адрес в `data/site.json` → `shop_url`. Прямоугольник «Магазин» станет
+ссылкой (открывается в новой вкладке). Пустое поле — он неактивен.
 
 ## Форма связи
 
@@ -78,8 +79,9 @@ python scripts/browser_check.py
 ```
 Браузерные проверки в фоновом Edge/Chrome (`tests/browser.html`): просмотрщик
 не закрывается от клика по картинке, старые ссылки серий перенаправляются,
-меню-плитка помещается без обрезки на 8 размерах экрана (от 360×640 до
-1440×900, включая повёрнутый телефон).
+меню — белая сетка 2 × 4 из прямоугольников 1,3 : 1 с чёрными линиями, надписи
+строго по центру, всё на экране без прокрутки — на 11 размерах (от 360×640
+до 1920×1080, включая повёрнутый телефон и iPhone с панелями Safari).
 
 ## Локальный просмотр
 
