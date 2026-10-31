@@ -441,7 +441,8 @@ INFO_FOREIGN = ("Замков", "Бекаревич", "Буглеев", "Янк�
                 "318774600334104", "325665800222720", "155 6568", "155-65-68", "723-03-59", "Почтой России",
                 "Почта России", "Свердловск", "Екатеринбург", "YANKOVSK", "Маши")
 INFO_MUST = {
-    "delivery": ("СДЭК", "Самовывоз", "t.me/alinakhoniak", "+7 (911) 165-42-47"),
+    "delivery": ("СДЭК", "Самовывоз", "[@alinakhoniakart](https://t.me/alinakhoniakart)",
+                 "+7 (960) 231-27-38"),
     "returns": ("7 дней", "10 рабочих дней", "индивидуальному заказу", "alinakhoniak@gmail.com"),
     "privacy": ("Хоняк Алин", "210403881900", "324210000076842", "Вурнары", "alinakhoniak@gmail.com"),
     "consent": ("Хоняк Алин", "210403881900", "324210000076842", "alinakhoniak@gmail.com", "(#privacy)"),
@@ -476,6 +477,8 @@ def check_info() -> None:
         if not (isinstance(ru, list) and ru and all(isinstance(x, str) and x for x in ru)):
             fail(f"[инфо] {sid}: body.ru — непустой список строк")
             continue
+        if sid == "delivery" and "+7 (911)" in json.dumps(body, ensure_ascii=False):
+            fail("[инфо] delivery: в доставке и оплате телефон +7 (960) 231-27-38, не +7 (911)")
         if sid in INFO_EN_REQUIRED and not body.get("en"):
             fail(f"[инфо] {sid}: нужен английский текст body.en")
         text = " ".join(ru)

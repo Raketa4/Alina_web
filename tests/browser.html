@@ -149,6 +149,8 @@ const cases = {
     const ids = [...d.querySelectorAll('details.info-item')].map((x) => x.id);
     if (ids.join() !== 'delivery,returns,privacy,consent,offer') bad.push(`ids=${ids}`);
     if (d.querySelector('details.info-item[open]')) bad.push('open-by-default');
+    const tg = d.querySelector('#delivery a[href="https://t.me/alinakhoniakart"]');
+    if (!tg || tg.textContent !== '@alinakhoniakart' || tg.target !== '_blank') bad.push('no-telegram-link');
     const first = d.querySelector('details.info-item');
     const summary = first && first.querySelector('summary');
     if (!summary || !summary.textContent.trim()) bad.push('no-summary');

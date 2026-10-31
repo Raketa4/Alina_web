@@ -1,7 +1,8 @@
 // Инфо: документы из data/info.json раскрывающимся списком (<details>).
 // Текст раздела — массив строк: «## » — подзаголовок, «### » — подзаголовок
 // второго уровня, «- » — пункт списка, остальное — абзац. В строках адреса
-// https://… и e-mail становятся ссылками, [текст](#id) — ссылка на пункт.
+// https://… и e-mail становятся ссылками, [текст](#id) — ссылка на пункт,
+// [текст](https://…) — внешняя ссылка с другим текстом.
 // Нет английского текста — показывается русский с пометкой.
 
 import { getJSON, qs, getLang, escapeHtml, pick } from './util.js';
@@ -63,6 +64,8 @@ function blocksHtml(lines) {
 function inline(text) {
   return escapeHtml(text)
     .replace(/\[([^\]]+)\]\((#[\w-]+)\)/g, '<a class="link" href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+      '<a class="link" href="$2" target="_blank" rel="noopener">$1</a>')
     .replace(/(^|[\s(])(https?:\/\/[^\s<]*[^\s<.,;:)])/g,
       '$1<a class="link" href="$2" target="_blank" rel="noopener">$2</a>')
     .replace(/(^|[\s(])([\w.+-]+@[\w-]+(\.[\w-]+)+)/g, '$1<a class="link" href="mailto:$2">$2</a>');
