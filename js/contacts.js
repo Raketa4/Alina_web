@@ -1,38 +1,19 @@
-// Контакты: прямые ссылки из data/site.json и форма FormSubmit.
-// Форма отправляется обычным POST; после отправки FormSubmit
-// возвращает на contacts.html?sent=1 — показываем благодарность.
+// Контакты: почта и Telegram для связи берутся из data/site.json
+// (email, contact_telegram). В разметке те же адреса — на случай без JS.
 
-import { qs, param, escapeHtml } from './util.js';
+import { qsa } from './util.js';
 import { getSite } from './site.js';
-import { t } from './i18n.js';
-
-const SOCIAL = { telegram: 'Telegram', instagram: 'Instagram', vk: 'VK' };
 
 export async function initContacts() {
   const site = await getSite();
-  const social = site.social || {};
 
-  const form = qs('#contact-form');
-  if (form && site.email) form.action = `https://formsubmit.co/${site.email}`;
-  if (param('sent') === '1') qs('#form-sent')?.removeAttribute('hidden');
-
-  const wrap = qs('#contact-direct');
-  if (!wrap) return;
-
-  const links = Object.entries(SOCIAL)
-    .filter(([key]) => social[key])
-    .map(([key, label]) => `<li><a class="link" href="${escapeHtml(social[key])}" target="_blank" rel="noopener">${label}</a></li>`)
-    .join('');
-
-  wrap.innerHTML = `
-    ${site.email ? `
-      <div>
-        <p class="eyebrow">${escapeHtml(t('contacts.emailLabel'))}</p>
-        <a class="link" href="mailto:${escapeHtml(site.email)}">${escapeHtml(site.email)}</a>
-      </div>` : ''}
-    ${links ? `
-      <div>
-        <p class="eyebrow">${escapeHtml(t('contacts.socialTitle'))}</p>
-        <ul>${links}</ul>
-      </div>` : ''}`;
+  if (site.email) {
+    qsa('.js-contact-email').forEach((a) => {
+      a.href = `mailto:${site.email}`;
+      a.textContent = site.email;
+    });
+  }
+  if (site.contact_telegram) {
+    qsa('.js-contact-telegram').forEach((a) => { a.href = site.contact_telegram; });
+  }
 }

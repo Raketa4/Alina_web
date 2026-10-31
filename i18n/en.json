@@ -45,15 +45,16 @@
   },
   "contacts": {
     "title": "Contacts",
-    "formName": "Name",
-    "formEmail": "E-mail",
-    "formMessage": "Message",
-    "formSend": "Send",
-    "consent": "I consent to the processing of my personal data",
-    "consentLink": "details",
-    "sent": "Thank you! Your message has been sent.",
-    "emailLabel": "E-mail",
-    "socialTitle": "Social media"
+    "introTitle": "Contact the artist",
+    "introText": "For questions about works, commissions and collaborations, write to",
+    "or": "or",
+    "telegram": "on Telegram",
+    "studioTitle": "Studio",
+    "studioText": "Visit the studio to see the works in person and discuss a commission.",
+    "studioHours": "By appointment",
+    "studioPlace": "St. Petersburg",
+    "book": "Book a visit",
+    "photoAlt": "Alina Khoniak at work in her studio"
   },
   "footer": {
     "tagline": "Painter. St. Petersburg.",

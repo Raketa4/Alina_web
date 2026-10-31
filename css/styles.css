@@ -218,34 +218,53 @@ button { font: inherit; color: inherit; }
 .about-links { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: var(--step-h3); }
 .section-photos { margin-top: clamp(2rem, 4vw, 3rem); }
 
-/* --- контакты и форма ---------------------------------------- */
+/* --- контакты (по образцу jkim.ru/contact) ---------------------------- */
+/* Сверху блок связи; ниже мастерская: фото 2:3 от левого края на половину
+   ширины и текст справа, он «прилипает» при прокрутке. На телефоне фото во
+   всю ширину, текст под ним. Заголовки чёрные, описания серые. */
 
-.contact-columns {
-  display: grid;
-  grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
-  gap: clamp(2rem, 6vw, 5rem);
-  align-items: start;
-}
-.contact-direct { display: grid; gap: 1.75rem; }
-.contact-direct ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-.contact-direct .eyebrow { margin-bottom: 0.4rem; }
+.contacts-intro,
+.contacts-studio-text { font-size: 17px; line-height: 1.3; }
+.contacts-intro { width: 50%; padding: 28px; }
+.contacts-intro p { margin: 0; }
+.contacts-heading { margin: 0; font-size: inherit; line-height: inherit; }
+.contacts-muted { color: var(--ink-soft); }
+.contacts-muted p { margin: 0; }
+.contacts-muted p + p { margin-top: 1em; }
+.contacts-muted a { color: inherit; text-decoration: none; box-shadow: inset 0 -1px 0 currentColor; }
 
-.form { display: grid; gap: 1.25rem; max-width: 34rem; }
-.form-sent { margin: 0; padding: 0.9rem 1rem; background: var(--hover); }
-.field { display: grid; gap: 0.4rem; }
-.field label { font-size: var(--step-small); color: var(--ink-soft); }
-.field input, .field textarea {
-  font: inherit;
-  color: var(--ink);
-  background: var(--bg);
-  border: 1px solid var(--rule);
-  padding: 0.75em 0.85em;
+.contacts-studio { display: flex; align-items: flex-start; }
+.contacts-photo { width: 50%; margin: 0; }
+.contacts-photo img {
+  display: block;
   width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: #EDEDED;
 }
-.field textarea { min-height: 8rem; resize: vertical; }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
-.consent { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--step-small); }
-.consent input { margin-top: 0.2em; }
+.contacts-studio-text {
+  position: sticky;
+  top: var(--header-h);
+  width: 50%;
+  padding: 108px 28px 40px;
+}
+.contacts-studio-text .contacts-heading { margin-bottom: 16px; }
+.contacts-studio-text .contacts-muted { margin-bottom: 32px; }
+.contacts-book { display: block; width: 100%; padding: 11px 13px; text-align: center; text-decoration: none; }
+
+@media (max-width: 739px) {
+  .contacts-intro,
+  .contacts-studio-text { font-size: 15px; }
+  .contacts-intro { width: auto; padding: 32px 24px; text-align: center; }
+  .contacts-intro .contacts-heading { margin-bottom: 4px; }
+  .contacts-studio { display: block; }
+  .contacts-photo { width: auto; }
+  .contacts-studio-text { position: static; width: auto; padding: 24px 24px 28px; }
+  .contacts-studio-text .contacts-heading { margin-bottom: 12px; }
+  .contacts-studio-text .contacts-muted { margin-bottom: 20px; }
+}
+
 .btn {
   padding: 0.8em 1.6em;
   border: 1px solid var(--ink);
@@ -478,7 +497,7 @@ body.viewer-open { overflow: hidden; }
 
 @media (max-width: 900px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
-  .about, .contact-columns { grid-template-columns: 1fr; }
+  .about { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) {

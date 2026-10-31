@@ -114,6 +114,54 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // Контакты как на jkim.ru/contact: формы нет; вверху блок связи (на телефоне
+  // по центру); ниже фото 2:3 от левого края — на компьютере половина ширины
+  // и текст справа, на телефоне во всю ширину и текст под ним; кнопка
+  // «Записаться на визит» во всю ширину колонки ведёт в Telegram.
+  async 'contacts-layout'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../contacts.html', w, h);
+    const d = win.document;
+    const bad = [];
+    const intro = d.querySelector('.contacts-intro');
+    const img = d.querySelector('.contacts-photo img');
+    const text = d.querySelector('.contacts-studio-text');
+    const btn = d.querySelector('a.contacts-book');
+    if (d.querySelector('form')) bad.push('form');
+    if (!intro || !img || !text || !btn) return [false, `${w}x${h} missing-blocks`];
+    if (!img.complete) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); });
+    if (!img.naturalWidth) bad.push('img-not-loaded');
+    const cw = d.documentElement.clientWidth; // без полосы прокрутки
+    const ir = img.getBoundingClientRect();
+    const tr = text.getBoundingClientRect();
+    const br = btn.getBoundingClientRect();
+    const ratio = ir.width / ir.height;
+    if (Math.abs(ratio - 2 / 3) > 0.03) bad.push(`img-ratio=${ratio.toFixed(2)}`);
+    if (Math.abs(ir.left) > 1) bad.push(`img-left=${Math.round(ir.left)}`);
+    const centered = win.getComputedStyle(intro).textAlign === 'center';
+    if (w >= 740) {
+      if (Math.abs(ir.width - cw / 2) > 2) bad.push(`img-w=${Math.round(ir.width)}`);
+      if (tr.left < cw / 2 - 1) bad.push('text-not-right');
+      if (Math.abs(tr.top - ir.top) > 2) bad.push('text-not-beside');
+      if (centered) bad.push('intro-centered');
+    } else {
+      if (Math.abs(ir.width - cw) > 1) bad.push(`img-w=${Math.round(ir.width)}`);
+      if (tr.top < ir.bottom - 1) bad.push('text-not-below');
+      if (!centered) bad.push('intro-not-centered');
+    }
+    const ts = win.getComputedStyle(text);
+    const inner = tr.width - parseFloat(ts.paddingLeft) - parseFloat(ts.paddingRight);
+    if (Math.abs(br.width - inner) > 2) bad.push(`btn-w=${Math.round(br.width)}/${Math.round(inner)}`);
+    if (parseFloat(win.getComputedStyle(btn).borderTopWidth) < 1) bad.push('btn-no-border');
+    const tg = 'https://t.me/alinakhoniakart';
+    if (btn.getAttribute('href') !== tg || btn.target !== '_blank') bad.push('btn-link');
+    if (!intro.querySelector('a[href="mailto:alinakhoniak@gmail.com"]')) bad.push('no-mail');
+    if (!intro.querySelector(`a[href="${tg}"]`)) bad.push('no-telegram');
+    if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
   // Закрытое меню не перекрывает страницу: слой скрыт, а точка в центре
   // заголовка на «Инфо» попадает в сам заголовок, а не в невидимое меню.
   // То же после открытия и закрытия меню.

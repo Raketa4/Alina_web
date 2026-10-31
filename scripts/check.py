@@ -485,9 +485,6 @@ def check_info() -> None:
         for must in INFO_MUST.get(sid, ()):
             if must not in text:
                 fail(f"[инфо] {sid}: нет «{must}»")
-    contacts = (ROOT / "contacts.html").read_text(encoding="utf-8")
-    if 'href="info.html#consent"' not in contacts:
-        fail("[инфо] contacts.html: ссылка у согласия должна вести на info.html#consent")
 
 
 # --- Проверка: «Об авторе» и подразделы ---------------------------------
@@ -513,32 +510,36 @@ def check_about_sections() -> None:
     check_bilingual(site.get("about_short"), "site.json.about_short")
 
 
-# --- Проверка: форма связи ---------------------------------------------
+# --- Проверка: контакты -----------------------------------------------
 
-FORM_ACTION = "https://formsubmit.co/alinakhoniak@gmail.com"
-FORM_NEXT = "https://raketa4.github.io/Alina_web/contacts.html?sent=1"
+CONTACTS_PHOTO = "assets/photos/contacts-studio.jpg"
 
 
-def check_contact_form() -> None:
+def check_contacts() -> None:
+    """Контакты как на jkim.ru/contact: блок связи и мастерская с фото, без формы."""
     global checks_run
     checks_run += 1
     html = (ROOT / "contacts.html").read_text(encoding="utf-8")
-    if f'action="{FORM_ACTION}"' not in html:
-        fail(f"[форма] contacts.html: action формы должен быть {FORM_ACTION}")
-    for name in ("name", "email", "message", "consent"):
-        if f'name="{name}"' not in html:
-            fail(f"[форма] contacts.html: нет поля name=\"{name}\"")
-    if f'name="_next" value="{FORM_NEXT}"' not in html:
-        fail(f"[форма] contacts.html: скрытое поле _next должно вести на {FORM_NEXT}")
+    if "<form" in html or "formsubmit" in html.lower():
+        fail("[контакты] contacts.html: формы обратной связи быть не должно")
+    for cls in ("contacts-intro", "contacts-studio", "contacts-photo", "contacts-studio-text", "contacts-book"):
+        if not re.search(rf'class="(?:[^"]*\s)?{cls}(?:\s[^"]*)?"', html):
+            fail(f"[контакты] contacts.html: нет блока .{cls}")
+    if f'src="{CONTACTS_PHOTO}"' not in html:
+        fail(f"[контакты] contacts.html: фото мастерской должно быть {CONTACTS_PHOTO}")
+    if not (ROOT / CONTACTS_PHOTO).exists():
+        fail(f"[контакты] нет файла {CONTACTS_PHOTO}")
     site = load_json("data/site.json") or {}
     if site.get("email") != "alinakhoniak@gmail.com":
-        fail("[форма] site.json: email должен быть alinakhoniak@gmail.com")
+        fail("[контакты] site.json: email должен быть alinakhoniak@gmail.com")
+    if site.get("contact_telegram") != "https://t.me/alinakhoniakart":
+        fail("[контакты] site.json: contact_telegram должен быть https://t.me/alinakhoniakart")
 
 
 # --- main --------------------------------------------------------------
 
 CHECKS = {
-    "form": check_contact_form,
+    "contacts": check_contacts,
     "info": check_info,
     "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,

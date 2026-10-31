@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Контакты — Алина Хоняк</title>
-  <meta name="description" content="Связаться с Алиной Хоняк: почта, Telegram, Instagram, VK и форма для сообщений.">
+  <meta name="description" content="Связаться с Алиной Хоняк: почта и Telegram. Мастерская в Санкт-Петербурге — визит по предварительной записи.">
   <link rel="canonical" href="https://raketa4.github.io/Alina_web/contacts.html">
   <link rel="alternate" hreflang="ru" href="https://raketa4.github.io/Alina_web/contacts.html?lang=ru">
   <link rel="alternate" hreflang="en" href="https://raketa4.github.io/Alina_web/contacts.html?lang=en">
   <link rel="alternate" hreflang="x-default" href="https://raketa4.github.io/Alina_web/contacts.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Контакты — Алина Хоняк">
-  <meta property="og:description" content="Связаться с Алиной Хоняк: почта, Telegram, Instagram, VK и форма для сообщений.">
+  <meta property="og:description" content="Связаться с Алиной Хоняк: почта и Telegram. Мастерская в Санкт-Петербурге — визит по предварительной записи.">
   <meta property="og:image" content="https://raketa4.github.io/Alina_web/assets/og-image.png">
   <meta property="og:url" content="https://raketa4.github.io/Alina_web/contacts.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,37 +25,34 @@
 <body>
 
   <main id="main">
-    <div class="container page-head">
-      <h1 data-i18n="contacts.title">Контакты</h1>
-    </div>
-    <section class="container contact-columns">
-      <form class="form" id="contact-form" method="POST" action="https://formsubmit.co/alinakhoniak@gmail.com">
-        <p class="form-sent" id="form-sent" hidden data-i18n="contacts.sent">Спасибо! Сообщение отправлено.</p>
-        <div class="field">
-          <label for="cf-name" data-i18n="contacts.formName">Имя</label>
-          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+    <h1 class="sr-only" data-i18n="contacts.title">Контакты</h1>
+
+    <section class="contacts-intro">
+      <h2 class="contacts-heading" data-i18n="contacts.introTitle">Связь с художницей</h2>
+      <p class="contacts-muted">
+        <span data-i18n="contacts.introText">По вопросам о работах, заказах и сотрудничестве напишите:</span>
+        <a class="js-contact-email" href="mailto:alinakhoniak@gmail.com">alinakhoniak@gmail.com</a>
+        <span data-i18n="contacts.or">или</span>
+        <a class="js-contact-telegram" href="https://t.me/alinakhoniakart" target="_blank" rel="noopener"
+           data-i18n="contacts.telegram">в Telegram</a>
+      </p>
+    </section>
+
+    <section class="contacts-studio">
+      <figure class="contacts-photo">
+        <img src="assets/photos/contacts-studio.jpg" width="1400" height="2112"
+             alt="Алина Хоняк за работой в мастерской" data-i18n-attr="alt:contacts.photoAlt">
+      </figure>
+      <div class="contacts-studio-text">
+        <h2 class="contacts-heading" data-i18n="contacts.studioTitle">Мастерская</h2>
+        <div class="contacts-muted">
+          <p data-i18n="contacts.studioText">Приходите в мастерскую, чтобы увидеть работы вживую и обсудить заказ.</p>
+          <p data-i18n="contacts.studioHours">По предварительной записи</p>
+          <p data-i18n="contacts.studioPlace">Санкт-Петербург</p>
         </div>
-        <div class="field">
-          <label for="cf-email" data-i18n="contacts.formEmail">E-mail</label>
-          <input id="cf-email" name="email" type="email" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="cf-message" data-i18n="contacts.formMessage">Сообщение</label>
-          <textarea id="cf-message" name="message" required></textarea>
-        </div>
-        <label class="consent">
-          <input type="checkbox" name="consent" value="yes" required>
-          <span><span data-i18n="contacts.consent">Я согласен(на) на обработку персональных данных</span> —
-            <a class="link" href="info.html#consent" data-i18n="contacts.consentLink">подробнее</a></span>
-        </label>
-        <input type="hidden" name="_subject" value="Сообщение с сайта alinakhoniak">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://raketa4.github.io/Alina_web/contacts.html?sent=1">
-        <input type="text" name="_honey" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div><button class="btn" type="submit" data-i18n="contacts.formSend">Отправить</button></div>
-      </form>
-      <div class="contact-direct" id="contact-direct"></div>
+        <a class="btn contacts-book js-contact-telegram" href="https://t.me/alinakhoniakart" target="_blank"
+           rel="noopener" data-i18n="contacts.book">Записаться на визит</a>
+      </div>
     </section>
   </main>
 

@@ -44,7 +44,8 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 | Серии и их работы | `data/series.json` |
 | Проекты | `data/projects.json` |
 | Мастерская | `data/studio.json` |
-| Портрет, короткий рассказ, statement, почта, соцсети, `shop_url` | `data/site.json` |
+| Портрет, короткий рассказ, statement, почта, соцсети, Telegram для связи (`contact_telegram`), `shop_url` | `data/site.json` |
+| Тексты страницы «Контакты» | блок `contacts` в `i18n/*.json` |
 | CV и тексты подразделов «Об авторе» | `data/cv.json` |
 | Фото подразделов «Об авторе» | `data/sections.json` |
 | Инфо: доставка и оплата, обмен и возврат, политика конфиденциальности, согласие на обработку ПД, оферта (раскрывающийся список) | `data/info.json` |
@@ -57,19 +58,19 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 Вписать адрес в `data/site.json` → `shop_url`. Прямоугольник «Каталог» станет
 ссылкой (открывается в новой вкладке). Пустое поле — он неактивен.
 
-## Форма связи
+## Контакты
 
-`contacts.html` отправляет форму обычным POST на
-`https://formsubmit.co/alinakhoniak@gmail.com` (адрес также подставляется
-из `site.json` → `email`). После отправки FormSubmit возвращает на
-`contacts.html?sent=1`. **При первой отправке FormSubmit присылает на почту
-письмо активации — его нужно подтвердить один раз.**
+`contacts.html` сделана по образцу jkim.ru/contact: блок связи (почта и
+Telegram) и мастерская — фото `assets/photos/contacts-studio.jpg` слева, текст
+и кнопка «Записаться на визит» справа. Формы обратной связи нет. Почта —
+`site.json` → `email`, Telegram для связи и записи — `contact_telegram`
+(в подвале — `social.telegram`). Тексты — блок `contacts` в `i18n/*.json`.
 
 ## Проверка
 
 ```
 python scripts/check.py            # все проверки
-python scripts/check.py menu form  # только перечисленные
+python scripts/check.py menu contacts  # только перечисленные
 ```
 Проверяет: ключи словарей и их использование, схему данных, наличие всех
 картинок, внутренние ссылки, шрифты, меню, форму, отсутствие каталога,
@@ -106,11 +107,10 @@ GitHub Pages из ветки `main`, папка `/` (root).
 - Проверить `about_short` в `site.json`.
 - Алине — проверить документы «Инфо» (`data/info.json`, тексты взяты с
   mashayankovskaya.store и alina.bugleeva.ru с её реквизитами): в оферте оплата
-  через ЮKassa (пп. 4.4–4.5) и «печатная, текстильная продукция» (п. 2.1);
-  в политике не упомянут FormSubmit (форма связи, сервер в США).
+  через ЮKassa (пп. 4.4–4.5) и «печатная, текстильная продукция» (п. 2.1).
 - Ссылка на магазин (`shop_url`).
 - Утверждённый Алиной английский перевод.
 - ID Яндекс.Метрики, верификация Google Search Console.
 - При покупке домена — файл `CNAME` и замена адреса в `canonical`/`og:url`/
-  `sitemap.xml`/`robots.txt`/`_next` формы/`<base>` в `404.html` и адреса
+  `sitemap.xml`/`robots.txt`/`<base>` в `404.html` и адреса
   сайта в `data/info.json` (политика и оферта).

@@ -444,11 +444,11 @@
       <h3>Каталог (магазин)</h3>
       <p>Когда магазин появится, впишите его адрес в <span class="filechip">data/site.json</span> → <code>"shop_url"</code> (например <code>"https://shop.example.ru"</code>). Прямоугольник «Каталог» в меню станет ссылкой и будет открывать магазин в новой вкладке. Пока поле пустое, он не нажимается.</p>
 
-      <h3>Контакты и форма</h3>
+      <h3>Контакты</h3>
       <ul>
-        <li>Почта — <span class="filechip">data/site.json</span> → <code>"email"</code>; соцсети — <code>"social"</code> (<code>telegram</code>, <code>instagram</code>, <code>vk</code>).</li>
-        <li>Письма из формы приходят на эту почту через сервис <strong>FormSubmit</strong>. При самой первой отправке FormSubmit пришлёт на почту письмо «Activate Form» — нужно один раз нажать в нём кнопку подтверждения, иначе письма не будут доходить.</li>
-        <li>Если меняете почту — поменяйте её и в <code>contacts.html</code> (адрес в <code>action</code> формы), и снова подтвердите FormSubmit.</li>
+        <li>Почта — <span class="filechip">data/site.json</span> → <code>"email"</code>; Telegram для связи и кнопки «Записаться на визит» — <code>"contact_telegram"</code>; соцсети в подвале — <code>"social"</code> (<code>telegram</code>, <code>instagram</code>, <code>vk</code>).</li>
+        <li>Тексты страницы (заголовки, описание мастерской, «По предварительной записи», город, надпись на кнопке) — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span>, блок <code>"contacts"</code>.</li>
+        <li>Фото мастерской — <code>assets/photos/contacts-studio.jpg</code>, вертикальное 2 : 3 (≈ 1400 × 2100 px). Чтобы сменить, замените файл тем же именем.</li>
       </ul>
 
       <h3>Инфо</h3>
@@ -468,7 +468,7 @@
       </div>
 
       <h3>Свой домен</h3>
-      <p>Когда появится домен: создать в корне файл <code>CNAME</code> с адресом домена и заменить <code>raketa4.github.io/Alina_web</code> на новый адрес в <code>canonical</code>, <code>og:url</code>, <span class="filechip">sitemap.xml</span>, <span class="filechip">robots.txt</span>, в поле <code>_next</code> формы в <code>contacts.html</code> и в теге <code>&lt;base&gt;</code> файла <code>404.html</code>.</p>
+      <p>Когда появится домен: создать в корне файл <code>CNAME</code> с адресом домена и заменить <code>raketa4.github.io/Alina_web</code> на новый адрес в <code>canonical</code>, <code>og:url</code>, <span class="filechip">sitemap.xml</span>, <span class="filechip">robots.txt</span> и в теге <code>&lt;base&gt;</code> файла <code>404.html</code>.</p>
     </section>
 
     <section id="spravka">
