@@ -240,7 +240,7 @@ const cases = {
     const icons = [...d.querySelectorAll('.site-footer .footer-social a.social-icon')];
     const rights = d.querySelector('.site-footer .footer-rights');
     if (!copy || !/©\s*\d{4}/.test(copy.textContent)) bad.push('no-copyright');
-    const want = ['https://t.me/alinakhoniak', 'https://www.instagram.com/alinakhoniak', 'https://vk.com/alinakhoniak',
+    const want = ['https://t.me/alinakhoniak', 'https://www.instagram.com/alinakhoniak', 'https://vk.ru/alinakhoniakchannel',
       'https://pin.it/5FzbwuKWl'];
     if (icons.map((a) => a.getAttribute('href')).join() !== want.join()) bad.push(`hrefs=${icons.map((a) => a.getAttribute('href'))}`);
     icons.forEach((a, i) => {
@@ -252,6 +252,8 @@ const cases = {
       if (Math.abs(r.width - r.height) > 1 || r.width < 32) bad.push(`${i}:size=${Math.round(r.width)}x${Math.round(r.height)}`);
       if (parseFloat(cs.borderTopLeftRadius) < r.width / 2 - 1 && cs.borderTopLeftRadius !== '50%') bad.push(`${i}:not-round`);
       if (a.target !== '_blank') bad.push(`${i}:target`);
+      // без адреса сайта-отправителя: иначе pin.it отдаёт картинку 1×1 вместо профиля (чёрный экран)
+      if (!a.relList.contains('noreferrer')) bad.push(`${i}:sends-referrer`);
       if (copy && r.top < copy.getBoundingClientRect().bottom) bad.push(`${i}:not-below-copy`);
     });
     if (!rights || !rights.textContent.trim()) bad.push('no-rights');

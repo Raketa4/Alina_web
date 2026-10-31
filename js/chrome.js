@@ -66,12 +66,13 @@ function menuHtml(menu, site) {
 }
 
 // Подвал столбиком: © год, кружки соцсетей со значками, строка про авторское право.
+// noreferrer: с адресом нашего сайта pin.it вместо профиля отдаёт картинку 1×1 (чёрный экран).
 function footerHtml(site) {
   const social = site.social || {};
   const links = SOCIAL
     .filter((k) => social[k])
     .map((k) => `
-        <li><a class="social-icon" href="${escapeHtml(social[k])}" target="_blank" rel="noopener"
+        <li><a class="social-icon" href="${escapeHtml(social[k])}" target="_blank" rel="noopener noreferrer"
                aria-label="${LABELS[k]}"><svg viewBox="${ICONS[k][0]}" aria-hidden="true"><path d="${ICONS[k][1]}"/></svg></a></li>`)
     .join('');
   return `
