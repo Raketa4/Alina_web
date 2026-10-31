@@ -24,10 +24,6 @@
     ]
   },
   "portrait": "assets/photos/artist-portrait.jpg",
-  "portrait_credit": {
-    "ru": "Фото: Артём Жигалов",
-    "en": "Photo: Artem Zhigalov"
-  },
   "location": {
     "ru": "Санкт-Петербург",
     "en": "St. Petersburg"

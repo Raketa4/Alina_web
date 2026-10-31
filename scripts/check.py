@@ -492,6 +492,25 @@ def check_info() -> None:
 ABOUT_SECTIONS = ("cv", "statement", "teaching", "curatorial", "publications")
 
 
+CV_COUNTS = {"education": 2, "teaching": 3, "exhibitions": 22, "curatorial": 1, "awards": 5, "publications": 9}
+
+
+def jpeg_size(path: Path):
+    """(ширина, высота) JPEG по маркеру SOF — без сторонних библиотек."""
+    data = path.read_bytes()
+    i = 2
+    while i + 9 < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        length = int.from_bytes(data[i + 2:i + 4], "big")
+        if marker in (0xC0, 0xC1, 0xC2):
+            return int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big")
+        i += 2 + length
+    return None
+
+
 def check_about_sections() -> None:
     global checks_run
     checks_run += 1
@@ -508,6 +527,25 @@ def check_about_sections() -> None:
                 fail(f"[об авторе] sections.json: у '{key}' нет images")
     site = load_json("data/site.json") or {}
     check_bilingual(site.get("about_short"), "site.json.about_short")
+    # полное CV по vigbo (u402663-2.web01.vigbo.ru/cv-1)
+    cv = load_json("data/cv.json") or {}
+    for key, count in CV_COUNTS.items():
+        rows = cv.get(key) or []
+        if len(rows) != count:
+            fail(f"[об авторе] cv.json: в «{key}» {len(rows)} записей, ожидалось {count}")
+        for row in rows:
+            if not (row.get("period") and row.get("ru") and row.get("en")):
+                fail(f"[об авторе] cv.json/{key}: у записи нужны period, ru и en — {row.get('ru', '')[:40]}")
+    urls = [row["url"] for row in cv.get("publications") or [] if row.get("url")]
+    if len(urls) != 7:
+        fail(f"[об авторе] cv.json: у публикаций {len(urls)} ссылок, ожидалось 7")
+    for url in urls:
+        if not url.startswith(("https://", "http://")) or "turbopages" in url or "ysclid" in url:
+            fail(f"[об авторе] cv.json: ссылка без Турбо-страниц и меток — {url}")
+    portrait = ROOT / (site.get("portrait") or "")
+    size = jpeg_size(portrait) if portrait.is_file() else None
+    if not size or size[0] < 1200 or abs(size[0] / size[1] - 0.75) > 0.01:
+        fail(f"[об авторе] портрет {site.get('portrait')}: нужно фото 3:4 шириной от 1200px, сейчас {size}")
 
 
 # --- Проверка: контакты -----------------------------------------------

@@ -42,12 +42,15 @@ export async function initAboutSection() {
   revealize(mount);
 }
 
-function cvList(rows, lang, heading) {
+// Список CV: период + текст; у записи с url текст — ссылка (публикации).
+export function cvList(rows, lang, heading) {
   if (!Array.isArray(rows) || !rows.length) return '';
   const items = rows.map((row) => `
       <div class="cv-row">
         <span class="period">${escapeHtml(row.period || '')}</span>
-        <span>${escapeHtml(row[lang] || row.ru || '')}</span>
+        <span>${row.url
+    ? `<a class="link" href="${escapeHtml(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row[lang] || row.ru || '')}</a>`
+    : escapeHtml(row[lang] || row.ru || '')}</span>
       </div>`).join('');
   return `
     <section class="cv-section reveal">

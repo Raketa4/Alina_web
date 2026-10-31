@@ -194,6 +194,41 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // «Об авторе»: портрет 3:4 и рядом (на телефоне — под ним) Artist statement,
+  // ниже полное CV по vigbo — 6 разделов, у публикаций ссылки на статьи;
+  // внизу ссылки на подразделы без CV и Statement (они уже на странице).
+  async 'about-page'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../about.html', w, h);
+    const d = win.document;
+    const bad = [];
+    const img = d.querySelector('.about-portrait img');
+    const statement = d.querySelector('.about-statement');
+    if (!img || !statement) return [false, `${w}x${h} missing-blocks`];
+    if (!img.complete) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); });
+    if (!img.naturalWidth || Math.abs(img.naturalWidth / img.naturalHeight - 0.75) > 0.01) bad.push(`portrait=${img.naturalWidth}x${img.naturalHeight}`);
+    if (d.querySelector('.about-portrait figcaption')) bad.push('portrait-caption'); // подпись фотографа убрана
+    if (!statement.querySelector('h2')?.textContent.trim()) bad.push('statement-heading');
+    const paras = statement.querySelectorAll('.prose p').length;
+    if (paras !== 3) bad.push(`statement-paras=${paras}`);
+    const heads = [...d.querySelectorAll('.about-cv .cv-section h2')].map((x) => x.textContent.trim());
+    const wantHeads = ['Образование', 'Педагогическая деятельность', 'Выставки', 'Кураторские проекты', 'Награды', 'Публикации'];
+    if (heads.join('|') !== wantHeads.join('|')) bad.push(`cv-heads=${heads.join('|')}`);
+    const counts = [...d.querySelectorAll('.about-cv .cv-section')].map((x) => x.querySelectorAll('.cv-row').length);
+    if (counts.join() !== '2,3,22,1,5,9') bad.push(`cv-rows=${counts}`);
+    const links = [...d.querySelectorAll('.about-cv a[href^="http"]')];
+    if (links.length !== 7 || links.some((a) => a.target !== '_blank')) bad.push(`pub-links=${links.length}`);
+    const sub = [...d.querySelectorAll('.about-links a')].map((a) => a.getAttribute('href'));
+    if (sub.join() !== 'teaching.html,curatorial.html,publications.html') bad.push(`sub-links=${sub}`);
+    const ir = img.getBoundingClientRect();
+    const sr = statement.getBoundingClientRect();
+    if (w > 900 && sr.left < ir.right) bad.push('statement-not-beside');
+    if (w <= 900 && sr.top < ir.bottom) bad.push('statement-not-below');
+    if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
   // Мастерская, фото процесса: без текста-заглушки, ровно два фото и никаких
   // пустых ячеек — на компьютере в один ряд одной высоты во всю ширину,
   // на телефоне одно под другим во всю ширину.

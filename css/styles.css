@@ -215,7 +215,12 @@ button { font: inherit; color: inherit; }
 }
 .about-portrait { margin: 0; }
 .about-portrait figcaption { margin-top: 0.5rem; font-size: var(--step-small); color: var(--ink-soft); }
-.about-links { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: var(--step-h3); }
+.about-portrait img { display: block; width: 100%; height: auto; }
+.about-statement h2 { margin-top: 0; }
+.about-cv { margin-top: clamp(3rem, 7vw, 5rem); max-width: 62rem; }
+.about-cv-title { margin: 0 0 clamp(1.5rem, 3vw, 2.25rem); }
+.about-cv .cv-section h2 { font-size: var(--step-h3); }
+.about-links { list-style: none; margin: clamp(2rem, 5vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: var(--step-h3); }
 .section-photos { margin-top: clamp(2rem, 4vw, 3rem); }
 
 /* --- контакты и мастерская (по образцу jkim.ru/contact) ------------- */

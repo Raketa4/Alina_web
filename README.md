@@ -18,7 +18,7 @@ index.html                 главная
 series.html                список серий         series-view.html?slug=  одна серия (только фото)
 projects.html              список проектов      project.html?slug=      один проект (текст + фото)
 studio.html                мастерская
-about.html                 портрет и короткий рассказ
+about.html                 портрет, Artist statement и полное CV (data/cv.json), ссылки на подразделы
 cv.html statement.html teaching.html curatorial.html publications.html — подразделы «Об авторе»
 info.html contacts.html 404.html
 
@@ -111,8 +111,8 @@ GitHub Pages из ветки `main`, папка `/` (root).
 
 ## Что осталось
 
-- Настоящие фото работ и портрет (сейчас в `assets/works/` и
-  `assets/photos/artist-portrait.jpg` — заглушки с названием).
+- Настоящие фото работ (сейчас в `assets/works/` — заглушки с названием).
+- Английский перевод CV (`data/cv.json` → `en`) сделан по vigbo — проверить Алине.
 - Тексты и фото для Мастерской, Преподавательской, Кураторской, Публикаций.
 - Проверить `about_short` в `site.json`.
 - Алине — проверить документы «Инфо» (`data/info.json`, тексты взяты с

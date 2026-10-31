@@ -2,12 +2,12 @@
   "education": [
     {
       "period": "2017–2023",
-      "ru": "Санкт-Петербургская академия художеств имени Ильи Репина. Художник-живописец; мастерская монументальной живописи под руководством профессора А. К. Быстрова.",
-      "en": "Repin Academy of Arts, St. Petersburg. Painter; monumental painting workshop of Professor A. K. Bystrov."
+      "ru": "Санкт-Петербургская академия художеств имени Ильи Репина. Художник-живописец, окончила мастерскую монументальной живописи Александра Кировича Быстрова.",
+      "en": "Repin Academy of Arts, St. Petersburg. Painter; graduated from the monumental painting workshop of Alexander Kirovich Bystrov."
     },
     {
       "period": "2011–2015",
-      "ru": "Чебоксарское художественное училище. Живописец, преподаватель.",
+      "ru": "Чебоксарское художественное училище. Живописец-педагог.",
       "en": "Cheboksary Art College. Painter and art teacher."
     }
   ],
@@ -15,40 +15,217 @@
     {
       "period": "с 2023",
       "ru": "Преподаватель Санкт-Петербургской академии художеств имени Ильи Репина.",
-      "en": "Instructor at the Repin Academy of Arts, St. Petersburg."
+      "en": "Lecturer at the Repin Academy of Arts, St. Petersburg."
     },
     {
-      "period": "2025–2026",
-      "ru": "Преподаватель образовательного центра «Сириус», программы «Основы академической художественной школы: скульптура и рисунок».",
-      "en": "Instructor at the Sirius Educational Centre, “Foundations of the Academic Art School: Sculpture and Drawing” programmes."
+      "period": "2026",
+      "ru": "Преподаватель образовательного центра «Сириус», программа «Основы академической художественной школы: скульптура и рисунок».",
+      "en": "Instructor at the Sirius Educational Centre, “Foundations of the Academic Art School: Sculpture and Drawing” programme."
+    },
+    {
+      "period": "2025",
+      "ru": "Преподаватель образовательного центра «Сириус», программа «Основы академической художественной школы: скульптура и рисунок».",
+      "en": "Instructor at the Sirius Educational Centre, “Foundations of the Academic Art School: Sculpture and Drawing” programme."
     }
   ],
   "exhibitions": [
-    { "period": "2026", "ru": "«Посвящение России», центр «Сириус».", "en": "“Dedication to Russia”, Sirius Centre." },
-    { "period": "2026", "ru": "«Палитра России», Санкт-Петербургский союз художников.", "en": "“Palette of Russia”, St. Petersburg Union of Artists." },
-    { "period": "2025", "ru": "Театральная академия Бориса Эйфмана.", "en": "Boris Eifman Theatre Academy." },
-    { "period": "2025", "ru": "«Краски балета», центр «Сириус».", "en": "“Colours of Ballet”, Sirius Centre." },
-    { "period": "2024", "ru": "Выставка фэшн-иллюстрации, Дубай, ОАЭ.", "en": "Fashion illustration exhibition, Dubai, UAE." },
-    { "period": "2024", "ru": "Международный форум «Россия», ВДНХ, Москва.", "en": "International forum “Russia”, VDNKh, Moscow." },
-    { "period": "2023", "ru": "Выставка дипломных работ, Музей Академии художеств, Санкт-Петербург.", "en": "Diploma works exhibition, Academy of Arts Museum, St. Petersburg." },
-    { "period": "2023", "ru": "Международный конкурс академического рисунка.", "en": "International Academic Drawing Competition." }
-  ],
-  "awards": [
-    { "period": "2024", "ru": "Победитель Международного конкурса фэшн-иллюстрации, Дубай, ОАЭ.", "en": "Winner, International Fashion Illustration Competition, Dubai, UAE." },
-    { "period": "2024", "ru": "Почётная грамота Министра культуры Чувашской Республики.", "en": "Certificate of Honour from the Minister of Culture of the Chuvash Republic." },
-    { "period": "2023", "ru": "Лауреат I степени в номинации «Портрет», XV Международный конкурс академического рисунка.", "en": "First Prize, Portrait category, 15th International Academic Drawing Competition." },
-    { "period": "2022", "ru": "Лауреат I степени в номинации «Портрет», XIV Международный конкурс академического рисунка.", "en": "First Prize, Portrait category, 14th International Academic Drawing Competition." }
+    {
+      "period": "2026",
+      "ru": "«Посвящение России», Образовательный центр «Сириус», Сириус.",
+      "en": "“Dedication to Russia”, Sirius Educational Centre, Sirius."
+    },
+    {
+      "period": "2026",
+      "ru": "«Палитра России», Санкт-Петербургский союз художников, Санкт-Петербург.",
+      "en": "“Palette of Russia”, St. Petersburg Union of Artists, St. Petersburg."
+    },
+    {
+      "period": "2026",
+      "ru": "«Времена...», Санкт-Петербургский союз художников, Санкт-Петербург.",
+      "en": "“Times...”, St. Petersburg Union of Artists, St. Petersburg."
+    },
+    {
+      "period": "2025",
+      "ru": "Выставка в Театральной академии Бориса Эйфмана, Санкт-Петербург.",
+      "en": "Exhibition at the Boris Eifman Dance Academy, St. Petersburg."
+    },
+    {
+      "period": "2025",
+      "ru": "«Краски балета», Образовательный центр «Сириус», Сириус.",
+      "en": "“Colours of Ballet”, Sirius Educational Centre, Sirius."
+    },
+    {
+      "period": "2024",
+      "ru": "Выставка подиумной фэшн-иллюстрации, ME Dubai Opus by Zaha Hadid, Дубай.",
+      "en": "Runway fashion illustration exhibition, ME Dubai Opus by Zaha Hadid, Dubai."
+    },
+    {
+      "period": "2024",
+      "ru": "Учебный рисунок мастерской монументальной живописи А. К. Быстрова, СПГАХЛ им. Б. В. Иогансона при РАХ, Санкт-Петербург.",
+      "en": "Academic drawings of A. K. Bystrov’s monumental painting workshop, Ioganson Art Lyceum of the Russian Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2024",
+      "ru": "Международная выставка-форум «Россия», ВДНХ, Москва.",
+      "en": "International exhibition and forum “Russia”, VDNKh, Moscow."
+    },
+    {
+      "period": "2023",
+      "ru": "«Волжские дали и лица», Дом дружбы Ленинградской области, Санкт-Петербург.",
+      "en": "“Volga Horizons and Faces”, Friendship House of the Leningrad Region, St. Petersburg."
+    },
+    {
+      "period": "2023",
+      "ru": "Выставка лучших дипломных работ выпускников Санкт-Петербургской академии художеств имени Ильи Репина, Музей Академии художеств, Санкт-Петербург.",
+      "en": "Best diploma works of Repin Academy of Arts graduates, Museum of the Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2023",
+      "ru": "XV Международный конкурс академического рисунка, Санкт-Петербургская художественно-промышленная академия имени А. Л. Штиглица, Санкт-Петербург.",
+      "en": "15th International Academic Drawing Competition, Stieglitz St. Petersburg State Academy of Art and Industry, St. Petersburg."
+    },
+    {
+      "period": "2023",
+      "ru": "Выставка имени О. А. Еремеева «Академическая штудия и быстрый рисунок», Санкт-Петербургская академия художеств имени Ильи Репина, Санкт-Петербург.",
+      "en": "O. A. Eremeev exhibition “Academic Study and Quick Drawing”, Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2022",
+      "ru": "«Архитектурные истории», Дворец культуры имени С. М. Кирова, Санкт-Петербург.",
+      "en": "“Architectural Stories”, Kirov Palace of Culture, St. Petersburg."
+    },
+    {
+      "period": "2022",
+      "ru": "XIV Международный конкурс академического рисунка, Санкт-Петербургская художественно-промышленная академия имени А. Л. Штиглица, Санкт-Петербург.",
+      "en": "14th International Academic Drawing Competition, Stieglitz St. Petersburg State Academy of Art and Industry, St. Petersburg."
+    },
+    {
+      "period": "2021",
+      "ru": "«Нева на волжских берегах», Центр современного искусства Чувашской Республики, Чебоксары.",
+      "en": "“The Neva on the Volga Banks”, Centre for Contemporary Art of the Chuvash Republic, Cheboksary."
+    },
+    {
+      "period": "2020",
+      "ru": "DEUS XXI, Санкт-Петербургская академия художеств имени Ильи Репина, Санкт-Петербург.",
+      "en": "DEUS XXI, Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2020",
+      "ru": "III Молодёжная, Историко-художественный музейный комплекс, Новочебоксарск.",
+      "en": "3rd Youth Exhibition, Historical and Art Museum Complex, Novocheboksarsk."
+    },
+    {
+      "period": "2020",
+      "ru": "«Живопись из методического фонда 2019–2020», Санкт-Петербургская академия художеств имени Ильи Репина, Санкт-Петербург.",
+      "en": "“Paintings from the Methodological Collection 2019–2020”, Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2019",
+      "ru": "«Живопись из методического фонда 2018–2019», Санкт-Петербургская академия художеств имени Ильи Репина, Санкт-Петербург.",
+      "en": "“Paintings from the Methodological Collection 2018–2019”, Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2019",
+      "ru": "Премия Игоря Минакова «Поэтический Петербург», Музей Академии художеств, Санкт-Петербург.",
+      "en": "Igor Minakov Prize “Poetic Petersburg”, Museum of the Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2019",
+      "ru": "«Лучший учебный рисунок, наброски и зарисовки», Санкт-Петербургская академия художеств имени Ильи Репина, Санкт-Петербург.",
+      "en": "“Best Academic Drawings, Sketches and Studies”, Repin Academy of Arts, St. Petersburg."
+    },
+    {
+      "period": "2018",
+      "ru": "«Волга — Нева», Санкт-Петербургский Дом национальностей, Санкт-Петербург.",
+      "en": "“Volga — Neva”, St. Petersburg House of Nationalities, St. Petersburg."
+    }
   ],
   "curatorial": [
     {
       "period": "2022",
-      "ru": "Выставка «Белые и цветные полосы тумана между небом и землёй» (художник Ирина Иванова), Kunsthalle nummer sieben, Санкт-Петербург.",
-      "en": "Exhibition “White and Coloured Stripes of Fog between Sky and Earth” (artist Irina Ivanova), Kunsthalle nummer sieben, St. Petersburg."
+      "ru": "Выставка «Белые и цветные полосы тумана между небом и землёй» художника Ирины Ивановой совместно с куратором Татьяной Черномордовой, выставочное пространство Kunsthalle nummer sieben, Санкт-Петербург, Россия.",
+      "en": "Exhibition “White and Coloured Stripes of Fog between Sky and Earth” by the artist Irina Ivanova, co-curated with Tatiana Chernomordova, Kunsthalle nummer sieben, St. Petersburg, Russia."
+    }
+  ],
+  "awards": [
+    {
+      "period": "2024",
+      "ru": "Победитель Международного конкурса фэшн-иллюстрации, Дубай, ОАЭ.",
+      "en": "Winner of the International Fashion Illustration Competition, Dubai, UAE."
+    },
+    {
+      "period": "2024",
+      "ru": "Почётная грамота Министра культуры Чувашской Республики.",
+      "en": "Certificate of Honour from the Minister of Culture of the Chuvash Republic."
+    },
+    {
+      "period": "2023",
+      "ru": "Похвала Государственной экзаменационной комиссии за выпускную квалификационную работу Санкт-Петербургской академии художеств имени Ильи Репина — картина «Чувашская свадьба».",
+      "en": "Commendation of the State Examination Board for the graduation work at the Repin Academy of Arts — the painting “The Chuvash Wedding”."
+    },
+    {
+      "period": "2023",
+      "ru": "Лауреат I степени, номинация «Портрет», XV Международный конкурс академического рисунка, Санкт-Петербургская художественно-промышленная академия имени А. Л. Штиглица, Санкт-Петербург.",
+      "en": "First-degree laureate, “Portrait” category, 15th International Academic Drawing Competition, Stieglitz St. Petersburg State Academy of Art and Industry, St. Petersburg."
+    },
+    {
+      "period": "2022",
+      "ru": "Лауреат I степени, номинация «Портрет», XIV Международный конкурс академического рисунка, Санкт-Петербургская художественно-промышленная академия имени А. Л. Штиглица, Санкт-Петербург.",
+      "en": "First-degree laureate, “Portrait” category, 14th International Academic Drawing Competition, Stieglitz St. Petersburg State Academy of Art and Industry, St. Petersburg."
     }
   ],
   "publications": [
-    { "period": "2023–2026", "ru": "Журнал «Юный художник».", "en": "Yuny Khudozhnik (Young Artist) magazine." },
-    { "period": "2023–2026", "ru": "Interior + Design.", "en": "Interior + Design." },
-    { "period": "2023–2026", "ru": "Fontanka.ru и региональные издания.", "en": "Fontanka.ru and regional media." }
+    {
+      "period": "2026",
+      "ru": "«Пāртассен çēнē çāлтāрē», статья Геннадия Иванова в газете «Çeнтерÿ çÿле», выпуск 12 января 2026 г.",
+      "en": "“Pārtassen çēnē çāltārē”, article by Gennady Ivanov in the newspaper “Çenterÿ çÿle”, issue of 12 January 2026."
+    },
+    {
+      "period": "2024",
+      "ru": "«Fashion Art: подиумная иллюстрация в Дубае», журнал Interior+Design.",
+      "en": "“Fashion Art: Runway Illustration in Dubai”, Interior+Design magazine.",
+      "url": "https://www.interior.ru/art/17363-fashion-art-podiumnaya-illyustratsiya-v-dubae.html"
+    },
+    {
+      "period": "2024",
+      "ru": "«Алина, художник с волжских берегов», Т. Сергеева, журнал «Юный художник», 2024, № 1, Москва, Россия.",
+      "en": "“Alina, an Artist from the Volga Banks”, T. Sergeeva, Yuny Khudozhnik (Young Artist) magazine, 2024, no. 1, Moscow, Russia."
+    },
+    {
+      "period": "2023",
+      "ru": "«Как художники рисуют себя и своих близких», А. Бобрович, Metronews.ru, Россия.",
+      "en": "“How Artists Paint Themselves and Their Loved Ones”, A. Bobrovich, Metronews.ru, Russia.",
+      "url": "https://www.metronews.ru/novosti/peterbourg/reviews/kak-hudozhniki-risuyut-sebya-i-svoih-blizkih-2109787/"
+    },
+    {
+      "period": "2023",
+      "ru": "«Академия делает время», Е. Вышенков, «Фонтанка.ру», Санкт-Петербург, Россия.",
+      "en": "“The Academy Makes Time”, E. Vyshenkov, Fontanka.ru, St. Petersburg, Russia.",
+      "url": "https://www.fontanka.ru/2023/08/03/72562298/"
+    },
+    {
+      "period": "2023",
+      "ru": "«Что смотреть на выставке дипломных работ в Академии художеств», А. Семенович, «Фонтанка.ру», Санкт-Петербург, Россия.",
+      "en": "“What to See at the Diploma Exhibition at the Academy of Arts”, A. Semenovich, Fontanka.ru, St. Petersburg, Russia.",
+      "url": "https://www.fontanka.ru/2023/08/06/72572468/"
+    },
+    {
+      "period": "2023",
+      "ru": "«В МАХ завершается традиционная выставка дипломных работ выпускников Академии художеств», Д. Гладких, журнал «Собака.ru», Санкт-Петербург, Россия.",
+      "en": "“The Traditional Diploma Exhibition of Academy of Arts Graduates Closes at the Museum of the Academy of Arts”, D. Gladkikh, Sobaka.ru magazine, St. Petersburg, Russia.",
+      "url": "https://www.sobaka.ru/entertainment/art/169765"
+    },
+    {
+      "period": "2023",
+      "ru": "«В парадных залах музея Академии художеств открылась выставка», В. Михайлов, газета «Санкт-Петербургские ведомости», Санкт-Петербург, Россия.",
+      "en": "“An Exhibition Opens in the State Rooms of the Museum of the Academy of Arts”, V. Mikhailov, Sankt-Peterburgskie Vedomosti newspaper, St. Petersburg, Russia.",
+      "url": "https://spbvedomosti.ru/news/gorod/v-paradnykh-zalakh-muzeya-akademii-khudozhestv-otkrylas-vystavka/"
+    },
+    {
+      "period": "2023",
+      "ru": "«Выставка выпускников Санкт-Петербургской академии художеств», Visit-city.art.",
+      "en": "“Exhibition of St. Petersburg Academy of Arts Graduates”, Visit-city.art.",
+      "url": "http://www.visit-city.art/exhibitions/spb-art-academy-diploma/"
+    }
   ]
 }

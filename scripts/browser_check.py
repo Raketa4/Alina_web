@@ -44,6 +44,8 @@ CASES = [
     "case=studio-visit&w=1024&h=768",
     "case=studio-visit&w=390&h=844",
     "case=studio-visit&w=360&h=640",
+    "case=about-page&w=1440&h=900",
+    "case=about-page&w=390&h=844",
     "case=studio-photos&w=1440&h=900",
     "case=studio-photos&w=390&h=844",
     "case=footer&w=1440",
