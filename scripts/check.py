@@ -512,42 +512,62 @@ def check_about_sections() -> None:
 
 # --- Проверка: контакты -----------------------------------------------
 
-CONTACTS_PHOTO = "assets/photos/contacts-studio.jpg"
+STUDIO_PHOTO = "assets/photos/studio-visit.jpg"
 CONTACTS_RU = {
+    "introTitle": "Связь с художником",
     "formIntro": "Либо воспользуйтесь формой обратной связи:",
-    "studioText": "Посетите мастерскую Алины Хоняк в Санкт-Петербурге по предварительной записи, "
-                  "чтобы познакомиться с сериями и увидеть понравившиеся вам произведения вживую.",
+}
+STUDIO_RU = {
+    "visitTitle": "Мастерская",
+    "visitText": "Посетите мастерскую Алины Хоняк в Санкт-Петербурге по предварительной записи, "
+                 "чтобы познакомиться с сериями и увидеть понравившиеся вам произведения вживую.",
+    "book": "Записаться на визит",
 }
 
 
 def check_contacts() -> None:
-    """Контакты как на jkim.ru/contact: блок связи и мастерская с фото, без формы."""
+    """Контакты: блок «Связь с художником» с формой; мастерская — на studio.html."""
     global checks_run
     checks_run += 1
     html = (ROOT / "contacts.html").read_text(encoding="utf-8")
-    for cls in ("contacts-intro", "contacts-studio", "contacts-photo", "contacts-studio-text", "contacts-book"):
-        if not re.search(rf'class="(?:[^"]*\s)?{cls}(?:\s[^"]*)?"', html):
-            fail(f"[контакты] contacts.html: нет блока .{cls}")
-    if f'src="{CONTACTS_PHOTO}"' not in html:
-        fail(f"[контакты] contacts.html: фото мастерской должно быть {CONTACTS_PHOTO}")
-    if not (ROOT / CONTACTS_PHOTO).exists():
-        fail(f"[контакты] нет файла {CONTACTS_PHOTO}")
+    if not re.search(r'class="(?:[^"]*\s)?contacts-intro(?:\s[^"]*)?"', html):
+        fail("[контакты] contacts.html: нет блока .contacts-intro")
+    if "studio-visit" in html or "contacts-studio" in html or STUDIO_PHOTO in html:
+        fail("[контакты] contacts.html: блок мастерской переехал на studio.html")
     site = load_json("data/site.json") or {}
     if site.get("email") != "alinakhoniak@gmail.com":
         fail("[контакты] site.json: email должен быть alinakhoniak@gmail.com")
     if site.get("contact_telegram") != "https://t.me/alinakhoniakart":
         fail("[контакты] site.json: contact_telegram должен быть https://t.me/alinakhoniakart")
     ru = load_json("i18n/ru.json") or {}
-    if (ru.get("contacts") or {}).get("introTitle") != "Связь с художником":
-        fail("[контакты] i18n/ru.json: contacts.introTitle должен быть «Связь с художником»")
+    contacts = ru.get("contacts") or {}
     for key, want in CONTACTS_RU.items():
-        if (ru.get("contacts") or {}).get(key) != want:
+        if contacts.get(key) != want:
             fail(f"[контакты] i18n/ru.json: contacts.{key} должен быть «{want}»")
-    for key in ("studioHours", "studioPlace"):
-        if key in html or key in (ru.get("contacts") or {}):
-            fail(f"[контакты] contacts.{key} больше не нужен — мастерская описана одним абзацем")
+    for key in ("studioTitle", "studioText", "book", "photoAlt"):
+        if key in contacts:
+            fail(f"[контакты] i18n/ru.json: contacts.{key} переехал в блок studio")
     if 'class="contacts-muted contacts-form-intro"' not in html:
         fail("[контакты] contacts.html: нет фразы перед формой (.contacts-form-intro)")
+
+
+def check_studio_visit() -> None:
+    """Мастерская: блок «посетите мастерскую» — фото слева, текст и кнопка справа."""
+    global checks_run
+    checks_run += 1
+    html = (ROOT / "studio.html").read_text(encoding="utf-8")
+    for cls in ("studio-visit", "visit-photo", "visit-text", "visit-book"):
+        if not re.search(rf'class="(?:[^"]*\s)?{cls}(?:\s[^"]*)?"', html):
+            fail(f"[мастерская] studio.html: нет блока .{cls}")
+    if f'src="{STUDIO_PHOTO}"' not in html:
+        fail(f"[мастерская] studio.html: фото должно быть {STUDIO_PHOTO}")
+    if not (ROOT / STUDIO_PHOTO).exists():
+        fail(f"[мастерская] нет файла {STUDIO_PHOTO}")
+    ru = load_json("i18n/ru.json") or {}
+    studio = ru.get("studio") or {}
+    for key, want in STUDIO_RU.items():
+        if studio.get(key) != want:
+            fail(f"[мастерская] i18n/ru.json: studio.{key} должен быть «{want}»")
 
 
 # --- Проверка: форма связи (под блоком «Связь с художником») -----------
@@ -576,6 +596,7 @@ def check_contact_form() -> None:
 CHECKS = {
     "form": check_contact_form,
     "contacts": check_contacts,
+    "studio": check_studio_visit,
     "info": check_info,
     "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,

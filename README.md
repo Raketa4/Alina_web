@@ -60,12 +60,16 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 
 ## Контакты
 
-`contacts.html` сделана по образцу jkim.ru/contact: блок «Связь с художником»
-(почта, Telegram и под ними форма обратной связи) и мастерская — фото
-`assets/photos/contacts-studio.jpg` слева, текст и кнопка «Записаться на визит»
-справа. Почта — `site.json` → `email`, Telegram для связи и записи —
-`contact_telegram` (в подвале — `social.telegram`). Тексты — блок `contacts`
+`contacts.html` — блок «Связь с художником» по образцу jkim.ru/contact: почта,
+Telegram и под ними форма обратной связи. Блок «посетите мастерскую» (фото
+`assets/photos/studio-visit.jpg` слева, текст и кнопка «Записаться на визит»
+справа) — вверху `studio.html`. Почта — `site.json` → `email`, Telegram для связи
+и записи — `contact_telegram`. Тексты — блоки `contacts` и `studio`
 в `i18n/*.json`.
+
+Подвал (общий, `js/chrome.js`): «© год Алина Хоняк», под ним кружки со значками
+Telegram, Instagram, VK (ссылки — `site.json` → `social`; значки Simple Icons,
+CC0) и строка про авторское право (`footer.rights` в `i18n/*.json`).
 
 Форма отправляется обычным POST на `https://formsubmit.co/alinakhoniak@gmail.com`
 (адрес также подставляется из `site.json` → `email`). После отправки FormSubmit

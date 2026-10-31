@@ -218,17 +218,17 @@ button { font: inherit; color: inherit; }
 .about-links { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: var(--step-h3); }
 .section-photos { margin-top: clamp(2rem, 4vw, 3rem); }
 
-/* --- контакты (по образцу jkim.ru/contact) ---------------------------- */
-/* Сверху блок связи; ниже мастерская: фото 2:3 от левого края на половину
-   ширины и текст справа, он «прилипает» при прокрутке. На телефоне фото во
-   всю ширину, текст под ним. Заголовки чёрные, описания серые. */
+/* --- контакты и мастерская (по образцу jkim.ru/contact) ------------- */
+/* Контакты: блок связи с формой. Мастерская: фото 2:3 от левого края на
+   половину ширины и текст справа, он «прилипает» при прокрутке; на телефоне
+   фото во всю ширину, текст под ним. Заголовки чёрные, описания серые. */
 
 .contacts-intro,
-.contacts-studio-text { font-size: 17px; line-height: 1.3; }
+.visit-text { font-size: 17px; line-height: 1.3; }
 .contacts-intro { width: 50%; padding: 28px; }
 .contacts-intro p { margin: 0; }
-.contacts-heading { margin: 0; font-size: inherit; line-height: inherit; }
-.contacts-muted { color: var(--ink-soft); }
+.contacts-heading, .visit-heading { margin: 0; font-size: inherit; line-height: inherit; }
+.contacts-muted, .visit-muted { color: var(--ink-soft); }
 .contacts-muted p { margin: 0; }
 .contacts-muted p + p { margin-top: 1em; }
 .contacts-muted a { color: inherit; text-decoration: none; box-shadow: inset 0 -1px 0 currentColor; }
@@ -253,9 +253,9 @@ button { font: inherit; color: inherit; }
 .consent { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--step-small); }
 .consent input { margin-top: 0.2em; }
 
-.contacts-studio { display: flex; align-items: flex-start; }
-.contacts-photo { width: 50%; margin: 0; }
-.contacts-photo img {
+.studio-visit { display: flex; align-items: flex-start; }
+.visit-photo { width: 50%; margin: 0; }
+.visit-photo img {
   display: block;
   width: 100%;
   height: auto;
@@ -263,27 +263,28 @@ button { font: inherit; color: inherit; }
   object-fit: cover;
   background: #EDEDED;
 }
-.contacts-studio-text {
+.visit-text {
   position: sticky;
   top: var(--header-h);
   width: 50%;
   padding: 108px 28px 40px;
 }
-.contacts-studio-text .contacts-heading { margin-bottom: 16px; }
-.contacts-studio-text .contacts-muted { margin-bottom: 32px; }
-.contacts-book { display: block; width: 100%; padding: 11px 13px; text-align: center; text-decoration: none; }
+.visit-heading { margin-bottom: 16px; }
+.visit-muted { margin: 0 0 32px; }
+.studio-more { margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+.visit-book { display: block; width: 100%; padding: 11px 13px; text-align: center; text-decoration: none; }
 
 @media (max-width: 739px) {
   .contacts-intro,
-  .contacts-studio-text { font-size: 15px; }
+  .visit-text { font-size: 15px; }
   .contacts-intro { width: auto; padding: 32px 24px; text-align: center; }
   .contacts-intro .contacts-heading { margin-bottom: 4px; }
   .contacts-form { margin: 24px auto 0; }
-  .contacts-studio { display: block; }
-  .contacts-photo { width: auto; }
-  .contacts-studio-text { position: static; width: auto; padding: 24px 24px 28px; }
-  .contacts-studio-text .contacts-heading { margin-bottom: 12px; }
-  .contacts-studio-text .contacts-muted { margin-bottom: 20px; }
+  .studio-visit { display: block; }
+  .visit-photo { width: auto; }
+  .visit-text { position: static; width: auto; padding: 24px 24px 28px; }
+  .visit-heading { margin-bottom: 12px; }
+  .visit-muted { margin-bottom: 20px; }
 }
 
 .btn {
@@ -438,20 +439,32 @@ body.menu-open { overflow: hidden; }
 
 /* --- подвал ------------------------------------------------- */
 
+/* Столбиком: © год, кружки соцсетей, строка про авторское право. */
 .site-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.75rem 2rem;
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
   margin-top: clamp(3rem, 8vw, 6rem);
   padding: 1.5rem 28px 2rem;
   border-top: 1px solid var(--rule);
   font-size: var(--step-small);
   color: var(--ink-soft);
 }
-.footer-links { display: flex; gap: 1.25rem; }
-.footer-links a { text-decoration: none; }
-.footer-links a:hover { color: var(--ink); }
+.footer-copy, .footer-rights { margin: 0; }
+.footer-rights { max-width: 62ch; }
+.footer-social { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.social-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  color: var(--ink);
+  transition: background-color 0.25s, color 0.25s;
+}
+.social-icon svg { width: 18px; height: 18px; fill: currentColor; }
+.social-icon:hover, .social-icon:focus-visible { background: var(--ink); color: var(--bg); }
 
 /* --- просмотрщик ------------------------------------------- */
 

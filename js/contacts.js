@@ -1,24 +1,13 @@
-// Контакты: почта и Telegram для связи берутся из data/site.json
-// (email, contact_telegram). В разметке те же адреса — на случай без JS.
+// Контакты: почта и Telegram для связи — из data/site.json (fillContactLinks).
 // Форма отправляется обычным POST в FormSubmit; после отправки он
 // возвращает на contacts.html?sent=1 — показываем благодарность.
 
-import { qs, qsa, param } from './util.js';
-import { getSite } from './site.js';
+import { qs, param } from './util.js';
+import { fillContactLinks } from './site.js';
 
 export async function initContacts() {
-  const site = await getSite();
-
-  if (site.email) {
-    qsa('.js-contact-email').forEach((a) => {
-      a.href = `mailto:${site.email}`;
-      a.textContent = site.email;
-    });
-    const form = qs('#contact-form');
-    if (form) form.action = `https://formsubmit.co/${site.email}`;
-  }
-  if (site.contact_telegram) {
-    qsa('.js-contact-telegram').forEach((a) => { a.href = site.contact_telegram; });
-  }
+  const site = await fillContactLinks();
+  const form = qs('#contact-form');
+  if (form && site.email) form.action = `https://formsubmit.co/${site.email}`;
   if (param('sent') === '1') qs('#form-sent')?.removeAttribute('hidden');
 }

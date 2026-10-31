@@ -1,10 +1,13 @@
-// Мастерская: общее описание и фотографии процесса из data/studio.json.
+// Мастерская: вверху блок «посетите мастерскую» (кнопка ведёт в Telegram из
+// site.json), ниже описание и фотографии процесса из data/studio.json.
 
 import { getJSON, qs, getLang, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
+import { fillContactLinks } from './site.js';
 
 export async function initStudio() {
+  fillContactLinks();
   const mount = qs('#studio');
   if (!mount) return;
 

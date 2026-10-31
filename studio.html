@@ -25,10 +25,22 @@
 <body>
 
   <main id="main">
-    <div class="container page-head">
-      <h1 data-i18n="menu.studio">Мастерская</h1>
-    </div>
-    <section class="container" id="studio"></section>
+    <h1 class="sr-only" data-i18n="menu.studio">Мастерская</h1>
+
+    <section class="studio-visit">
+      <figure class="visit-photo">
+        <img src="assets/photos/studio-visit.jpg" width="1400" height="2112"
+             alt="Алина Хоняк за работой в мастерской" data-i18n-attr="alt:studio.photoAlt">
+      </figure>
+      <div class="visit-text">
+        <h2 class="visit-heading" data-i18n="studio.visitTitle">Мастерская</h2>
+        <p class="visit-muted" data-i18n="studio.visitText">Посетите мастерскую Алины Хоняк в Санкт-Петербурге по предварительной записи, чтобы познакомиться с сериями и увидеть понравившиеся вам произведения вживую.</p>
+        <a class="btn visit-book js-contact-telegram" href="https://t.me/alinakhoniakart" target="_blank"
+           rel="noopener" data-i18n="studio.book">Записаться на визит</a>
+      </div>
+    </section>
+
+    <section class="container studio-more" id="studio"></section>
   </main>
 
   <script type="module">

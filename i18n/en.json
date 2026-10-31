@@ -50,10 +50,6 @@
     "or": "or",
     "telegram": "on Telegram",
     "formIntro": "Or use the feedback form:",
-    "studioTitle": "Studio",
-    "studioText": "Visit Alina Khoniak’s studio in St. Petersburg by appointment to explore the series and see the works you like in person.",
-    "book": "Book a visit",
-    "photoAlt": "Alina Khoniak at work in her studio",
     "formName": "Name",
     "formEmail": "E-mail",
     "formMessage": "Message",
@@ -62,12 +58,18 @@
     "consentLink": "details",
     "sent": "Thank you! Your message has been sent."
   },
+  "studio": {
+    "visitTitle": "Studio",
+    "visitText": "Visit Alina Khoniak’s studio in St. Petersburg by appointment to explore the series and see the works you like in person.",
+    "book": "Book a visit",
+    "photoAlt": "Alina Khoniak at work in her studio"
+  },
   "footer": {
     "tagline": "Painter. St. Petersburg.",
     "nav": "Sections",
     "contact": "Contact",
     "privacy": "Data and privacy",
-    "rights": "All rights to the images of the works belong to the artist.",
+    "rights": "All rights reserved. Images of the artworks and texts on this site are protected by copyright and may be copied or used only with the artist’s written permission.",
     "backToTop": "Top",
     "copyright": "Alina Khoniak"
   },
