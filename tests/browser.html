@@ -114,6 +114,31 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // Закрытое меню не перекрывает страницу: слой скрыт, а точка в центре
+  // заголовка на «Инфо» попадает в сам заголовок, а не в невидимое меню.
+  // То же после открытия и закрытия меню.
+  async 'menu-closed'() {
+    const bad = [];
+    const win = await load('../info.html', 1280, 800);
+    const d = win.document;
+    const hit = (tag) => {
+      const s = d.querySelector('details.info-item summary');
+      const r = s.getBoundingClientRect();
+      const el = d.elementFromPoint(r.left + 20, r.top + r.height / 2);
+      if (!s.contains(el)) bad.push(`${tag}:hit=${el ? el.className || el.tagName : 'none'}`);
+    };
+    const layer = d.querySelector('.menu-layer');
+    if (win.getComputedStyle(layer).display !== 'none') bad.push('layer-shown');
+    hit('initial');
+    d.querySelector('.menu-toggle').click();
+    await wait(600);
+    d.querySelector('.menu-toggle').click();
+    await wait(800);
+    if (win.getComputedStyle(layer).display !== 'none') bad.push('layer-shown-after-close');
+    hit('after-close');
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
   // «Инфо»: пять документов раскрывающимся списком — сначала всё свёрнуто,
   // клик по заголовку открывает и закрывает; адрес с #id открывает нужный
   // пункт и прокручивает к нему; ссылка [..](#privacy) внутри открывает политику.
