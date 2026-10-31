@@ -513,6 +513,11 @@ def check_about_sections() -> None:
 # --- Проверка: контакты -----------------------------------------------
 
 CONTACTS_PHOTO = "assets/photos/contacts-studio.jpg"
+CONTACTS_RU = {
+    "formIntro": "Или воспользуйтесь формой обратной связи:",
+    "studioText": "Посетите мастерскую Алины Хоняк в Санкт-Петербурге по предварительной записи, "
+                  "чтобы познакомиться с сериями и увидеть понравившиеся вам произведения вживую.",
+}
 
 
 def check_contacts() -> None:
@@ -535,6 +540,14 @@ def check_contacts() -> None:
     ru = load_json("i18n/ru.json") or {}
     if (ru.get("contacts") or {}).get("introTitle") != "Связь с художником":
         fail("[контакты] i18n/ru.json: contacts.introTitle должен быть «Связь с художником»")
+    for key, want in CONTACTS_RU.items():
+        if (ru.get("contacts") or {}).get(key) != want:
+            fail(f"[контакты] i18n/ru.json: contacts.{key} должен быть «{want}»")
+    for key in ("studioHours", "studioPlace"):
+        if key in html or key in (ru.get("contacts") or {}):
+            fail(f"[контакты] contacts.{key} больше не нужен — мастерская описана одним абзацем")
+    if 'class="contacts-muted contacts-form-intro"' not in html:
+        fail("[контакты] contacts.html: нет фразы перед формой (.contacts-form-intro)")
 
 
 # --- Проверка: форма связи (под блоком «Связь с художником») -----------

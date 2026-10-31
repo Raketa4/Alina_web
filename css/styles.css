@@ -234,7 +234,8 @@ button { font: inherit; color: inherit; }
 .contacts-muted a { color: inherit; text-decoration: none; box-shadow: inset 0 -1px 0 currentColor; }
 
 /* Форма обратной связи — в блоке связи, под фразой с почтой. */
-.contacts-form { margin-top: 28px; text-align: left; }
+.contacts-intro .contacts-form-intro { margin-top: 1em; }
+.contacts-form { margin-top: 20px; text-align: left; }
 .form { display: grid; gap: 1.25rem; max-width: 34rem; }
 .form-sent { margin: 0; padding: 0.9rem 1rem; background: var(--hover); }
 .field { display: grid; gap: 0.4rem; }
