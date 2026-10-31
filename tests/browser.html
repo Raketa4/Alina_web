@@ -194,7 +194,42 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
-  // Подвал: под «© год Алина Хоняк» — круглые ссылки Telegram, Instagram, VK
+  // Мастерская, фото процесса: без текста-заглушки, ровно два фото и никаких
+  // пустых ячеек — на компьютере в один ряд одной высоты во всю ширину,
+  // на телефоне одно под другим во всю ширину.
+  async 'studio-photos'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../studio.html', w, h);
+    const d = win.document;
+    const bad = [];
+    const wrap = d.querySelector('.studio-photos');
+    if (!wrap) return [false, `${w}x${h} no-photos`];
+    if (d.querySelector('#studio .prose p')) bad.push('placeholder-text');
+    const items = [...wrap.children];
+    const zoom = items.map((b) => b.dataset.zoom).join();
+    if (zoom !== 'assets/photos/studio-1-full.jpg,assets/photos/studio-2-full.jpg') bad.push(`items=${zoom}`);
+    wrap.scrollIntoView({ block: 'start', behavior: 'instant' }); // фото грузятся лениво
+    const imgs = items.map((b) => b.querySelector('img'));
+    await Promise.all(imgs.map((img) => (img.complete ? null
+      : new Promise((r) => { img.addEventListener('load', r); img.addEventListener('error', r); setTimeout(r, 5000); }))));
+    await wait(200);
+    if (imgs.some((img) => !img || !img.naturalWidth)) bad.push('img-not-loaded');
+    const box = wrap.getBoundingClientRect();
+    const r = imgs.map((img) => img.getBoundingClientRect());
+    if (r.length === 2) {
+      if (w >= 740) {
+        if (Math.abs(r[0].top - r[1].top) > 1 || Math.abs(r[0].height - r[1].height) > 2) bad.push(`not-one-row=${Math.round(r[0].height)}/${Math.round(r[1].height)}`);
+        if (Math.abs(r[1].right - box.right) > 2 || Math.abs(r[0].left - box.left) > 2) bad.push('row-not-full-width');
+      } else {
+        if (r[1].top < r[0].bottom) bad.push('not-stacked');
+        if (r.some((x) => Math.abs(x.width - box.width) > 2)) bad.push('not-full-width');
+      }
+    }
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
+  // Подвал: под «© год Алина Хоняк» — круглые ссылки Telegram, Instagram, VK, Pinterest
   // со значками (без надписей, с aria-label), под ними — про авторское право.
   async 'footer'() {
     const w = +q.get('w');
@@ -205,7 +240,8 @@ const cases = {
     const icons = [...d.querySelectorAll('.site-footer .footer-social a.social-icon')];
     const rights = d.querySelector('.site-footer .footer-rights');
     if (!copy || !/©\s*\d{4}/.test(copy.textContent)) bad.push('no-copyright');
-    const want = ['https://t.me/alinakhoniak', 'https://www.instagram.com/alinakhoniak', 'https://vk.com/alinakhoniak'];
+    const want = ['https://t.me/alinakhoniak', 'https://www.instagram.com/alinakhoniak', 'https://vk.com/alinakhoniak',
+      'https://pin.it/5FzbwuKWl'];
     if (icons.map((a) => a.getAttribute('href')).join() !== want.join()) bad.push(`hrefs=${icons.map((a) => a.getAttribute('href'))}`);
     icons.forEach((a, i) => {
       const r = a.getBoundingClientRect();

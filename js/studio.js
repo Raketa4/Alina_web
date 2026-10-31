@@ -1,7 +1,7 @@
 // Мастерская: вверху блок «посетите мастерскую» (кнопка ведёт в Telegram из
-// site.json), ниже описание и фотографии процесса из data/studio.json.
+// site.json), ниже описание (если есть) и фотографии процесса из data/studio.json.
 
-import { getJSON, qs, getLang, escapeHtml, thumbImg } from './util.js';
+import { getJSON, qs, qsa, getLang, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
 import { fillContactLinks } from './site.js';
@@ -21,8 +21,17 @@ export async function initStudio() {
         </button>`).join('');
 
   mount.innerHTML = `
-    <div class="prose">${paras}</div>
-    <div class="photo-grid section-photos">${photos}</div>`;
+    ${paras ? `<div class="prose">${paras}</div>` : ''}
+    ${photos ? `<div class="studio-photos">${photos}</div>` : ''}`;
+
+  // ширина фото пропорциональна его сторонам — в ряду фото одной высоты
+  qsa('.studio-photos img', mount).forEach((img) => {
+    const fit = () => {
+      if (img.naturalWidth) img.parentElement.style.setProperty('--r', (img.naturalWidth / img.naturalHeight).toFixed(4));
+    };
+    if (img.complete) fit();
+    img.addEventListener('load', fit);
+  });
 
   revealize(mount);
 }

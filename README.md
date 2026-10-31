@@ -68,7 +68,7 @@ Telegram и под ними форма обратной связи. Блок «�
 в `i18n/*.json`.
 
 Подвал (общий, `js/chrome.js`): «© год Алина Хоняк», под ним кружки со значками
-Telegram, Instagram, VK (ссылки — `site.json` → `social`; значки Simple Icons,
+Telegram, Instagram, VK, Pinterest (ссылки — `site.json` → `social`; значки Simple Icons,
 CC0) и строка про авторское право (`footer.rights` в `i18n/*.json`).
 
 Форма отправляется обычным POST на `https://formsubmit.co/alinakhoniak@gmail.com`

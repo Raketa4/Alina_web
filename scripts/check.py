@@ -517,6 +517,7 @@ CONTACTS_RU = {
     "introTitle": "Связь с художником",
     "formIntro": "Либо воспользуйтесь формой обратной связи:",
 }
+STUDIO_IMAGES = ["assets/photos/studio-1-full.jpg", "assets/photos/studio-2-full.jpg"]
 STUDIO_RU = {
     "visitTitle": "Мастерская",
     "visitText": "Посетите мастерскую Алины Хоняк в Санкт-Петербурге по предварительной записи, "
@@ -568,6 +569,18 @@ def check_studio_visit() -> None:
     for key, want in STUDIO_RU.items():
         if studio.get(key) != want:
             fail(f"[мастерская] i18n/ru.json: studio.{key} должен быть «{want}»")
+    data = load_json("data/studio.json") or {}
+    if data.get("images") != STUDIO_IMAGES:
+        fail(f"[мастерская] studio.json: фото процесса должны быть {STUDIO_IMAGES}")
+    for src in data.get("images") or []:
+        for path in (src, src.replace("-full.jpg", "-thumb.jpg")):
+            if not (ROOT / path).exists():
+                fail(f"[мастерская] нет файла {path}")
+    if any((data.get("text") or {}).get(lang) for lang in ("ru", "en")):
+        fail("[мастерская] studio.json: текст-заглушка про будущие фото не нужен")
+    site = load_json("data/site.json") or {}
+    if (site.get("social") or {}).get("pinterest") != "https://pin.it/5FzbwuKWl":
+        fail("[подвал] site.json: social.pinterest должен быть https://pin.it/5FzbwuKWl")
 
 
 # --- Проверка: форма связи (под блоком «Связь с художником») -----------

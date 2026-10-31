@@ -272,6 +272,21 @@ button { font: inherit; color: inherit; }
 .visit-heading { margin-bottom: 16px; }
 .visit-muted { margin: 0 0 32px; }
 .studio-more { margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+/* Фото процесса без пустых ячеек: ширина каждого пропорциональна его сторонам
+   (--r = ширина / высота, ставит studio.js), поэтому в ряду фото одной высоты;
+   не помещаются при высоте ~260px — переносятся (на телефоне одно под другим). */
+.studio-photos { display: flex; flex-wrap: wrap; gap: clamp(0.75rem, 2vw, 1.25rem); }
+.studio-photos button {
+  --r: 1;
+  /* рост ×10: сумма в строке не меньше 1, иначе одно фото не растянется */
+  flex: calc(var(--r) * 10) 1 calc(var(--r) * 260px);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.studio-photos img { display: block; width: 100%; height: auto; }
 .visit-book { display: block; width: 100%; padding: 11px 13px; text-align: center; text-decoration: none; }
 
 @media (max-width: 739px) {
