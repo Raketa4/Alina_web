@@ -1,5 +1,7 @@
 // Общая «обвязка» каждой страницы: шапка, меню и подвал.
 // Пункты меню — data/menu.json, ссылки соцсетей и магазина — data/site.json.
+// На компьютере (шире 1024 px) разделы стоят строкой в шапке, уже — значок
+// меню и белый слой с сеткой 2 × 4 (переключает CSS, DESKTOP — та же граница).
 // Вызывается до applyTranslations: подписи проставляются через data-i18n.
 
 import { getJSON, qs, qsa, escapeHtml } from './util.js';
@@ -22,16 +24,28 @@ export async function renderChrome() {
     getSite(),
   ]);
 
-  document.body.insertAdjacentHTML('afterbegin', headerHtml() + menuHtml(menu, site));
+  document.body.insertAdjacentHTML('afterbegin', headerHtml(menu, site) + menuHtml(menu, site));
   document.body.insertAdjacentHTML('beforeend', footerHtml(site));
   markCurrent();
   wireMenu();
 }
 
-function headerHtml() {
+// Строка разделов для компьютера: все пункты меню, кроме главной (на неё
+// ведёт имя слева); «Каталог» без адреса магазина — серый и не ссылка.
+function headerHtml(menu, site) {
+  const links = menu.filter((item) => item.id !== 'home').map((item) => {
+    const label = `data-i18n="${escapeHtml(item.i18n)}"`;
+    if (item.id === 'shop') {
+      return site.shop_url
+        ? `<a class="header-link" data-id="shop" href="${escapeHtml(site.shop_url)}" target="_blank" rel="noopener" ${label}></a>`
+        : `<span class="header-link is-disabled" data-id="shop" aria-disabled="true" ${label}></span>`;
+    }
+    return `<a class="header-link" data-id="${escapeHtml(item.id)}" href="${escapeHtml(item.href)}" ${label}></a>`;
+  }).join('');
   return `
     <header class="site-header">
       <a class="wordmark" href="index.html" data-i18n="menu.home">Алина Хоняк</a>
+      <nav class="header-nav" data-i18n-attr="aria-label:common.menu">${links}</nav>
       <div class="header-tools">
         <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.switch">
           <button type="button" data-lang="ru">RU</button>
@@ -85,7 +99,7 @@ function footerHtml(site) {
 // aria-current="page" у ссылок, ведущих на текущую страницу.
 function markCurrent() {
   const here = location.pathname.split('/').pop() || 'index.html';
-  qsa('.menu-layer a[href]').forEach((a) => {
+  qsa('.menu-layer a[href], .header-nav a[href]').forEach((a) => {
     if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page');
   });
 }
@@ -94,6 +108,7 @@ function markCurrent() {
 // после перезагрузки оно открывается снова — иначе кажется, что сайт «вернул»
 // на страницу под меню.
 const REOPEN_KEY = 'akh-menu-reopen';
+const DESKTOP = '(min-width: 1025px)'; // как @media в css/styles.css
 
 function wireMenu() {
   const toggle = qs('.menu-toggle');
@@ -130,6 +145,10 @@ function wireMenu() {
 
   toggle.addEventListener('click', () => (isOpen() ? close() : open()));
   qsa('a[href]', layer).forEach((a) => a.addEventListener('click', () => close(false)));
+  // окно расширили до компьютера — значка и слоя там нет, меню закрываем
+  window.matchMedia(DESKTOP).addEventListener('change', (e) => {
+    if (e.matches && isOpen()) close(false);
+  });
 
   qsa('.lang-switch button[data-lang]').forEach((btn) => btn.addEventListener('click', () => {
     if (!isOpen() || btn.getAttribute('aria-pressed') === 'true') return; // тот же язык — без перезагрузки

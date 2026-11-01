@@ -529,6 +529,37 @@ body.menu-open { overflow: hidden; }
 .menu-instant .menu-layer,
 .menu-instant .menu-title { transition: none; }
 
+/* Компьютер (шире 1024 px): разделы строкой в шапке, как у valentino.com, —
+   прописными, размером с RU/EN; значка меню и слоя с сеткой нет. Уже — как
+   на телефоне. Граница та же, что DESKTOP в js/chrome.js. */
+.header-nav { display: none; }
+@media (min-width: 1025px) {
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2vw, 32px);
+    margin: 0 32px 0 auto;
+  }
+  .header-link {
+    font-size: var(--step-small);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--ink);
+    padding-block: 2px;
+  }
+  a.header-link:hover,
+  .header-link[aria-current="page"] { box-shadow: inset 0 -1px 0 currentColor; }
+  .header-link.is-disabled { color: var(--ink-soft); cursor: default; }
+  .menu-toggle,
+  .menu-layer { display: none; }
+  /* меню открыли в узком окне и расширили его: chrome.js закроет меню,
+     а до того страница уже прокручивается и шапка белая */
+  body.menu-open { overflow: visible; }
+  .menu-open .site-header { background: var(--bg); }
+}
+
 /* --- подвал ------------------------------------------------- */
 
 /* Столбиком: © год, кружки соцсетей, строка про авторское право. */

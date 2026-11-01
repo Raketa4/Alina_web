@@ -325,7 +325,7 @@ const cases = {
   // То же после открытия и закрытия меню.
   async 'menu-closed'() {
     const bad = [];
-    const win = await load('../info.html', 1280, 800);
+    const win = await load('../info.html', 900, 800); // значок меню — только уже 1025 px
     const d = win.document;
     const hit = (tag) => {
       const s = d.querySelector('details.info-item summary');
@@ -515,7 +515,7 @@ const cases = {
   // при следующей обычной загрузке меню закрыто.
   async 'menu-lang'() {
     const bad = [];
-    let win = await load('../series.html', 1440, 900);
+    let win = await load('../series.html', 900, 900); // значок меню — только уже 1025 px
     win.document.querySelector('.menu-toggle').click();
     await wait(600);
     const reloaded = new Promise((r) => { frame.onload = () => setTimeout(r, 1500); });
@@ -535,6 +535,65 @@ const cases = {
     await again;
     if (frame.contentWindow.document.body.classList.contains('menu-open')) bad.push('menu-open-after-plain-reload');
     try { frame.contentWindow.localStorage.setItem('akh-lang', 'ru'); } catch (_) { /* ignore */ }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // Компьютер (шире 1024 px): разделы строкой в шапке — Мастерская … Контакты
+  // («Главная» — имя слева), без значка меню и слоя-сетки; всё в одну строку,
+  // не наезжает на имя и RU/EN; текущая страница отмечена, «Каталог» без ссылки серый.
+  async 'desk-nav'() {
+    const w = +q.get('w');
+    const lang = q.get('lang') || 'ru';
+    const d = (await load(`../series.html?lang=${lang}`, w, 900)).document;
+    const win = frame.contentWindow;
+    const bad = [];
+    const shown = (el) => el && win.getComputedStyle(el).display !== 'none' && el.getBoundingClientRect().width > 0;
+    if (shown(d.querySelector('.menu-toggle'))) bad.push('toggle-shown');
+    if (win.getComputedStyle(d.querySelector('.menu-layer')).display !== 'none') bad.push('layer-shown');
+    const nav = d.querySelector('.site-header .header-nav');
+    if (!shown(nav)) return [false, `${w} ${lang} no-header-nav`];
+    const items = [...nav.querySelectorAll('.header-link')];
+    const want = lang === 'en'
+      ? ['Studio', 'About', 'Catalogue', 'Series', 'Projects', 'Info', 'Contacts']
+      : ['Мастерская', 'Об авторе', 'Каталог', 'Серии', 'Проекты', 'Инфо', 'Контакты'];
+    const labels = items.map((a) => a.textContent.trim());
+    if (labels.join('|') !== want.join('|')) bad.push(`labels=${labels.join('|')}`);
+    const hrefs = items.map((a) => a.getAttribute('href') || '-').join();
+    if (hrefs !== 'studio.html,about.html,-,series.html,projects.html,info.html,contacts.html') bad.push(`hrefs=${hrefs}`);
+    const rs = items.map((a) => a.getBoundingClientRect());
+    if (new Set(rs.map((r) => Math.round(r.top))).size !== 1) bad.push('not-one-row');
+    const header = d.querySelector('.site-header').getBoundingClientRect();
+    if (Math.round(header.height) !== 64) bad.push(`header-h=${header.height}`);
+    const word = d.querySelector('.wordmark').getBoundingClientRect();
+    const langs = d.querySelector('.lang-switch').getBoundingClientRect();
+    if (rs[0].left < word.right + 24) bad.push(`near-wordmark=${Math.round(rs[0].left - word.right)}`);
+    if (rs.at(-1).right > langs.left - 16) bad.push(`near-lang=${Math.round(langs.left - rs.at(-1).right)}`);
+    if (items.some((a) => a.scrollWidth > a.clientWidth + 1 || a.getBoundingClientRect().height > 30)) bad.push('wrapped');
+    const current = items.filter((a) => a.getAttribute('aria-current') === 'page').map((a) => a.getAttribute('href'));
+    if (current.join() !== 'series.html') bad.push(`current=${current}`);
+    const shop = items[2];
+    if (shop.matches('a[href]') || shop.getAttribute('aria-disabled') !== 'true') bad.push('shop-not-disabled');
+    if (win.getComputedStyle(shop).color === win.getComputedStyle(items[0]).color) bad.push('shop-not-grey');
+    if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
+    return [!bad.length, `${w} ${lang} ${bad.join(' ') || 'ok'}`];
+  },
+
+  // Меню открыто в узком окне, окно расширили до компьютера — слоя меню нет,
+  // страница прокручивается, шапка белая (закрывает меню chrome.js по событию
+  // смены ширины; фоновый браузер его в рамку не шлёт — проверяем то, что видно).
+  async 'desk-nav-resize'() {
+    const win = await load('../index.html', 900, 800);
+    const d = win.document;
+    d.querySelector('.menu-toggle').click();
+    await wait(600);
+    frame.width = 1300;
+    frame.getBoundingClientRect(); // раскладка рамки, как в обычном браузере (фоновый сам не пересчитывает)
+    await wait(800);
+    const bad = [];
+    if (win.getComputedStyle(d.querySelector('.menu-layer')).display !== 'none') bad.push('layer-shown');
+    if (win.getComputedStyle(d.body).overflow === 'hidden') bad.push('scroll-locked');
+    const bg = win.getComputedStyle(d.querySelector('.site-header')).backgroundColor;
+    if (bg !== 'rgb(255, 255, 255)') bad.push(`header-bg=${bg}`);
     return [!bad.length, bad.join(' ') || 'ok'];
   },
 
