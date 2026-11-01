@@ -13,10 +13,10 @@ export async function initProject() {
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) {
-    // Раньше серии жили в project.html?slug=… — старые ссылки ведут на серию.
+    // Раньше серии жили в project.html?slug=… — старые ссылки ведут к ленте серии.
     const series = await getJSON('data/series.json').catch(() => []);
     if (slug && series.some((s) => s.slug === slug)) {
-      location.replace(`series-view.html?slug=${encodeURIComponent(slug)}`);
+      location.replace(`series.html#${encodeURIComponent(slug)}`);
       return;
     }
     mount.innerHTML = `

@@ -2,38 +2,17 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-i18n="title.seriesView">Серия — Алина Хоняк</title>
-  <meta name="description" content="Серия работ Алины Хоняк.">
-  <link rel="canonical" href="https://raketa4.github.io/Alina_web/series-view.html">
-  <link rel="alternate" hreflang="ru" href="https://raketa4.github.io/Alina_web/series-view.html?lang=ru">
-  <link rel="alternate" hreflang="en" href="https://raketa4.github.io/Alina_web/series-view.html?lang=en">
-  <link rel="alternate" hreflang="x-default" href="https://raketa4.github.io/Alina_web/series-view.html">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Серия — Алина Хоняк">
-  <meta property="og:description" content="Серия работ Алины Хоняк.">
-  <meta property="og:image" content="https://raketa4.github.io/Alina_web/assets/og-image.png">
-  <meta property="og:url" content="https://raketa4.github.io/Alina_web/series-view.html">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-
-  <main id="main">
-    <div id="series-view"></div>
-  </main>
-
-  <script type="module">
-    import { bootPage } from './js/page.js';
-    import { initSeriesView } from './js/series-view.js';
-    bootPage(initSeriesView);
+  <title>Серии — Алина Хоняк</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://raketa4.github.io/Alina_web/series.html">
+  <!-- Отдельных страниц серий больше нет: серии — ленты на series.html.
+       Старые ссылки series-view.html?slug=… ведут к ленте нужной серии. -->
+  <script>
+    const slug = new URLSearchParams(location.search).get('slug');
+    location.replace('series.html' + location.search.replace(/[?&]?slug=[^&]*/, '').replace(/^&/, '?')
+      + (slug ? '#' + encodeURIComponent(slug) : ''));
   </script>
-
-</body>
+  <meta http-equiv="refresh" content="0; url=series.html">
+</head>
+<body></body>
 </html>

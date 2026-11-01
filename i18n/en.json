@@ -76,9 +76,9 @@
   },
   "series": {
     "title": "Series",
-    "back": "Series",
-    "notFoundTitle": "Series not found",
-    "notFoundText": "There is no such series. See all series."
+    "cm": "cm",
+    "prev": "Scroll back",
+    "next": "Scroll forward"
   },
   "title": {
     "home": "Alina Khoniak — painter",
@@ -87,7 +87,6 @@
     "cv": "CV — Alina Khoniak",
     "statement": "Artist statement — Alina Khoniak",
     "series": "Series — Alina Khoniak",
-    "seriesView": "Series — Alina Khoniak",
     "projects": "Projects — Alina Khoniak",
     "project": "Project — Alina Khoniak",
     "info": "Info — Alina Khoniak",

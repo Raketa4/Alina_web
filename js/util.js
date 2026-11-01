@@ -66,11 +66,13 @@ export function param(name) {
 
 // <img> с миниатюрой (-thumb) и автоматическим откатом на -full,
 // если миниатюры на сервере нет.
-export function thumbImg(fullPath, alt, extraClass = '') {
+export function thumbImg(fullPath, alt, extraClass = '', { width, height } = {}) {
   const full = String(fullPath || '');
   const thumb = full.replace('-full', '-thumb');
   const cls = extraClass ? ` class="${extraClass}"` : '';
-  return `<img src="${escapeHtml(thumb)}" alt="${escapeHtml(alt)}"${cls}`
+  // размеры (любого масштаба) задают пропорции — место под картинку есть до загрузки
+  const size = width && height ? ` width="${Number(width)}" height="${Number(height)}"` : '';
+  return `<img src="${escapeHtml(thumb)}" alt="${escapeHtml(alt)}"${cls}${size}`
     + ' loading="lazy" decoding="async"'
     + ` onerror="this.onerror=null;this.src='${escapeHtml(full)}'">`;
 }

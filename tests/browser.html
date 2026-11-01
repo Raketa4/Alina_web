@@ -398,9 +398,69 @@ const cases = {
 
   // Старые адреса серий через project.html ведут на страницу серии.
   async 'old-series-slug'() {
-    const win = await load('../project.html?slug=portraits');
-    const path = win.location.pathname + win.location.search;
-    return [path.endsWith('series-view.html?slug=portraits'), path];
+    const bad = [];
+    for (const [from, to] of [['project.html?slug=city', 'series.html#city'],
+      ['series-view.html?slug=mountains-and-sea', 'series.html#mountains-and-sea']]) {
+      const win = await load(`../${from}`);
+      const path = win.location.pathname + win.location.search + win.location.hash;
+      if (!path.endsWith(to)) bad.push(`${from}->${path}`);
+    }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // Серии: ленты друг под другом — «Горы и море» (17), «Город» (4, без фото в раме);
+  // под каждой картиной подпись, стрелки листают ленту, клик открывает просмотрщик.
+  async 'series-strips'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../series.html', w, h);
+    const d = win.document;
+    const bad = [];
+    const strips = [...d.querySelectorAll('.strip')];
+    const ids = strips.map((s) => s.id).join();
+    if (ids !== 'mountains-and-sea,city') bad.push(`ids=${ids}`);
+    const heads = strips.map((s) => s.querySelector('h2')?.textContent.trim()).join('|');
+    if (heads !== 'Горы и море|Город') bad.push(`heads=${heads}`);
+    const counts = strips.map((s) => s.querySelectorAll('.strip-item').length).join();
+    if (counts !== '17,4') bad.push(`counts=${counts}`);
+    const caps = strips.map((s) => [...s.querySelectorAll('.strip-item figcaption')].map((c) => c.textContent.replace(/\s+/g, ' ').trim()));
+    if (caps[0]?.[0] !== '«Кипарисы» 63 × 70 см · холст, масло · 2019') bad.push(`cap0=${caps[0]?.[0]}`);
+    const city = (caps[1] || []).map((c) => c.split('»')[0] + '»').join('|');
+    if (city !== '«Дом на 11 линии. Кристалл»|«Весна в Петербурге»|«Петербургские крыши»|«Английская набережная»') bad.push(`city=${city}`);
+    const track = strips[0]?.querySelector('.strip-track');
+    const imgs = [...(track?.querySelectorAll('img') || [])].slice(0, 2);
+    await Promise.all(imgs.map((img) => img.complete ? 0 : new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); })));
+    if (imgs.some((img) => !img.naturalWidth)) bad.push('img-not-loaded');
+    const hs = [...(track?.querySelectorAll('img') || [])].map((img) => Math.round(img.getBoundingClientRect().height));
+    if (new Set(hs).size !== 1 || !hs[0]) bad.push(`heights=${[...new Set(hs)]}`);
+    if (track && track.scrollWidth <= track.clientWidth) bad.push('no-overflow');
+    const prev = strips[0]?.querySelector('.strip-nav [data-dir="-1"]');
+    const next = strips[0]?.querySelector('.strip-nav [data-dir="1"]');
+    if (!prev?.disabled) bad.push('prev-enabled-at-start');
+    // плавную прокрутку фоновый браузер не анимирует — проверяем запрос сдвига и стрелки у краёв
+    const asks = [];
+    if (track) track.scrollBy = (o) => asks.push(o.left);
+    next?.click();
+    if (!(asks[0] > track.clientWidth / 2)) bad.push(`next-asks=${asks}`);
+    track.scrollLeft = track.scrollWidth;
+    track.dispatchEvent(new win.Event('scroll'));
+    if (prev?.disabled || !next?.disabled) bad.push(`at-end prev=${prev?.disabled} next=${next?.disabled}`);
+    const zoom = strips[1]?.querySelector('.strip-item [data-zoom]');
+    if (zoom?.dataset.gallery !== 'city') bad.push(`gallery=${zoom?.dataset.gallery}`);
+    zoom?.click();
+    await wait(300);
+    if (!d.querySelector('.viewer.is-open, .viewer[open], .viewer:not([hidden])')) bad.push('viewer-closed');
+    if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
+  // EN: подписи и названия серий по-английски.
+  async 'series-en'() {
+    const d = (await load('../series.html?lang=en')).document;
+    const heads = [...d.querySelectorAll('.strip h2')].map((x) => x.textContent.trim()).join('|');
+    const cap = d.querySelector('.strip-item figcaption')?.textContent.replace(/\s+/g, ' ').trim();
+    const ok = heads === 'Mountains and Sea|City' && cap === '“Cypresses” 63 × 70 cm · oil on canvas · 2019';
+    return [ok, ok ? 'ok' : `heads=${heads} cap=${cap}`];
   },
 
   // EN: заголовок вкладки и подпись меню для экранных дикторов — по-английски.
@@ -415,14 +475,14 @@ const cases = {
     return [!bad.length, bad.join(' ') || 'ok'];
   },
 
-  // Серия: canonical, hreflang и og:url — с её slug, а не общий адрес страницы.
+  // Проект: canonical, hreflang и og:url — с его slug, а не общий адрес страницы.
   async 'detail-canonical'() {
-    const d = (await load('../series-view.html?slug=mountains-and-sea')).document;
+    const d = (await load('../project.html?slug=chuvash-wedding')).document;
     const urls = [
       ...[...d.querySelectorAll('link[rel="canonical"], link[rel="alternate"][hreflang]')].map((l) => l.href),
       d.querySelector('meta[property="og:url"]')?.content,
     ];
-    const bad = urls.filter((u) => !String(u).includes('slug=mountains-and-sea'));
+    const bad = urls.filter((u) => !String(u).includes('slug=chuvash-wedding'));
     return [urls.length === 5 && !bad.length, bad.join(' ') || `ok (${urls.length})`];
   },
 

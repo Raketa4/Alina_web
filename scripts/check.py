@@ -106,19 +106,23 @@ def check_series_schema() -> None:
         fail("[схема] series.json: ожидался непустой список")
         return
     check_unique_slugs(series, "series.json")
-    if {s.get("slug") for s in series} != {"mountains-and-sea", "portraits"}:
-        fail(f"[схема] series.json: слаги {[s.get('slug') for s in series]}, ожидались mountains-and-sea, portraits")
     for i, s in enumerate(series):
         where = f"series.json[{i}]"
-        require(s, ("slug", "title", "summary", "cover", "works"), where)
-        for key in ("title", "summary"):
-            if isinstance(s.get(key), dict):
-                check_bilingual(s[key], f"{where}.{key}")
+        require(s, ("slug", "title", "works"), where)
+        check_bilingual(s.get("title"), f"{where}.title")
         for j, w in enumerate(s.get("works") or []):
-            require(w, ("id", "src", "title"), f"{where}.works[{j}]")
+            at = f"{where}.works[{j}]"
+            require(w, ("id", "src", "width", "height", "title", "size", "medium", "year"), at)
+            check_bilingual(w.get("title"), f"{at}.title")
+            check_bilingual(w.get("medium"), f"{at}.medium")
             for banned in ("status", "price"):
                 if banned in w:
-                    fail(f"[схема] {where}.works[{j}]: поля '{banned}' быть не должно — продажа в магазине")
+                    fail(f"[схема] {at}: поля '{banned}' быть не должно — продажа в магазине")
+            # размеры в данных резервируют место под картину в ленте до загрузки
+            src = ROOT / str(w.get("src") or "")
+            size = jpeg_size(src) if src.is_file() else None
+            if size and size != (w.get("width"), w.get("height")):
+                fail(f"[схема] {at}: width/height {w.get('width')}×{w.get('height')}, а у файла {size[0]}×{size[1]}")
 
 
 def check_projects_schema() -> None:
@@ -209,9 +213,10 @@ def collect_image_paths() -> list[tuple[str, str]]:
                 out.append((f"projects/{p.get('slug')}", img))
     if (ROOT / "data/series.json").exists():
         for s in load_json("data/series.json") or []:
-            for img in [s.get("cover"), *[w.get("src") for w in s.get("works") or []]]:
-                if img:
-                    out.append((f"series/{s.get('slug')}", img))
+            for w in s.get("works") or []:
+                if w.get("src"):
+                    out.append((f"series/{s.get('slug')}", w["src"]))
+                    out.append((f"series/{s.get('slug')}", w["src"].replace("-full", "-thumb")))
     if (ROOT / "data/home.json").exists():
         home = load_json("data/home.json") or {}
         for img in [(home.get("hero") or {}).get("image"), *(home.get("photos") or [])]:
@@ -430,9 +435,8 @@ def check_detail_canonical() -> None:
     """Серия и проект подставляют свой slug в canonical, hreflang и og:url."""
     global checks_run
     checks_run += 1
-    for js in ("project.js", "series-view.js"):
-        if "setCanonicalParams(" not in (ROOT / "js" / js).read_text(encoding="utf-8"):
-            fail(f"[поисковики] js/{js}: не вызывается setCanonicalParams — все записи получат один адрес")
+    if "setCanonicalParams(" not in (ROOT / "js/project.js").read_text(encoding="utf-8"):
+        fail("[поисковики] js/project.js: не вызывается setCanonicalParams — все записи получат один адрес")
 
 
 # --- Проверка: просмотрщик ---------------------------------------------
@@ -458,23 +462,23 @@ def check_viewer() -> None:
 def check_detail_pages_have_not_found() -> None:
     global checks_run
     checks_run += 1
-    for rel in ("js/series-view.js", "js/project.js"):
-        path = ROOT / rel
-        if not path.exists() or "notFoundTitle" not in path.read_text(encoding="utf-8"):
-            fail(f"[страницы] {rel}: нет состояния «не найдено» для неизвестного slug")
+    path = ROOT / "js/project.js"
+    if not path.exists() or "notFoundTitle" not in path.read_text(encoding="utf-8"):
+        fail("[страницы] js/project.js: нет состояния «не найдено» для неизвестного slug")
 
 
-def check_no_captions_in_series() -> None:
+def check_series_page() -> None:
+    """Серии — ленты на series.html; series-view.html только переадресует старые ссылки."""
     global checks_run
     checks_run += 1
-    path = ROOT / "js/series-view.js"
-    if not path.exists():
-        fail("[страницы] js/series-view.js отсутствует")
-        return
-    text = path.read_text(encoding="utf-8")
-    for bad in ("work-meta", "work-title", "medium", "size", "price", "status"):
-        if bad in text:
-            fail(f"[страницы] series-view.js: '{bad}' — под работами в серии подписей быть не должно")
+    if (ROOT / "js/series-view.js").exists():
+        fail("[серии] js/series-view.js больше не нужен — серии показываются лентами на series.html")
+    stub = ROOT / "series-view.html"
+    text = stub.read_text(encoding="utf-8") if stub.exists() else ""
+    if "location.replace" not in text or "series.html" not in text or 'href="css/styles.css"' in text:
+        fail("[серии] series-view.html: должна быть только переадресация на series.html#<slug>")
+    if "series-view.html" in (ROOT / "sitemap.xml").read_text(encoding="utf-8"):
+        fail("[серии] sitemap.xml: series-view.html — переадресация, в карте сайта ей не место")
 
 
 # --- Проверка: следов каталога не осталось ------------------------------
@@ -729,7 +733,7 @@ CHECKS = {
     "about": check_about_sections,
     "nocatalog": check_no_catalog_refs,
     "notfound": check_detail_pages_have_not_found,
-    "captions": check_no_captions_in_series,
+    "series": check_series_page,
     "viewer": check_viewer,
     "menu": check_menu,
     "chrome": check_no_inline_chrome,

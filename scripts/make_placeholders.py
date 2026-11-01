@@ -11,8 +11,8 @@
     пару файлов assets/works/<id>-full.jpg и <id>-thumb.jpg;
   • если -full нет — рисует серый плейсхолдер с названием;
   • если -thumb нет, но -full есть (в т.ч. настоящее фото) — делает
-    миниатюру ~800 px из -full;
-  • то же для портрета assets/photos/artist-portrait.jpg.
+    из -full миниатюру высотой 720 px (лента серий на экранах высокой чёткости);
+  • то же для портрета автора (путь — data/site.json → portrait).
 
 --thumbs  пересоздаёт ВСЕ -thumb.jpg из -full.jpg (полезно после замены фото;
           сами -full не трогает).
@@ -30,14 +30,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKS = ROOT / "assets" / "works"
-PHOTOS = ROOT / "assets" / "photos"
 
 ARGS = sys.argv[1:]
 FORCE = "--force" in ARGS
 REBUILD_THUMBS = "--thumbs" in ARGS
 
 FULL_SIDE = 1600
-THUMB_SIDE = 800
+THUMB_SIDE = 800    # плейсхолдер миниатюры, большая сторона
+THUMB_HEIGHT = 720  # миниатюра из настоящего фото, высота
 
 BG = (232, 226, 216)
 FRAME = (176, 169, 154)
@@ -146,11 +146,11 @@ def render_placeholder(path: Path, ratio: float, caption: str, sub: str, long_si
     img.save(path, "JPEG", quality=82)
 
 
-def downscale(src: Path, dst: Path, long_side: int) -> None:
+def downscale(src: Path, dst: Path, height: int) -> None:
     with Image.open(src) as im:
         im = im.convert("RGB")
         w, h = im.size
-        scale = long_side / max(w, h)
+        scale = height / h
         if scale < 1:
             im = im.resize((max(1, round(w * scale)), max(1, round(h * scale))), Image.LANCZOS)
         dst.parent.mkdir(parents=True, exist_ok=True)
@@ -170,7 +170,7 @@ def process(name: str, ratio: float, caption: str, sub: str) -> None:
         print(f"  плейсхолдер: {thumb.relative_to(ROOT)}")
     elif REBUILD_THUMBS or not thumb.exists():
         if full.exists():
-            downscale(full, thumb, THUMB_SIDE)
+            downscale(full, thumb, THUMB_HEIGHT)
             print(f"  миниатюра из -full: {thumb.relative_to(ROOT)}")
         else:
             render_placeholder(thumb, ratio, caption, sub, THUMB_SIDE)
@@ -203,7 +203,7 @@ def main() -> int:
     for name, (ratio, cap, sub) in sorted(plan.items()):
         process(name, ratio, cap, sub)
 
-    portrait = PHOTOS / "artist-portrait.jpg"
+    portrait = ROOT / load("data/site.json")["portrait"]
     if FORCE or not portrait.exists():
         render_placeholder(portrait, ratio_for("artist-portrait", None),
                            "Портрет автора", "фото: Артём Жигалов", 1400)

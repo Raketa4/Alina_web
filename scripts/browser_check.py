@@ -35,6 +35,9 @@ BROWSERS = [
 CASES = [
     "case=viewer-click-image",
     "case=old-series-slug",
+    "case=series-strips&w=1440&h=900",
+    "case=series-strips&w=390&h=844",
+    "case=series-en",
     "case=menu-closed",
     "case=contacts-layout&w=1440&h=900",
     "case=contacts-layout&w=1024&h=768",

@@ -176,6 +176,59 @@ button { font: inherit; color: inherit; }
 }
 .photo-grid img { width: 100%; }
 
+/* Серии: лента картин одной высоты с подписями; листается стрелками
+   и пальцем, ленты серий идут друг под другом. */
+.strip { scroll-margin-top: calc(var(--header-h) + 1rem); } /* series.html#slug — заголовок не под шапкой */
+.strip + .strip { margin-top: clamp(3rem, 7vw, 5rem); }
+.strip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+}
+.strip-head h2 { margin: 0; }
+.strip-nav { display: flex; gap: 0.5rem; flex: none; }
+.strip-nav[hidden] { display: none; }
+.strip-arrow {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
+}
+.strip-arrow:hover:not(:disabled) { background: var(--ink); color: var(--bg); }
+.strip-arrow:disabled { opacity: 0.25; cursor: default; }
+.strip-track {
+  --strip-h: clamp(240px, 26vw, 360px);
+  display: flex;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.75rem;
+  scrollbar-width: thin;
+}
+/* min-content: подпись переносится по ширине картины, а не раздвигает её */
+.strip-item { flex: none; width: min-content; margin: 0; scroll-snap-align: start; }
+.strip-item button { display: block; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.strip-item img {
+  display: block;
+  height: var(--strip-h);
+  width: auto;
+  max-width: calc(100vw - 2 * var(--gutter));
+  object-fit: contain;
+  object-position: left bottom;
+}
+.strip-item figcaption { display: grid; gap: 0.15rem; margin-top: 0.75rem; line-height: 1.35; }
+.strip-title { font-weight: 500; }
+.strip-meta { color: var(--ink-soft); font-size: var(--step-small); }
+
 /* --- главная ---------------------------------------------------------- */
 
 .hero { padding-top: clamp(1rem, 3vw, 2rem); }

@@ -386,24 +386,27 @@
       <h2><span class="num">2</span> Серии и проекты</h2>
 
       <h3>Серии</h3>
-      <p>Файл <span class="filechip">data/series.json</span> — список серий. У серии: <code>title</code> (название), <code>summary</code> (короткое описание под обложкой), <code>cover</code> (обложка) и <code>works</code> — список работ. На странице серии показываются только изображения, без подписей; название, год, техника и размер работы нужны для поисковиков и будущего магазина.</p>
+      <p>Файл <span class="filechip">data/series.json</span> — список серий. У серии: <code>slug</code> (латиницей, не менять), <code>title</code> (название) и <code>works</code> — список работ. На странице «Серии» каждая серия — лента картин, ленты идут друг под другом в порядке файла, работы — в порядке списка. Под каждой картиной подпись из полей работы: «название», размер (слово «см» добавляется само), техника и год.</p>
+      <p><code>width</code> и <code>height</code> — ширина и высота файла <code>-full.jpg</code> в пикселях. Если ошибиться, <code>python scripts/check.py</code> напишет верные числа.</p>
 
       <figure class="code">
         <figcaption>data/series.json — одна работа в списке works<button class="copy-btn" type="button">Копировать</button></figcaption>
         <pre>{
-  "id": "mas-13",
-  "src": "assets/works/mas-13-full.jpg",
+  "id": "mountains-18",
+  "src": "assets/works/mountains-18-full.jpg",
+  "width": 1600,
+  "height": 1200,
   "title": { "ru": "Название работы", "en": "Work title" },
-  "year": "2025",
-  "medium": { "ru": "Холст, масло", "en": "Oil on canvas" },
-  "size": "50 × 70 см"
+  "size": "50 × 70",
+  "medium": { "ru": "холст, масло", "en": "oil on canvas" },
+  "year": "2025"
 }</pre>
       </figure>
 
-      <p><strong>Новая серия</strong> — скопировать блок серии целиком, придумать <code>slug</code> латиницей (он попадёт в адрес страницы) и добавить строку в <span class="filechip">sitemap.xml</span>. Поле <code>slug</code> у существующих серий не менять.</p>
+      <p><strong>Новая работа</strong> — положить <code>&lt;id&gt;-full.jpg</code> (большая сторона ≈ 1600 px) в <code>assets/works/</code>, добавить строку в <code>works</code> и запустить <code>python scripts/make_placeholders.py</code> — он сделает миниатюру. <strong>Новая серия</strong> — скопировать блок серии целиком и придумать <code>slug</code> латиницей: ссылка <code>series.html#slug</code> ведёт прямо к её ленте. Поле <code>slug</code> у существующих серий не менять.</p>
 
       <h3>Проекты</h3>
-      <p>Файл <span class="filechip">data/projects.json</span> — то же устройство: <code>title</code>, <code>summary</code>, <code>cover</code>, плюс <code>text</code> (абзацы на странице проекта) и <code>images</code> (список фотографий).</p>
+      <p>Файл <span class="filechip">data/projects.json</span> — список проектов: <code>title</code> (название), <code>summary</code> (короткое описание под обложкой), <code>cover</code> (обложка), плюс <code>text</code> (абзацы на странице проекта) и <code>images</code> (список фотографий).</p>
 
       <h3>Картинки к работам</h3>
       <ol class="steps">
@@ -501,7 +504,7 @@
           <thead><tr><th>Изображение</th><th>Размер</th><th>Имя файла</th></tr></thead>
           <tbody>
             <tr><td>Работа, крупно</td><td>большая сторона ≈ 1600 px</td><td><code>&lt;id&gt;-full.jpg</code></td></tr>
-            <tr><td>Работа, миниатюра</td><td>≈ 800 px <em>(создаёт скрипт)</em></td><td><code>&lt;id&gt;-thumb.jpg</code></td></tr>
+            <tr><td>Работа, миниатюра</td><td>высота 720 px <em>(создаёт скрипт)</em></td><td><code>&lt;id&gt;-thumb.jpg</code></td></tr>
             <tr><td>Портрет автора</td><td>≈ 1200 × 1600 px, вертикальный</td><td><code>alina-khoniak-portrait-2026.jpg</code></td></tr>
           </tbody>
         </table>
