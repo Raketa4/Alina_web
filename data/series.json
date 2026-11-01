@@ -71,8 +71,8 @@
     ]
   },
   {
-    "slug": "portrait-graphics",
-    "title": {"ru": "Портрет и графика", "en": "Portrait and Graphics"},
+    "slug": "portraits-graphics",
+    "title": {"ru": "Портреты. Графика", "en": "Portraits. Graphics"},
     "works": [
       {"id": "portrait-graphics-01", "src": "assets/works/portrait-graphics-01-full.jpg", "width": 1116, "height": 1395},
       {"id": "portrait-graphics-02", "src": "assets/works/portrait-graphics-02-full.jpg", "width": 1280, "height": 1600},

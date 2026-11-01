@@ -151,6 +151,17 @@ const cases = {
       const f = form.getBoundingClientRect();
       if (f.left < -1 || f.right > cw + 1) bad.push('form-offscreen');
     }
+    // блок стоит в общей колонке сайта (.container), как содержимое других страниц
+    const probe = d.createElement('div');
+    probe.className = 'container';
+    d.body.append(probe);
+    const colLeft = probe.getBoundingClientRect().left + parseFloat(win.getComputedStyle(probe).paddingLeft);
+    const colRight = probe.getBoundingClientRect().right - parseFloat(win.getComputedStyle(probe).paddingRight);
+    probe.remove();
+    const head = intro.querySelector('.contacts-heading').getBoundingClientRect();
+    if (w >= 740 && Math.abs(head.left - colLeft) > 1) bad.push(`left=${Math.round(head.left)}!=${Math.round(colLeft)}`);
+    const ir = intro.getBoundingClientRect();
+    if (ir.left < colLeft - 1 || ir.right > colRight + 1) bad.push(`outside-column=${Math.round(ir.left)}..${Math.round(ir.right)}`);
     if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
@@ -418,9 +429,9 @@ const cases = {
     const bad = [];
     const strips = [...d.querySelectorAll('.strip')];
     const ids = strips.map((s) => s.id).join();
-    if (ids !== 'mountains-and-sea,city,portraits,chuvash-land,maintenance-day,portrait-graphics') bad.push(`ids=${ids}`);
+    if (ids !== 'mountains-and-sea,city,portraits,chuvash-land,maintenance-day,portraits-graphics') bad.push(`ids=${ids}`);
     const heads = strips.map((s) => s.querySelector('h2')?.textContent.trim()).join('|');
-    if (heads !== 'Горы и море|Город|Портреты|Чувашский край|День профилактики|Портрет и графика') bad.push(`heads=${heads}`);
+    if (heads !== 'Горы и море|Город|Портреты|Чувашский край|День профилактики|Портреты. Графика') bad.push(`heads=${heads}`);
     const counts = strips.map((s) => s.querySelectorAll('.strip-item').length).join();
     if (counts !== '17,4,9,6,5,14') bad.push(`counts=${counts}`);
     if (d.querySelector('[data-zoom$="chuvash-land-05-1-full.jpg"]')) bad.push('framed-5.1');
@@ -504,7 +515,7 @@ const cases = {
     const d = (await load('../series.html?lang=en')).document;
     const heads = [...d.querySelectorAll('.strip h2')].map((x) => x.textContent.trim()).join('|');
     const cap = d.querySelector('.strip-item figcaption')?.textContent.replace(/\s+/g, ' ').trim();
-    const ok = heads === 'Mountains and Sea|City|Portraits|Chuvash Land|Maintenance Day|Portrait and Graphics'
+    const ok = heads === 'Mountains and Sea|City|Portraits|Chuvash Land|Maintenance Day|Portraits. Graphics'
       && cap === '“Cypresses” 63 × 70 cm · oil on canvas · 2019';
     return [ok, ok ? 'ok' : `heads=${heads} cap=${cap}`];
   },
