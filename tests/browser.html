@@ -553,9 +553,16 @@ const cases = {
     const cards = [...list.querySelectorAll('.card')];
     const titles = cards.map((c) => c.querySelector('.card-title')?.textContent.trim()).join('|');
     if (titles !== 'Чувашская свадьба|Садовые кварталы') bad.push(`cards=${titles}`);
+    // проекты друг под другом на любой ширине; обложка не выше экрана
+    const cr = cards.map((c) => c.getBoundingClientRect());
+    if (cr[1] && cr[1].top < cr[0].bottom) bad.push('cards-not-stacked');
+    const cover = cards[0]?.querySelector('.card-cover')?.getBoundingClientRect();
+    if (cover && cover.height > h) bad.push(`cover-h=${Math.round(cover.height)}`);
+    const ttl = cards[0]?.querySelector('.card-title')?.getBoundingClientRect();
+    if (cover && ttl && ttl.left > cover.left && ttl.left - cover.right < 20) bad.push(`title-gap=${Math.round(ttl.left - cover.right)}`);
     const want = {
-      'chuvash-wedding': { hero: 'chuvash-wedding-09-full.jpg', text: 'Мои предки самыми важными событиями', paras: 3, photos: 13 },
-      'sadovye-kvartaly': { hero: 'sadovye-kvartaly-04-full.jpg', text: 'Роспись стены в интерьере квартиры', paras: 1, photos: 12 },
+      'chuvash-wedding': { hero: 'chuvash-wedding-09-full.jpg', text: '«Мои предки самыми важными событиями', end: 'родственников».', paras: 3, photos: 12 },
+      'sadovye-kvartaly': { hero: 'sadovye-kvartaly-04-full.jpg', text: 'Роспись стены в интерьере квартиры', end: 'этому ритму.', paras: 1, photos: 12 },
     };
     for (const [slug, x] of Object.entries(want)) {
       const d = (await load(`../project.html?slug=${slug}`, w, h)).document;
@@ -566,15 +573,37 @@ const cases = {
       if (heroImg && title && heroImg.getBoundingClientRect().top < title.getBoundingClientRect().bottom) bad.push(`${slug}:hero-above-title`);
       const paras = [...d.querySelectorAll('.project-text p')];
       if (paras.length !== x.paras || !paras[0]?.textContent.startsWith(x.text)) bad.push(`${slug}:text=${paras.length}:${paras[0]?.textContent.slice(0, 30)}`);
+      if (!paras.at(-1)?.textContent.endsWith(x.end)) bad.push(`${slug}:text-end=${paras.at(-1)?.textContent.slice(-20)}`);
       if (heroImg && paras[0] && paras[0].getBoundingClientRect().top < heroImg.getBoundingClientRect().bottom) bad.push(`${slug}:text-above-hero`);
       const grid = [...d.querySelectorAll('.photo-grid [data-zoom]')];
       if (grid.length !== x.photos) bad.push(`${slug}:photos=${grid.length}`);
       if (grid.some((b) => b.dataset.zoom === hero?.dataset.zoom)) bad.push(`${slug}:hero-twice`);
+      if (grid.some((b) => b.dataset.zoom.endsWith('chuvash-wedding-02-full.jpg'))) bad.push(`${slug}:photo-2`);
+      // без больших промежутков: в каждой колонке фото идут вплотную (через обычный отступ)
+      const imgs = grid.map((b) => b.querySelector('img'));
+      imgs.forEach((img) => { img.loading = 'eager'; });
+      await Promise.all(imgs.map((img) => img.complete ? 0 : new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 6000); })));
+      await wait(200);
+      const cols = new Map();
+      grid.forEach((b) => {
+        const r = b.getBoundingClientRect();
+        const key = Math.round(r.left);
+        cols.set(key, [...(cols.get(key) || []), r]);
+      });
+      let worst = 0;
+      cols.forEach((rs) => {
+        rs.sort((a, b2) => a.top - b2.top);
+        for (let i = 1; i < rs.length; i += 1) worst = Math.max(worst, rs[i].top - rs[i - 1].bottom);
+      });
+      if (worst > 40) bad.push(`${slug}:gap=${Math.round(worst)}`);
       if (/Жигалов|Фото:/.test(d.body.textContent)) bad.push(`${slug}:photo-credit`);
       if (d.documentElement.scrollWidth > w) bad.push(`${slug}:h-scroll`);
     }
     const en = (await load('../project.html?slug=sadovye-kvartaly&lang=en', w, h)).document;
     if (!en.querySelector('.project-text p')?.textContent.startsWith('A wall painting')) bad.push('en-text');
+    const enCw = (await load('../project.html?slug=chuvash-wedding&lang=en', w, h)).document;
+    const enP = [...enCw.querySelectorAll('.project-text p')].map((p) => p.textContent);
+    if (!enP[0]?.startsWith('“My ancestors') || !enP.at(-1)?.endsWith('relatives.”')) bad.push('en-quote');
     if (/Zhigalov|Photos:/.test(en.body.textContent)) bad.push('en-photo-credit');
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },

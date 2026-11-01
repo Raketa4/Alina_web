@@ -53,7 +53,7 @@ export async function initProject() {
     </section>
     <section class="container section">
       <div class="prose project-text">${paras}</div>
-      <div class="photo-grid">${photos}</div>
+      <div class="photo-grid project-photos">${photos}</div>
     </section>`;
 
   revealize(mount);
