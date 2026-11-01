@@ -2,7 +2,6 @@
 // просмотр изображений (viewer.js), год в футере. ES-модуль.
 
 import { qsa } from './util.js';
-import { getSite } from './site.js';
 import { initViewer } from './viewer.js';
 
 let revealObserver = null;
@@ -11,21 +10,6 @@ export function initUI() {
   initReveal();
   initViewer();
   initYear();
-  hydrateChrome();
-}
-
-// Подставляет ссылки из data/site.json в шапку/футер ([data-site-link="telegram"] и т.п.).
-async function hydrateChrome() {
-  const site = await getSite();
-  const social = site.social || {};
-  qsa('[data-site-link]').forEach((a) => {
-    const key = a.dataset.siteLink;
-    const href = key === 'email'
-      ? (site.email ? `mailto:${site.email}` : null)
-      : social[key];
-    if (href) a.setAttribute('href', href);
-    else a.closest('[data-site-optional]')?.remove();
-  });
 }
 
 function initReveal() {

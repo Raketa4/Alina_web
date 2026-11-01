@@ -1,35 +1,22 @@
 {
-  "nav": {
-    "home": "Home",
-    "about": "About",
-    "projects": "Projects",
-    "info": "Info",
-    "contacts": "Contacts"
-  },
   "lang": {
-    "ru": "RU",
-    "en": "EN",
     "switch": "Change language"
   },
   "common": {
     "menu": "Menu",
     "close": "Close",
-    "loading": "Loading…",
-    "toTop": "Top",
     "prev": "Previous",
     "next": "Next"
   },
   "about": {
     "title": "About",
     "statementTitle": "Artist statement",
-    "cvTitle": "Curriculum vitae",
     "education": "Education",
     "teaching": "Teaching",
     "exhibitions": "Exhibitions",
     "awards": "Awards",
     "curatorial": "Curatorial projects",
-    "publications": "Publications",
-    "sections": "Sections"
+    "publications": "Publications"
   },
   "projects": {
     "title": "Projects"
@@ -65,12 +52,7 @@
     "photoAlt": "Alina Khoniak at work in her studio"
   },
   "footer": {
-    "tagline": "Painter. St. Petersburg.",
-    "nav": "Sections",
-    "contact": "Contact",
-    "privacy": "Data and privacy",
     "rights": "All rights reserved. Images of the artworks and texts on this site are protected by copyright and may be copied or used only with the artist’s written permission.",
-    "backToTop": "Top",
     "copyright": "Alina Khoniak"
   },
   "notFound": {
@@ -100,5 +82,22 @@
     "back": "Series",
     "notFoundTitle": "Series not found",
     "notFoundText": "There is no such series. See all series."
+  },
+  "title": {
+    "home": "Alina Khoniak — painter",
+    "studio": "Studio — Alina Khoniak",
+    "about": "About — Alina Khoniak",
+    "cv": "CV — Alina Khoniak",
+    "statement": "Artist statement — Alina Khoniak",
+    "teaching": "Teaching — Alina Khoniak",
+    "curatorial": "Curatorial practice — Alina Khoniak",
+    "publications": "Publications — Alina Khoniak",
+    "series": "Series — Alina Khoniak",
+    "seriesView": "Series — Alina Khoniak",
+    "projects": "Projects — Alina Khoniak",
+    "project": "Project — Alina Khoniak",
+    "info": "Info — Alina Khoniak",
+    "contacts": "Contacts — Alina Khoniak",
+    "notFound": "Page not found — Alina Khoniak"
   }
 }

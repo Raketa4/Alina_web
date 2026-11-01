@@ -1,6 +1,6 @@
 // Один проект: project.html?slug=… — текст и фотографии.
 
-import { getJSON, qs, param, pick, getLang, escapeHtml, thumbImg } from './util.js';
+import { getJSON, qs, param, pick, setCanonicalParams, getLang, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
 
@@ -30,6 +30,7 @@ export async function initProject() {
 
   const title = pick(project.title);
   document.title = `${title} — ${pick({ ru: 'Алина Хоняк', en: 'Alina Khoniak' })}`;
+  setCanonicalParams({ slug: project.slug });
 
   const lang = getLang();
   const paras = (project.text?.[lang] || project.text?.ru || [])

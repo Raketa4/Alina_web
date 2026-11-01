@@ -45,6 +45,21 @@ export function urlWithParams(changes) {
   return url;
 }
 
+// Подставляет параметры записи (?slug=…) в canonical, hreflang и og:url:
+// без них поисковик считает все серии (проекты) одной страницей.
+export function setCanonicalParams(changes) {
+  const withParams = (href) => {
+    const url = new URL(href);
+    Object.entries(changes).forEach(([key, val]) => url.searchParams.set(key, val));
+    return url.href;
+  };
+  qsa('link[rel="canonical"], link[rel="alternate"][hreflang]').forEach((link) => {
+    link.href = withParams(link.href);
+  });
+  const og = qs('meta[property="og:url"]');
+  if (og) og.content = withParams(og.content);
+}
+
 export function param(name) {
   return new URL(location.href).searchParams.get(name);
 }

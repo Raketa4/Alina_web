@@ -1,7 +1,7 @@
 // Одна серия: series-view.html?slug=…
 // Только изображения, без подписей; клик открывает просмотрщик.
 
-import { getJSON, qs, param, pick, escapeHtml, thumbImg } from './util.js';
+import { getJSON, qs, param, pick, setCanonicalParams, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
 import { revealize } from './ui.js';
 
@@ -25,6 +25,7 @@ export async function initSeriesView() {
 
   const title = pick(item.title);
   document.title = `${title} — ${pick({ ru: 'Алина Хоняк', en: 'Alina Khoniak' })}`;
+  setCanonicalParams({ slug: item.slug });
 
   // Название и год — только в alt (для поисковиков и экранных дикторов).
   const photos = (item.works || []).map((w) => {

@@ -61,7 +61,7 @@ function menuHtml(menu, site) {
 
   return `
     <div class="menu-layer" id="site-menu" hidden>
-      <nav class="menu-grid" aria-label="Меню">${cells}</nav>
+      <nav class="menu-grid" data-i18n-attr="aria-label:common.menu">${cells}</nav>
     </div>`;
 }
 

@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """Проверки целостности статического сайта Алины Хоняк.
 
-Запуск:  python scripts/check.py
+Запуск:  python scripts/check.py             — все проверки
+         python scripts/check.py keys fonts  — только перечисленные
 
-Выполняет четыре проверки:
-  1. Наборы ключей в i18n/ru.json и i18n/en.json полностью совпадают.
-  2. Все data/*.json валидны и содержат обязательные поля по схеме.
-  3. Каждый путь к изображению из data/*.json существует на диске.
-  4. Каждая внутренняя ссылка в *.html указывает на существующий файл.
+Проверяет словари i18n (совпадение ru/en, что каждый ключ существует и
+используется), схемы data/*.json, наличие картинок, внутренние ссылки,
+шрифт, меню и шапку, адреса для поисковиков, страницы «Об авторе», «Инфо»,
+контакты и мастерскую. Полный список с именами — словарь CHECKS внизу файла.
 
-Код возврата 0 — всё зелёное, 1 — есть ошибки.
+Код возврата 0 — всё зелёное, 1 — есть ошибки, 2 — неизвестное имя проверки.
 """
 from __future__ import annotations
 
+import functools
 import json
 import re
 import sys
@@ -286,8 +287,12 @@ def check_fonts() -> None:
         for bad in FORBIDDEN_FONTS:
             if bad in text:
                 fail(f"[шрифты] {path.name}: найден запрещённый шрифт '{bad}'")
-    if "family=Onest" not in css:
-        fail("[шрифты] styles.css: не подключён Onest")
+    if re.search(r"^\s*@import", css, re.M):
+        fail("[шрифты] styles.css: @import задерживает показ текста — шрифт подключается <link> в <head>")
+    for html in sorted(ROOT.glob("*.html")):
+        text = html.read_text(encoding="utf-8")
+        if 'href="css/styles.css"' in text and "family=Onest" not in text:
+            fail(f"[шрифты] {html.name}: не подключён Onest (<link> на fonts.googleapis.com в <head>)")
     root = re.search(r":root\s*\{([^}]*)\}", css)
     if not root or not re.search(r"--bg:\s*#FFFFFF\s*;", root.group(1), re.IGNORECASE):
         fail("[шрифты] styles.css: --bg в :root должен быть #FFFFFF")
@@ -352,12 +357,28 @@ I18N_KEY_RES = (
 )
 
 
-def check_i18n_keys_used_exist() -> None:
-    global checks_run
-    ru = load_json("i18n/ru.json")
-    if ru is None:
-        return
-    checks_run += 1
+CV_PARTS_RE = re.compile(r"const CV_PARTS = \[([^\]]*)\]")
+DATA_SECTION_RE = re.compile(r'data-section="([\w-]+)"')
+TEMPLATE_KEY_RE = re.compile(r"\bt\(`([^`]*)`\)")
+
+
+def cv_parts_keys(text: str) -> set[str]:
+    return {f"about.{part}" for m in CV_PARTS_RE.finditer(text) for part in re.findall(r"'(\w+)'", m.group(1))}
+
+
+def section_keys(_text: str) -> set[str]:
+    return {f"menu.{name}" for html in ROOT.glob("*.html")
+            for name in DATA_SECTION_RE.findall(html.read_text(encoding="utf-8"))}
+
+
+# Ключи-шаблоны вида t(`about.${key}`): чем раскрываются.
+TEMPLATE_EXPANDERS = {"about.${key}": cv_parts_keys, "menu.${section}": section_keys}
+
+
+@functools.lru_cache(maxsize=None)
+def used_i18n_keys() -> dict[str, frozenset[str]]:
+    """Ключ i18n → файлы, где он используется (*.html, js/*.js, data/menu.json)."""
+    used: dict[str, set[str]] = {}
     for path in [*sorted(ROOT.glob("*.html")), *sorted((ROOT / "js").glob("*.js"))]:
         text = path.read_text(encoding="utf-8")
         if path.suffix == ".js":  # примеры в комментариях — не использование ключей
@@ -365,9 +386,63 @@ def check_i18n_keys_used_exist() -> None:
         keys = set(I18N_KEY_RES[0].findall(text)) | set(I18N_KEY_RES[2].findall(text))
         for attr in I18N_KEY_RES[1].findall(text):
             keys |= {pair.split(":", 1)[1].strip() for pair in attr.split(",") if ":" in pair}
-        for key in sorted(keys):
-            if not i18n_has(ru, key):
-                fail(f"[i18n] {path.name}: ключ '{key}' отсутствует в ru.json")
+        for tpl in TEMPLATE_KEY_RE.findall(text):
+            if tpl in TEMPLATE_EXPANDERS:
+                keys |= TEMPLATE_EXPANDERS[tpl](text)
+            else:
+                fail(f"[i18n] {path.name}: шаблон ключа t(`{tpl}`) — добавить его в TEMPLATE_EXPANDERS")
+        for key in keys:
+            used.setdefault(key, set()).add(path.name)
+    menu = load_json("data/menu.json")
+    items = list(menu) if isinstance(menu, list) else []
+    for m in list(items):
+        items += m.get("children", [])
+    for m in items:
+        if m.get("i18n"):
+            used.setdefault(m["i18n"], set()).add("menu.json")
+    return {key: frozenset(files) for key, files in used.items()}
+
+
+def check_i18n_keys_used_exist() -> None:
+    global checks_run
+    ru = load_json("i18n/ru.json")
+    if ru is None:
+        return
+    checks_run += 1
+    for key, files in sorted(used_i18n_keys().items()):
+        if not i18n_has(ru, key):
+            fail(f"[i18n] {', '.join(sorted(files))}: ключ '{key}' отсутствует в ru.json")
+
+
+def check_i18n_keys_unused() -> None:
+    global checks_run
+    ru = load_json("i18n/ru.json")
+    if ru is None:
+        return
+    checks_run += 1
+    used = used_i18n_keys()
+    for key in sorted(k for k in flatten_keys(ru) if i18n_has(ru, k)):
+        if key not in used:
+            fail(f"[i18n] ключ '{key}' нигде не используется — удалить из i18n/ru.json и en.json")
+
+
+def check_titles() -> None:
+    """Заголовок вкладки переводится: <title data-i18n="title.…">."""
+    global checks_run
+    checks_run += 1
+    for html in sorted(ROOT.glob("*.html")):
+        text = html.read_text(encoding="utf-8")
+        if 'href="css/styles.css"' in text and '<title data-i18n="title.' not in text:
+            fail(f"[заголовки] {html.name}: <title> без data-i18n=\"title.…\" — в EN останется русским")
+
+
+def check_detail_canonical() -> None:
+    """Серия и проект подставляют свой slug в canonical, hreflang и og:url."""
+    global checks_run
+    checks_run += 1
+    for js in ("project.js", "series-view.js"):
+        if "setCanonicalParams(" not in (ROOT / "js" / js).read_text(encoding="utf-8"):
+            fail(f"[поисковики] js/{js}: не вызывается setCanonicalParams — все записи получат один адрес")
 
 
 # --- Проверка: просмотрщик ---------------------------------------------
@@ -660,6 +735,9 @@ CHECKS = {
     "menu": check_menu,
     "chrome": check_no_inline_chrome,
     "keys": check_i18n_keys_used_exist,
+    "unused": check_i18n_keys_unused,
+    "titles": check_titles,
+    "canonical": check_detail_canonical,
     "i18n": check_i18n_parity,
     "schema": check_data_schema,
     "images": check_images_exist,

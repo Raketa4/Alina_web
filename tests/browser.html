@@ -388,6 +388,37 @@ const cases = {
     const path = win.location.pathname + win.location.search;
     return [path.endsWith('series-view.html?slug=portraits'), path];
   },
+
+  // EN: заголовок вкладки и подпись меню для экранных дикторов — по-английски.
+  async 'en-titles'() {
+    const bad = [];
+    for (const [page, title] of [['about', 'About — Alina Khoniak'], ['index', 'Alina Khoniak — painter']]) {
+      const d = (await load(`../${page}.html?lang=en`)).document;
+      if (d.title !== title) bad.push(`${page}:title="${d.title}"`);
+      const label = d.querySelector('.menu-grid')?.getAttribute('aria-label');
+      if (label !== 'Menu') bad.push(`${page}:menu-label="${label}"`);
+    }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // Серия: canonical, hreflang и og:url — с её slug, а не общий адрес страницы.
+  async 'detail-canonical'() {
+    const d = (await load('../series-view.html?slug=mountains-and-sea')).document;
+    const urls = [
+      ...[...d.querySelectorAll('link[rel="canonical"], link[rel="alternate"][hreflang]')].map((l) => l.href),
+      d.querySelector('meta[property="og:url"]')?.content,
+    ];
+    const bad = urls.filter((u) => !String(u).includes('slug=mountains-and-sea'));
+    return [urls.length === 5 && !bad.length, bad.join(' ') || `ok (${urls.length})`];
+  },
+
+  // Главная: подписи фото — названия работ, а не «1», «2»…
+  async 'home-alts'() {
+    const d = (await load('../index.html')).document;
+    const alts = [...d.querySelectorAll('#home img')].map((img) => img.alt);
+    const bad = alts.filter((a) => !a || /^\d+$/.test(a));
+    return [alts.length === 5 && !bad.length && alts.some((a) => a.includes('Кипарисы')), alts.join(' | ')];
+  },
 };
 
 (async () => {
