@@ -41,6 +41,7 @@ CASES = [
     "case=viewer-caption&w=1440&h=900",
     "case=viewer-caption&w=390&h=844",
     "case=menu-closed",
+    "case=menu-lang",
     "case=contacts-layout&w=1440&h=900",
     "case=contacts-layout&w=1024&h=768",
     "case=contacts-layout&w=390&h=844",

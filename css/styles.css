@@ -523,6 +523,11 @@ body.menu-open { overflow: hidden; }
 .menu-open .menu-cell:nth-child(6) .menu-title { transition-delay: 0.30s; }
 .menu-open .menu-cell:nth-child(7) .menu-title { transition-delay: 0.35s; }
 .menu-open .menu-cell:nth-child(8) .menu-title { transition-delay: 0.40s; }
+/* меню, открытое заново после смены языка (chrome.js), — сразу, без анимации */
+.menu-instant .site-header,
+.menu-instant .menu-toggle span,
+.menu-instant .menu-layer,
+.menu-instant .menu-title { transition: none; }
 
 /* --- подвал ------------------------------------------------- */
 

@@ -90,6 +90,11 @@ function markCurrent() {
   });
 }
 
+// Смена языка перезагружает страницу (i18n.js); если меню было открыто,
+// после перезагрузки оно открывается снова — иначе кажется, что сайт «вернул»
+// на страницу под меню.
+const REOPEN_KEY = 'akh-menu-reopen';
+
 function wireMenu() {
   const toggle = qs('.menu-toggle');
   const layer = qs('#site-menu');
@@ -108,11 +113,15 @@ function wireMenu() {
     void layer.offsetWidth;
     document.body.classList.add('menu-open');
     toggle.setAttribute('aria-expanded', 'true');
+    // подпись и в data-i18n-attr: applyTranslations после загрузки словаря
+    // не вернёт «Открыть меню», когда меню уже открыто
+    toggle.dataset.i18nAttr = 'aria-label:menu.close';
     toggle.setAttribute('aria-label', t('menu.close'));
   };
   const close = (returnFocus = true) => {
-    document.body.classList.remove('menu-open');
+    document.body.classList.remove('menu-open', 'menu-instant');
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.dataset.i18nAttr = 'aria-label:menu.open';
     toggle.setAttribute('aria-label', t('menu.open'));
     hideTimer = setTimeout(() => { layer.hidden = true; }, 450);
     if (returnFocus) toggle.focus();
@@ -121,6 +130,20 @@ function wireMenu() {
 
   toggle.addEventListener('click', () => (isOpen() ? close() : open()));
   qsa('a[href]', layer).forEach((a) => a.addEventListener('click', () => close(false)));
+
+  qsa('.lang-switch button[data-lang]').forEach((btn) => btn.addEventListener('click', () => {
+    if (!isOpen() || btn.getAttribute('aria-pressed') === 'true') return; // тот же язык — без перезагрузки
+    try { sessionStorage.setItem(REOPEN_KEY, '1'); } catch (_) { /* приватный режим */ }
+  }));
+  let reopen = false;
+  try {
+    reopen = sessionStorage.getItem(REOPEN_KEY) === '1';
+    sessionStorage.removeItem(REOPEN_KEY);
+  } catch (_) { /* приватный режим */ }
+  if (reopen) {
+    document.body.classList.add('menu-instant'); // сразу открытым, без анимации появления
+    open();
+  }
 
   document.addEventListener('keydown', (e) => {
     if (!isOpen()) return;

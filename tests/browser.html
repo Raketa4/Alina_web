@@ -510,6 +510,34 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // Смена языка при открытом меню: страница перезагружается с ?lang=, меню
+  // остаётся открытым (а не «возвращает» на страницу под ним) и уже на новом языке;
+  // при следующей обычной загрузке меню закрыто.
+  async 'menu-lang'() {
+    const bad = [];
+    let win = await load('../series.html', 1440, 900);
+    win.document.querySelector('.menu-toggle').click();
+    await wait(600);
+    const reloaded = new Promise((r) => { frame.onload = () => setTimeout(r, 1500); });
+    win.document.querySelector('.lang-switch [data-lang="en"]').click();
+    await reloaded;
+    win = frame.contentWindow;
+    const d = win.document;
+    if (!/series\.html\?lang=en$/.test(win.location.href)) bad.push(`url=${win.location.pathname}${win.location.search}`);
+    if (d.documentElement.lang !== 'en') bad.push(`lang=${d.documentElement.lang}`);
+    if (!d.body.classList.contains('menu-open') || d.querySelector('#site-menu').hidden) bad.push('menu-closed');
+    const label = d.querySelector('.menu-toggle').getAttribute('aria-label');
+    if (label !== 'Close') bad.push(`toggle-label=${label}`);
+    const first = d.querySelector('.menu-title')?.textContent;
+    if (first !== 'Alina Khoniak') bad.push(`menu-title=${first}`);
+    const again = new Promise((r) => { frame.onload = () => setTimeout(r, 1500); });
+    win.location.reload();
+    await again;
+    if (frame.contentWindow.document.body.classList.contains('menu-open')) bad.push('menu-open-after-plain-reload');
+    try { frame.contentWindow.localStorage.setItem('akh-lang', 'ru'); } catch (_) { /* ignore */ }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
   // EN: подписи и названия серий по-английски.
   async 'series-en'() {
     const d = (await load('../series.html?lang=en')).document;
