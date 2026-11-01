@@ -454,6 +454,44 @@ const cases = {
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 
+  // Просмотрщик: у картины серии подпись сразу под изображением, на телефоне —
+  // поля слева и справа; при приближении подпись прячется; без подписи в ленте — без подписи.
+  async 'viewer-caption'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const win = await load('../series.html', w, h);
+    const d = win.document;
+    const bad = [];
+    const loaded = async (img) => { if (!img.complete || !img.naturalWidth) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); }); await wait(100); };
+    d.querySelector('.strip-item [data-zoom]').click();
+    const img = d.querySelector('.viewer-img');
+    const cap = d.querySelector('.viewer-caption');
+    await loaded(img);
+    const text = () => cap?.textContent.replace(/\s+/g, ' ').trim();
+    if (text() !== '«Кипарисы» 63 × 70 см · холст, масло · 2019') bad.push(`cap=${text()}`);
+    const ir = img.getBoundingClientRect();
+    const cr = cap?.getBoundingClientRect();
+    if (!cr || cap.hidden || cr.height === 0) bad.push('cap-hidden');
+    else {
+      if (cr.top < ir.bottom - 1 || cr.top - ir.bottom > 40) bad.push(`cap-gap=${Math.round(cr.top - ir.bottom)}`);
+      if (cr.bottom > h) bad.push(`cap-offscreen=${Math.round(cr.bottom)}`);
+    }
+    if (ir.left < 12 || ir.right > w - 12) bad.push(`edges=${Math.round(ir.left)},${Math.round(w - ir.right)}`);
+    d.querySelector('.viewer-next').click();
+    await loaded(img);
+    if (!text()?.startsWith('«Фиолент»')) bad.push(`next-cap=${text()}`);
+    img.dispatchEvent(new win.MouseEvent('dblclick', { bubbles: true, clientX: w / 2, clientY: h / 2 }));
+    await wait(100);
+    if (!cap || win.getComputedStyle(cap).visibility !== 'hidden') bad.push('cap-visible-zoomed');
+    // главная: у фото нет подписи — и в просмотрщике её нет
+    const home = (await load('../index.html', w, h)).document;
+    home.querySelector('[data-zoom]').click();
+    await wait(300);
+    const hc = home.querySelector('.viewer-caption');
+    if (hc && !hc.hidden) bad.push('home-cap-shown');
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
   // EN: подписи и названия серий по-английски.
   async 'series-en'() {
     const d = (await load('../series.html?lang=en')).document;

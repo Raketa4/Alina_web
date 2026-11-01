@@ -550,6 +550,7 @@ body.viewer-open { overflow: hidden; }
   position: absolute;
   inset: 56px 64px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -558,14 +559,27 @@ body.viewer-open { overflow: hidden; }
 }
 .viewer-stage.is-zoomed { cursor: grab; }
 .viewer-img {
+  flex: none;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100% - var(--viewer-cap, 0px));
   width: auto;
   height: auto;
   transform-origin: center;
   user-select: none;
   will-change: transform;
 }
+/* подпись под изображением — те же строки, что в ленте серии */
+.viewer-caption {
+  flex: none;
+  display: grid;
+  gap: 0.15rem;
+  max-width: 40rem;
+  margin-top: 0.75rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.viewer-caption[hidden] { display: none; }
+.viewer-stage.is-zoomed .viewer-caption { visibility: hidden; }
 .viewer-btn {
   position: absolute;
   width: 44px; height: 44px;
@@ -577,7 +591,7 @@ body.viewer-open { overflow: hidden; }
 .viewer-next { right: 10px; top: 50%; transform: translateY(-50%); }
 
 @media (max-width: 600px) {
-  .viewer-stage { inset: 56px 0; }
+  .viewer-stage { inset: 56px var(--gutter); }
   .viewer-prev, .viewer-next { top: auto; bottom: 6px; transform: none; }
 }
 

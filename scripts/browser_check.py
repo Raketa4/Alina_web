@@ -38,6 +38,8 @@ CASES = [
     "case=series-strips&w=1440&h=900",
     "case=series-strips&w=390&h=844",
     "case=series-en",
+    "case=viewer-caption&w=1440&h=900",
+    "case=viewer-caption&w=390&h=844",
     "case=menu-closed",
     "case=contacts-layout&w=1440&h=900",
     "case=contacts-layout&w=1024&h=768",

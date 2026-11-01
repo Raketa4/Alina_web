@@ -1,7 +1,9 @@
 // Просмотрщик изображений: открывается по клику на [data-zoom].
 // Листает все [data-zoom] с тем же data-gallery (в порядке DOM),
 // приближает колесом мыши, двойным кликом и щипком, двигает перетаскиванием.
-// Без подписей — только изображение.
+// Подпись под изображением — копия <figcaption> из той же <figure>, что и
+// [data-zoom] (ленты серий); нет её — только изображение. При приближении
+// подпись прячется, но место держит — центр изображения не прыгает.
 
 import { qsa } from './util.js';
 import { t } from './i18n.js';
@@ -11,7 +13,7 @@ const MAX = 4;
 const DOUBLE = 2.5;
 const SWIPE = 50;
 
-let box, stage, img, btnPrev, btnNext;
+let box, stage, img, caption, btnPrev, btnNext;
 let items = [];
 let index = 0;
 let trigger = null;
@@ -33,7 +35,10 @@ function build() {
   box.setAttribute('role', 'dialog');
   box.setAttribute('aria-modal', 'true');
   box.innerHTML = `
-    <div class="viewer-stage"><img class="viewer-img" alt="" draggable="false"></div>
+    <div class="viewer-stage">
+      <img class="viewer-img" alt="" draggable="false">
+      <div class="viewer-caption" id="viewer-caption" hidden></div>
+    </div>
     <button type="button" class="viewer-btn viewer-close"><span aria-hidden="true">✕</span></button>
     <button type="button" class="viewer-btn viewer-prev"><span aria-hidden="true">←</span></button>
     <button type="button" class="viewer-btn viewer-next"><span aria-hidden="true">→</span></button>`;
@@ -41,6 +46,7 @@ function build() {
 
   stage = box.querySelector('.viewer-stage');
   img = box.querySelector('.viewer-img');
+  caption = box.querySelector('.viewer-caption');
   btnPrev = box.querySelector('.viewer-prev');
   btnNext = box.querySelector('.viewer-next');
   box.querySelector('.viewer-close').setAttribute('aria-label', t('common.close'));
@@ -54,6 +60,11 @@ function build() {
   stage.addEventListener('dblclick', onDouble);
   wirePointers();
   document.addEventListener('keydown', onKey);
+  window.addEventListener('resize', () => {
+    if (box.hidden) return;
+    fitCaption();
+    setView(view.scale, view.x, view.y);
+  });
 }
 
 function open(el) {
@@ -62,8 +73,8 @@ function open(el) {
   const group = el.dataset.gallery;
   items = group ? qsa(`[data-zoom][data-gallery="${CSS.escape(group)}"]`) : [el];
   index = Math.max(0, items.indexOf(el));
+  box.hidden = false; // до show(): высоту подписи можно измерить только на видимом слое
   show();
-  box.hidden = false;
   document.body.classList.add('viewer-open');
   box.querySelector('.viewer-close').focus();
 }
@@ -79,8 +90,20 @@ function show() {
   const el = items[index];
   img.src = el.dataset.zoom;
   img.alt = el.querySelector('img')?.alt || '';
+  const source = el.closest('figure')?.querySelector('figcaption');
+  caption.replaceChildren(...[...(source?.childNodes || [])].map((n) => n.cloneNode(true)));
+  caption.hidden = !source;
+  if (source) box.setAttribute('aria-describedby', caption.id);
+  else box.removeAttribute('aria-describedby');
+  fitCaption();
   btnPrev.hidden = btnNext.hidden = items.length < 2;
   reset();
+}
+
+// Изображение уступает подписи ровно её высоту (CSS: --viewer-cap).
+function fitCaption() {
+  const h = caption.hidden ? 0 : caption.offsetHeight + parseFloat(getComputedStyle(caption).marginTop);
+  stage.style.setProperty('--viewer-cap', `${h}px`);
 }
 
 function go(step) {
@@ -98,22 +121,34 @@ function apply() {
   stage.classList.toggle('is-zoomed', view.scale > 1);
 }
 
+// Центр изображения без сдвига и масштаба — относительно сцены. С подписью
+// изображение стоит выше центра сцены, поэтому считаем от него, а не от сцены.
+function origin() {
+  return { x: img.offsetLeft + img.offsetWidth / 2, y: img.offsetTop + img.offsetHeight / 2 };
+}
+
 // Не даём увести изображение за край: сдвиг ограничен «лишним» размером.
+function clampShift(shift, size, center, room) {
+  const lo = Math.min(0, room - center - size / 2);
+  const hi = Math.max(0, size / 2 - center);
+  return Math.min(hi, Math.max(lo, shift));
+}
+
 function setView(scale, x, y) {
   const s = Math.min(MAX, Math.max(MIN, scale));
-  const maxX = Math.max(0, (img.offsetWidth * s - stage.clientWidth) / 2);
-  const maxY = Math.max(0, (img.offsetHeight * s - stage.clientHeight) / 2);
+  const o = origin();
   view.scale = s;
-  view.x = Math.min(maxX, Math.max(-maxX, x));
-  view.y = Math.min(maxY, Math.max(-maxY, y));
+  view.x = clampShift(x, img.offsetWidth * s, o.x, stage.clientWidth);
+  view.y = clampShift(y, img.offsetHeight * s, o.y, stage.clientHeight);
   apply();
 }
 
 // Приблизить так, чтобы точка (px, py) экрана осталась под курсором/пальцами.
 function zoomAt(scale, px, py) {
   const r = stage.getBoundingClientRect();
-  const cx = px - (r.left + r.width / 2);
-  const cy = py - (r.top + r.height / 2);
+  const o = origin();
+  const cx = px - (r.left + o.x);
+  const cy = py - (r.top + o.y);
   const s = Math.min(MAX, Math.max(MIN, scale));
   const k = s / view.scale;
   setView(s, cx - (cx - view.x) * k, cy - (cy - view.y) * k);

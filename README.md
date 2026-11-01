@@ -29,7 +29,8 @@ info.html contacts.html 404.html
 css/styles.css    — вся вёрстка, палитра и типографика в :root
 js/page.js        — bootPage(): шапка/меню/подвал → язык → интерфейс → страница → аналитика
 js/chrome.js      — шапка, меню и подвал (вставляются в каждую страницу из data/menu.json)
-js/viewer.js      — просмотрщик с зумом для всех [data-zoom] (листает в пределах data-gallery)
+js/viewer.js      — просмотрщик с зумом для всех [data-zoom] (листает в пределах data-gallery;
+                    подпись под изображением — из <figcaption> той же <figure>, как в лентах серий)
 js/cards.js       — сетка обложек проектов
 js/*.js           — модули страниц
 data/*.json       — весь контент (правится без кода)
