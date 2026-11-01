@@ -17,5 +17,7 @@ export async function bootPage(pageInit) {
       console.error('Ошибка инициализации страницы:', err);
     }
   }
+  // подвал вставлен раньше содержимого — показываем его, когда страница дорисована
+  document.body.classList.add('is-ready');
   initAnalytics();
 }

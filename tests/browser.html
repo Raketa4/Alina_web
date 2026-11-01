@@ -20,7 +20,12 @@ function load(src, w = 1440, h = 900) {
   frame.width = w;
   frame.height = h;
   return new Promise((resolve) => {
-    frame.onload = async () => { await wait(1500); resolve(frame.contentWindow); };
+    frame.onload = async () => {
+      // страница дорисована (page.js ставит body.is-ready), затем как раньше 1,5 с
+      for (let i = 0; i < 50 && !frame.contentDocument?.body?.classList.contains('is-ready'); i += 1) await wait(100);
+      await wait(1500);
+      resolve(frame.contentWindow);
+    };
     frame.src = src;
   });
 }
@@ -597,6 +602,26 @@ const cases = {
     return [!bad.length, bad.join(' ') || 'ok'];
   },
 
+  // Подвал вставляется сразу, а содержимое страницы — после загрузки данных.
+  // Пока его нет, подвал не виден (иначе мелькает под шапкой и прыгает вниз);
+  // появляется, когда страница дорисована. Страница-заглушка держит загрузку.
+  async 'footer-until-ready'() {
+    const bad = [];
+    const win = await load('boot-fixture.html', 1440, 900);
+    const footer = win.document.querySelector('.site-footer');
+    if (!footer) return [false, 'no-footer'];
+    if (win.getComputedStyle(footer).visibility !== 'hidden') bad.push('visible-while-loading');
+    win.release();
+    await wait(200);
+    if (win.getComputedStyle(footer).visibility !== 'visible') bad.push('hidden-after-ready');
+    for (const page of ['index', 'contacts']) {
+      const d = (await load(`../${page}.html`, 1440, 900)).document;
+      const f = d.querySelector('.site-footer');
+      if (frame.contentWindow.getComputedStyle(f).visibility !== 'visible') bad.push(`${page}:hidden`);
+    }
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
   // EN: подписи и названия серий по-английски.
   async 'series-en'() {
     const d = (await load('../series.html?lang=en')).document;
@@ -636,7 +661,7 @@ const cases = {
     const d = (await load('../index.html', 1440, 900)).document;
     const bad = [];
     const hero = d.querySelector('#home .hero-figure img');
-    if (!hero?.getAttribute('src').endsWith('home-hero.jpg')) bad.push(`hero=${hero?.getAttribute('src')}`);
+    if (!hero?.getAttribute('src').endsWith('home-hero-2.jpg')) bad.push(`hero=${hero?.getAttribute('src')}`);
     if (!hero?.alt.includes('Чувашская свадьба')) bad.push(`hero-alt=${hero?.alt}`);
     const photos = [...d.querySelectorAll('#home .photo-grid img')];
     const srcs = photos.map((img) => img.getAttribute('src').replace('assets/works/', '')).join();

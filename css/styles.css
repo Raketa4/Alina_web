@@ -563,6 +563,10 @@ body.menu-open { overflow: hidden; }
 /* --- подвал ------------------------------------------------- */
 
 /* Столбиком: © год, кружки соцсетей, строка про авторское право. */
+/* Подвал (chrome.js) появляется раньше содержимого страницы: до её готовности
+   (page.js ставит body.is-ready) он скрыт — иначе мелькает под шапкой. */
+.site-footer { visibility: hidden; }
+.is-ready .site-footer { visibility: visible; }
 .site-footer {
   display: grid;
   justify-items: start;

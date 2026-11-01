@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<base href="../">
+<title>boot fixture</title>
+<!-- Для browser.html (footer-until-ready): страница, у которой загрузка
+     содержимого не заканчивается, пока тест не вызовет window.release(). -->
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="main"></main>
+  <script type="module">
+    import { bootPage } from './js/page.js';
+    bootPage(() => new Promise((resolve) => { window.release = resolve; }));
+  </script>
+</body>
+</html>

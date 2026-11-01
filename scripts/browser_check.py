@@ -63,6 +63,7 @@ CASES = [
     "case=studio-photos&w=390&h=844",
     "case=footer&w=1440",
     "case=footer&w=390",
+    "case=footer-until-ready",
     "case=info-accordion",
     "case=info-en",
     "case=en-titles",
