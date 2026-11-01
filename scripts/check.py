@@ -559,6 +559,8 @@ ABOUT_SECTIONS = ("cv", "statement")
 REMOVED_PAGES = ("teaching.html", "curatorial.html", "publications.html")
 
 
+OLD_PORTRAITS = ("assets/photos/artist-portrait.jpg", "assets/photos/alina-khoniak-portrait.jpg")
+
 CV_COUNTS = {"education": 2, "teaching": 3, "exhibitions": 22, "curatorial": 1, "awards": 5, "publications": 9}
 
 
@@ -614,9 +616,9 @@ def check_about_sections() -> None:
     for url in urls:
         if not url.startswith(("https://", "http://")) or "turbopages" in url or "ysclid" in url:
             fail(f"[об авторе] cv.json: ссылка без Турбо-страниц и меток — {url}")
-    # по старому адресу у браузеров в кэше лежит заглушка — у фото свой адрес
-    if site.get("portrait") == "assets/photos/artist-portrait.jpg":
-        fail("[об авторе] портрет: адрес artist-portrait.jpg закэширован с заглушкой — нужен новый файл")
+    # по старым адресам у браузеров в кэше лежат прежние фото — у нового свой адрес
+    if site.get("portrait") in OLD_PORTRAITS:
+        fail(f"[об авторе] портрет: адрес {site.get('portrait')} закэширован с прежним фото — нужен новый файл")
     portrait = ROOT / (site.get("portrait") or "")
     size = jpeg_size(portrait) if portrait.is_file() else None
     if not size or size[0] < 1200 or abs(size[0] / size[1] - 0.75) > 0.01:
