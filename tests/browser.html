@@ -209,7 +209,11 @@ const cases = {
     if (!img.complete) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); });
     if (!img.naturalWidth || Math.abs(img.naturalWidth / img.naturalHeight - 0.75) > 0.01) bad.push(`portrait=${img.naturalWidth}x${img.naturalHeight}`);
     if (d.querySelector('.about-portrait figcaption')) bad.push('portrait-caption'); // подпись фотографа убрана
-    if (!statement.querySelector('h2')?.textContent.trim()) bad.push('statement-heading');
+    // по-русски — «Биография» и «Описание творчества», CV и Artist statement только в EN (about-en)
+    const stTitle = statement.querySelector('h2')?.textContent.trim();
+    if (stTitle !== 'Описание творчества') bad.push(`statement-title=${stTitle}`);
+    const cvTitle = d.querySelector('.about-cv-title')?.textContent.trim();
+    if (cvTitle !== 'Биография') bad.push(`cv-title=${cvTitle}`);
     const paras = statement.querySelectorAll('.prose p').length;
     if (paras !== 3) bad.push(`statement-paras=${paras}`);
     const heads = [...d.querySelectorAll('.about-cv .cv-section h2')].map((x) => x.textContent.trim());
@@ -228,6 +232,15 @@ const cases = {
     if (w <= 900 && sr.top < ir.bottom) bad.push('statement-not-below');
     if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
     return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
+  },
+
+  // EN «Об авторе»: заголовки остаются CV и Artist statement.
+  async 'about-en'() {
+    const d = (await load('../about.html?lang=en')).document;
+    const st = d.querySelector('.about-statement h2')?.textContent.trim();
+    const cv = d.querySelector('.about-cv-title')?.textContent.trim();
+    const ok = st === 'Artist statement' && cv === 'CV';
+    return [ok, ok ? 'ok' : `statement="${st}" cv="${cv}"`];
   },
 
   // Мастерская, фото процесса: без текста-заглушки, ровно два фото и никаких

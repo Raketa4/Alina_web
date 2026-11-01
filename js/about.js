@@ -27,12 +27,12 @@ export async function initAbout() {
         ${credit ? `<figcaption>${escapeHtml(credit)}</figcaption>` : ''}
       </figure>
       <div class="about-statement">
-        <h2 data-i18n="about.statementTitle">Artist statement</h2>
+        <h2 data-i18n="about.statementTitle">Описание творчества</h2>
         <div class="prose">${paras}</div>
       </div>
     </div>
     <div class="about-cv">
-      <h2 class="about-cv-title" data-i18n="menu.cv">CV</h2>
+      <h2 class="about-cv-title" data-i18n="menu.cv">Биография</h2>
       ${CV_PARTS.map((key) => cvList(cv[key], lang, t(`about.${key}`))).join('')}
     </div>`;
 

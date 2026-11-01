@@ -425,9 +425,9 @@
           <tbody>
             <tr><td>Портрет</td><td>файл <code>assets/photos/alina-khoniak-portrait-2026.jpg</code> (≈ 1200 × 1600 px), подпись под портретом (например, имя фотографа) — по желанию: <span class="filechip">data/site.json</span> → <code>"portrait_credit": { "ru": "…", "en": "…" }</code>; нет поля — нет подписи</td></tr>
             <tr><td>Короткий рассказ рядом с портретом</td><td><span class="filechip">data/site.json</span> → <code>"about_short"</code></td></tr>
-            <tr><td>Artist statement</td><td><span class="filechip">data/site.json</span> → <code>"statement"</code></td></tr>
-            <tr><td>CV на странице «Об авторе» (образование, педагогическая деятельность, выставки, кураторские проекты, награды, публикации)</td><td><span class="filechip">data/cv.json</span>; у публикации можно добавить <code>"url"</code> — тогда название станет ссылкой на статью</td></tr>
-            <tr><td>Педагогическая деятельность, кураторские проекты, публикации (в CV на странице «Об авторе»)</td><td><span class="filechip">data/cv.json</span> → разделы <code>teaching</code>, <code>curatorial</code>, <code>publications</code>; записи вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code></td></tr>
+            <tr><td>«Описание творчества» (в английской версии — Artist statement)</td><td><span class="filechip">data/site.json</span> → <code>"statement"</code></td></tr>
+            <tr><td>«Биография» (в английской версии — CV) на странице «Об авторе» (образование, педагогическая деятельность, выставки, кураторские проекты, награды, публикации)</td><td><span class="filechip">data/cv.json</span>; у публикации можно добавить <code>"url"</code> — тогда название станет ссылкой на статью</td></tr>
+            <tr><td>Педагогическая деятельность, кураторские проекты, публикации (в биографии на странице «Об авторе»)</td><td><span class="filechip">data/cv.json</span> → разделы <code>teaching</code>, <code>curatorial</code>, <code>publications</code>; записи вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code></td></tr>
             <tr><td>Мастерская: описание и фото процесса</td><td><span class="filechip">data/studio.json</span> → <code>text</code> (можно оставить пустым) и <code>images</code> — фото встают в ряд одной высоты, сколько бы их ни было</td></tr>
           </tbody>
         </table>
@@ -438,7 +438,7 @@
       <h2><span class="num">4</span> Меню, магазин, контакты, инфо</h2>
 
       <h3>Меню</h3>
-      <p>Восемь прямоугольников меню описаны в <span class="filechip">data/menu.json</span>, названия — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span> (блок <code>"menu"</code>). Подразделы «Об авторе» (CV, Artist statement и другие) в меню не показываются — они списком на странице «Об авторе»; их порядок тоже задаётся в <span class="filechip">data/menu.json</span>.</p>
+      <p>Восемь прямоугольников меню описаны в <span class="filechip">data/menu.json</span>, названия — в <span class="filechip">i18n/ru.json</span> и <span class="filechip">i18n/en.json</span> (блок <code>"menu"</code>).</p>
 
       <h3>Каталог (магазин)</h3>
       <p>Когда магазин появится, впишите его адрес в <span class="filechip">data/site.json</span> → <code>"shop_url"</code> (например <code>"https://shop.example.ru"</code>). Прямоугольник «Каталог» в меню станет ссылкой и будет открывать магазин в новой вкладке. Пока поле пустое, он не нажимается.</p>
@@ -481,12 +481,12 @@
           <thead><tr><th>Файл</th><th>Отвечает за</th></tr></thead>
           <tbody>
             <tr><td><code>data/menu.json</code></td><td>8 прямоугольников меню</td></tr>
-            <tr><td><code>data/site.json</code></td><td>имя, короткий рассказ, artist statement, портрет, почта, соцсети, ссылка на магазин, счётчик Метрики</td></tr>
+            <tr><td><code>data/site.json</code></td><td>имя, короткий рассказ, описание творчества (artist statement), портрет, почта, соцсети, ссылка на магазин, счётчик Метрики</td></tr>
             <tr><td><code>data/home.json</code></td><td>главная</td></tr>
             <tr><td><code>data/series.json</code></td><td>серии и их работы</td></tr>
             <tr><td><code>data/projects.json</code></td><td>проекты</td></tr>
             <tr><td><code>data/studio.json</code></td><td>мастерская</td></tr>
-            <tr><td><code>data/cv.json</code></td><td>CV на странице «Об авторе»</td></tr>
+            <tr><td><code>data/cv.json</code></td><td>биография (CV) на странице «Об авторе»</td></tr>
             <tr><td><code>data/info.json</code></td><td>тексты страницы «Инфо»</td></tr>
             <tr><td><code>i18n/ru.json</code>, <code>i18n/en.json</code></td><td>подписи интерфейса</td></tr>
             <tr><td><code>assets/works/</code></td><td>изображения работ</td></tr>

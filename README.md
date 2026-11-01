@@ -18,7 +18,8 @@ index.html                 главная
 series.html                список серий         series-view.html?slug=  одна серия (только фото)
 projects.html              список проектов      project.html?slug=      один проект (текст + фото)
 studio.html                мастерская
-about.html                 портрет, Artist statement и полное CV (data/cv.json): образование, педагогическая
+about.html                 портрет, «Описание творчества» и «Биография» (в EN — Artist statement и CV,
+                           data/cv.json): образование, педагогическая
                            деятельность, выставки, кураторские проекты, награды, публикации
 cv.html statement.html     — подразделы «Об авторе» (отдельные страницы преподавания, кураторства
                            и публикаций удалены 01.11.2026 — их списки есть в CV на about.html)
