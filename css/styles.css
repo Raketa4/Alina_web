@@ -245,6 +245,7 @@ button { font: inherit; color: inherit; }
   background: none;
   cursor: zoom-in;
 }
+.hero-figure picture { display: block; }
 .hero-figure img { width: 100%; max-height: calc(100vh - var(--header-h) - 2rem); object-fit: contain; }
 .hero-text { margin-top: clamp(1.25rem, 3vw, 2rem); }
 .home-text { margin-top: clamp(2rem, 5vw, 3.5rem); }
@@ -531,7 +532,7 @@ body.menu-open { overflow: hidden; }
 
 /* Компьютер (шире 1024 px): разделы строкой в шапке, как у valentino.com, —
    прописными, размером с RU/EN; значка меню и слоя с сеткой нет. Уже — как
-   на телефоне. Граница та же, что DESKTOP в js/chrome.js. */
+   на телефоне. Граница та же, что DESKTOP в js/util.js. */
 .header-nav { display: none; }
 @media (min-width: 1025px) {
   .header-nav {

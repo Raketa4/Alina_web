@@ -1,7 +1,7 @@
 // Главная: «Чувашская свадьба» с текстом, ниже фотографии и описание.
 // Всё из data/home.json.
 
-import { getJSON, qs, getLang, pick, escapeHtml, thumbImg } from './util.js';
+import { getJSON, qs, getLang, pick, escapeHtml, thumbImg, DESKTOP } from './util.js';
 import { revealize } from './ui.js';
 
 export async function initHome() {
@@ -20,10 +20,18 @@ export async function initHome() {
           ${thumbImg(src, altFor(src))}
         </button>`).join('');
 
+  // главное фото: на компьютере hero.image, на телефоне и планшете — image_mobile;
+  // крупно открывается то, что видно на экране
+  const mobile = hero.image_mobile;
+  const zoom = mobile && !window.matchMedia(DESKTOP).matches ? mobile : hero.image;
+
   mount.innerHTML = `
     <section class="container hero">
-      <button type="button" class="hero-figure" data-zoom="${escapeHtml(hero.image || '')}">
-        <img src="${escapeHtml(hero.image || '')}" alt="${escapeHtml(pick(hero.alt, lang) || altFor(hero.image))}">
+      <button type="button" class="hero-figure" data-zoom="${escapeHtml(zoom || '')}">
+        <picture>
+          ${mobile ? `<source media="not all and ${DESKTOP}" srcset="${escapeHtml(mobile)}">` : ''}
+          <img src="${escapeHtml(hero.image || '')}" alt="${escapeHtml(pick(hero.alt, lang) || altFor(hero.image))}">
+        </picture>
       </button>
       <p class="lead hero-text">${escapeHtml(pick(hero.text, lang))}</p>
     </section>

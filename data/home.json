@@ -1,6 +1,7 @@
 {
   "hero": {
     "image": "assets/photos/home-hero-2.jpg",
+    "image_mobile": "assets/photos/home-hero-mobile.jpg",
     "alt": {
       "ru": "Алина Хоняк у картины «Чувашская свадьба»",
       "en": "Alina Khoniak beside her painting “The Chuvash Wedding”"

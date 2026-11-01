@@ -5,7 +5,7 @@
 строкой в шапке (как у valentino.com), на телефоне и планшете — значок меню и
 белая сетка 2 × 4 из прямоугольников с чёрными линиями (образец — мобильное
 меню liars.co). Граница — `@media (min-width: 1025px)` в `css/styles.css` и
-`DESKTOP` в `js/chrome.js`.
+`DESKTOP` в `js/util.js`.
 Без сборки — чистые HTML/CSS/JS.
 
 **Адрес:** https://raketa4.github.io/Alina_web/

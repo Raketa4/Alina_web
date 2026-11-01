@@ -69,6 +69,9 @@ CASES = [
     "case=en-titles",
     "case=detail-canonical",
     "case=home-alts",
+    "case=home-hero&w=1440",
+    "case=home-hero&w=1024",
+    "case=home-hero&w=390",
     "case=projects&w=1440&h=900",
     "case=projects&w=390&h=844",
     "case=menu-fit&w=1024&h=768",   # планшет; шире 1024 px вместо сетки — строка ссылок

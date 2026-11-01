@@ -36,6 +36,10 @@ export function fillTemplate(str, data = {}) {
 }
 
 // Строит URL текущей страницы с изменёнными query-параметрами.
+// Граница «компьютер / телефон и планшет» — как @media (min-width: 1025px)
+// в css/styles.css: строка разделов в шапке вместо меню, горизонтальное фото на главной.
+export const DESKTOP = '(min-width: 1025px)';
+
 export function urlWithParams(changes) {
   const url = new URL(location.href);
   Object.entries(changes).forEach(([key, val]) => {

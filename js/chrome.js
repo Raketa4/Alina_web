@@ -1,10 +1,10 @@
 // Общая «обвязка» каждой страницы: шапка, меню и подвал.
 // Пункты меню — data/menu.json, ссылки соцсетей и магазина — data/site.json.
 // На компьютере (шире 1024 px) разделы стоят строкой в шапке, уже — значок
-// меню и белый слой с сеткой 2 × 4 (переключает CSS, DESKTOP — та же граница).
+// меню и белый слой с сеткой 2 × 4 (переключает CSS, DESKTOP в util.js — та же граница).
 // Вызывается до applyTranslations: подписи проставляются через data-i18n.
 
-import { getJSON, qs, qsa, escapeHtml } from './util.js';
+import { getJSON, qs, qsa, escapeHtml, DESKTOP } from './util.js';
 import { getSite } from './site.js';
 import { t } from './i18n.js';
 
@@ -108,7 +108,6 @@ function markCurrent() {
 // после перезагрузки оно открывается снова — иначе кажется, что сайт «вернул»
 // на страницу под меню.
 const REOPEN_KEY = 'akh-menu-reopen';
-const DESKTOP = '(min-width: 1025px)'; // как @media в css/styles.css
 
 function wireMenu() {
   const toggle = qs('.menu-toggle');

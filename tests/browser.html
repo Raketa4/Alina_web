@@ -661,7 +661,7 @@ const cases = {
     const d = (await load('../index.html', 1440, 900)).document;
     const bad = [];
     const hero = d.querySelector('#home .hero-figure img');
-    if (!hero?.getAttribute('src').endsWith('home-hero-2.jpg')) bad.push(`hero=${hero?.getAttribute('src')}`);
+    if (!hero?.currentSrc.endsWith('home-hero-2.jpg')) bad.push(`hero=${hero?.currentSrc}`);
     if (!hero?.alt.includes('Чувашская свадьба')) bad.push(`hero-alt=${hero?.alt}`);
     const photos = [...d.querySelectorAll('#home .photo-grid img')];
     const srcs = photos.map((img) => img.getAttribute('src').replace('assets/works/', '')).join();
@@ -672,6 +672,23 @@ const cases = {
     const wid = photos.map((img) => img.getBoundingClientRect().width);
     if (wid.some((x) => x < 500)) bad.push(`narrow=${wid.map(Math.round)}`);
     return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // Главное фото: на компьютере (шире 1024 px) горизонтальное, на телефоне и
+  // планшете — вертикальное; крупно открывается то, что видно на экране.
+  async 'home-hero'() {
+    const w = +q.get('w');
+    const want = w > 1024 ? 'home-hero-2.jpg' : 'home-hero-mobile.jpg';
+    const d = (await load('../index.html', w, 900)).document;
+    const btn = d.querySelector('#home .hero-figure');
+    const img = btn?.querySelector('img');
+    if (img && !img.complete) await new Promise((r) => { img.onload = img.onerror = r; setTimeout(r, 5000); });
+    const bad = [];
+    if (!img?.currentSrc.endsWith(want)) bad.push(`shown=${img?.currentSrc.split('/').pop()}`);
+    if (!btn?.dataset.zoom.endsWith(want)) bad.push(`zoom=${btn?.dataset.zoom}`);
+    if (!img?.naturalWidth) bad.push('not-loaded');
+    if (d.documentElement.scrollWidth > w) bad.push(`h-scroll=${d.documentElement.scrollWidth}`);
+    return [!bad.length, `${w} ${bad.join(' ') || 'ok'}`];
   },
 
   // Проекты: две карточки; на странице проекта главная картинка вверху,

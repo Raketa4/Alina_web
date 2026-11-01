@@ -223,7 +223,8 @@ def collect_image_paths() -> list[tuple[str, str]]:
                     out.append((f"series/{s.get('slug')}", w["src"].replace("-full", "-thumb")))
     if (ROOT / "data/home.json").exists():
         home = load_json("data/home.json") or {}
-        for img in [(home.get("hero") or {}).get("image"), *(home.get("photos") or [])]:
+        hero = home.get("hero") or {}
+        for img in [hero.get("image"), hero.get("image_mobile"), *(home.get("photos") or [])]:
             if img:
                 out.append(("home", img))
     if (ROOT / "data/studio.json").exists():
