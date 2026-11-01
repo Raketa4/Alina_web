@@ -704,6 +704,9 @@ def check_studio_visit() -> None:
     site = load_json("data/site.json") or {}
     if (site.get("social") or {}).get("pinterest") != "https://pin.it/5FzbwuKWl":
         fail("[подвал] site.json: social.pinterest должен быть https://pin.it/5FzbwuKWl")
+    # Instagram на сайте не показываем (решение от 01.11.2026)
+    if "instagram" in (site.get("social") or {}) or "instagram" in (ROOT / "js/chrome.js").read_text(encoding="utf-8"):
+        fail("[подвал] Instagram в подвале быть не должно — убрать из site.json → social и js/chrome.js")
 
 
 # --- Проверка: форма связи (под блоком «Связь с художником») -----------

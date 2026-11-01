@@ -33,18 +33,18 @@
     ]
   },
   {
-    "slug": "portrait-painting",
-    "title": {"ru": "Портрет и живопись", "en": "Portrait and Painting"},
+    "slug": "portraits",
+    "title": {"ru": "Портреты", "en": "Portraits"},
     "works": [
       {"id": "portrait-painting-01", "src": "assets/works/portrait-painting-01-full.jpg", "width": 1080, "height": 977},
       {"id": "portrait-painting-02", "src": "assets/works/portrait-painting-02-full.jpg", "width": 1170, "height": 1277},
       {"id": "portrait-painting-03", "src": "assets/works/portrait-painting-03-full.jpg", "width": 1120, "height": 1280},
       {"id": "portrait-painting-04", "src": "assets/works/portrait-painting-04-full.jpg", "width": 1170, "height": 1269},
       {"id": "portrait-painting-05", "src": "assets/works/portrait-painting-05-full.jpg", "width": 546, "height": 883},
-      {"id": "portrait-painting-06", "src": "assets/works/portrait-painting-06-full.jpg", "width": 1023, "height": 1280},
       {"id": "portrait-painting-07", "src": "assets/works/portrait-painting-07-full.jpg", "width": 853, "height": 1062},
       {"id": "portrait-painting-08", "src": "assets/works/portrait-painting-08-full.jpg", "width": 1288, "height": 1600},
-      {"id": "portrait-painting-09", "src": "assets/works/portrait-painting-09-full.jpg", "width": 1046, "height": 1280}
+      {"id": "portrait-painting-09", "src": "assets/works/portrait-painting-09-full.jpg", "width": 1046, "height": 1280},
+      {"id": "portrait-painting-06", "src": "assets/works/portrait-painting-06-full.jpg", "width": 1023, "height": 1280}
     ]
   },
   {

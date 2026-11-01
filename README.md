@@ -76,7 +76,7 @@ Telegram и под ними форма обратной связи. Блок «�
 в `i18n/*.json`.
 
 Подвал (общий, `js/chrome.js`): «© год Алина Хоняк», под ним кружки со значками
-Telegram, Instagram, VK, Pinterest (ссылки — `site.json` → `social`; значки Simple Icons,
+Telegram, VK, Pinterest (ссылки — `site.json` → `social`; значки Simple Icons,
 CC0) и строка про авторское право (`footer.rights` в `i18n/*.json`).
 
 Форма отправляется обычным POST на `https://formsubmit.co/alinakhoniak@gmail.com`
@@ -121,9 +121,9 @@ GitHub Pages из ветки `main`, папка `/` (root).
 
 - Алине — проверить английские переводы текстов проектов (`data/projects.json` → `text.en`).
 - Алине — проверить английские названия работ серий (`data/series.json` → `title.en`)
-  и запись «Дом на 11 линии. Кристалл»; названия серий по-английски (Portrait and
-  Painting, Chuvash Land, Maintenance Day, Portrait and Graphics).
-- Описания (название, размер, техника, год) к работам серий «Портрет и живопись»,
+  и запись «Дом на 11 линии. Кристалл»; названия серий по-английски (Portraits,
+  Chuvash Land, Maintenance Day, Portrait and Graphics).
+- Описания (название, размер, техника, год) к работам серий «Портреты»,
   «Чувашский край», «День профилактики», «Портрет и графика» — пока без подписей.
 - Английский перевод CV (`data/cv.json` → `en`) сделан по vigbo — проверить Алине.
 - Тексты и фото для Мастерской.
