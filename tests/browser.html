@@ -524,12 +524,59 @@ const cases = {
     return [urls.length === 5 && !bad.length, bad.join(' ') || `ok (${urls.length})`];
   },
 
-  // Главная: подписи фото — названия работ, а не «1», «2»…
+  // Главная: вверху Алина у «Чувашской свадьбы», ниже два фрагмента картины
+  // в два столбца; подписи (alt) — по смыслу, а не «1», «2»…
   async 'home-alts'() {
-    const d = (await load('../index.html')).document;
-    const alts = [...d.querySelectorAll('#home img')].map((img) => img.alt);
-    const bad = alts.filter((a) => !a || /^\d+$/.test(a));
-    return [alts.length === 5 && !bad.length && alts.some((a) => a.includes('Кипарисы')), alts.join(' | ')];
+    const d = (await load('../index.html', 1440, 900)).document;
+    const bad = [];
+    const hero = d.querySelector('#home .hero-figure img');
+    if (!hero?.getAttribute('src').endsWith('home-hero.jpg')) bad.push(`hero=${hero?.getAttribute('src')}`);
+    if (!hero?.alt.includes('Чувашская свадьба')) bad.push(`hero-alt=${hero?.alt}`);
+    const photos = [...d.querySelectorAll('#home .photo-grid img')];
+    const srcs = photos.map((img) => img.getAttribute('src').replace('assets/works/', '')).join();
+    if (srcs !== 'chuvash-wedding-08-thumb.jpg,chuvash-wedding-09-thumb.jpg') bad.push(`photos=${srcs}`);
+    if (photos.some((img) => !img.alt || /^\d+$/.test(img.alt))) bad.push('photo-alts');
+    const tops = photos.map((img) => Math.round(img.getBoundingClientRect().top));
+    if (new Set(tops).size !== 1) bad.push(`not-one-row=${tops}`);
+    const wid = photos.map((img) => img.getBoundingClientRect().width);
+    if (wid.some((x) => x < 500)) bad.push(`narrow=${wid.map(Math.round)}`);
+    return [!bad.length, bad.join(' ') || 'ok'];
+  },
+
+  // Проекты: две карточки; на странице проекта главная картинка вверху,
+  // ниже текст и остальные фото; подписи фотографа нет.
+  async 'projects'() {
+    const w = +q.get('w');
+    const h = +q.get('h');
+    const bad = [];
+    const list = (await load('../projects.html', w, h)).document;
+    const cards = [...list.querySelectorAll('.card')];
+    const titles = cards.map((c) => c.querySelector('.card-title')?.textContent.trim()).join('|');
+    if (titles !== 'Чувашская свадьба|Садовые кварталы') bad.push(`cards=${titles}`);
+    const want = {
+      'chuvash-wedding': { hero: 'chuvash-wedding-09-full.jpg', text: 'Мои предки самыми важными событиями', paras: 3, photos: 13 },
+      'sadovye-kvartaly': { hero: 'sadovye-kvartaly-04-full.jpg', text: 'Роспись стены в интерьере квартиры', paras: 1, photos: 12 },
+    };
+    for (const [slug, x] of Object.entries(want)) {
+      const d = (await load(`../project.html?slug=${slug}`, w, h)).document;
+      const hero = d.querySelector('.project-hero [data-zoom]');
+      if (!hero?.dataset.zoom.endsWith(x.hero)) bad.push(`${slug}:hero=${hero?.dataset.zoom}`);
+      const heroImg = hero?.querySelector('img');
+      const title = d.querySelector('h1');
+      if (heroImg && title && heroImg.getBoundingClientRect().top < title.getBoundingClientRect().bottom) bad.push(`${slug}:hero-above-title`);
+      const paras = [...d.querySelectorAll('.project-text p')];
+      if (paras.length !== x.paras || !paras[0]?.textContent.startsWith(x.text)) bad.push(`${slug}:text=${paras.length}:${paras[0]?.textContent.slice(0, 30)}`);
+      if (heroImg && paras[0] && paras[0].getBoundingClientRect().top < heroImg.getBoundingClientRect().bottom) bad.push(`${slug}:text-above-hero`);
+      const grid = [...d.querySelectorAll('.photo-grid [data-zoom]')];
+      if (grid.length !== x.photos) bad.push(`${slug}:photos=${grid.length}`);
+      if (grid.some((b) => b.dataset.zoom === hero?.dataset.zoom)) bad.push(`${slug}:hero-twice`);
+      if (/Жигалов|Фото:/.test(d.body.textContent)) bad.push(`${slug}:photo-credit`);
+      if (d.documentElement.scrollWidth > w) bad.push(`${slug}:h-scroll`);
+    }
+    const en = (await load('../project.html?slug=sadovye-kvartaly&lang=en', w, h)).document;
+    if (!en.querySelector('.project-text p')?.textContent.startsWith('A wall painting')) bad.push('en-text');
+    if (/Zhigalov|Photos:/.test(en.body.textContent)) bad.push('en-photo-credit');
+    return [!bad.length, `${w}x${h} ${bad.join(' ') || 'ok'}`];
   },
 };
 

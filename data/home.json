@@ -1,16 +1,18 @@
 {
   "hero": {
-    "image": "assets/works/chuvash-wedding-full.jpg",
+    "image": "assets/photos/home-hero.jpg",
+    "alt": {
+      "ru": "Алина Хоняк у картины «Чувашская свадьба»",
+      "en": "Alina Khoniak beside her painting “The Chuvash Wedding”"
+    },
     "text": {
       "ru": "Академическая и монументальная живопись. Петербургская школа, чувашские корни.",
       "en": "Academic and monumental painting. The St. Petersburg school, Chuvash roots."
     }
   },
   "photos": [
-    "assets/works/chuvash-wedding-detail-1-full.jpg",
-    "assets/works/chuvash-wedding-detail-2-full.jpg",
-    "assets/works/mountains-01-full.jpg",
-    "assets/works/city-02-full.jpg"
+    "assets/works/chuvash-wedding-08-full.jpg",
+    "assets/works/chuvash-wedding-09-full.jpg"
   ],
   "text": {
     "ru": [

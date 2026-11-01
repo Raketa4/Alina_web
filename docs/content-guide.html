@@ -373,7 +373,8 @@
         <table class="field-table">
           <thead><tr><th>Поле</th><th>Что это</th></tr></thead>
           <tbody>
-            <tr><td><code>hero.image</code></td><td>большая картина вверху (сейчас «Чувашская свадьба»)</td></tr>
+            <tr><td><code>hero.image</code></td><td>большое фото вверху (сейчас Алина у «Чувашской свадьбы»)</td></tr>
+            <tr><td><code>hero.alt</code></td><td>что на этом фото — для поисковиков и незрячих посетителей (<code>ru</code> и <code>en</code>)</td></tr>
             <tr><td><code>hero.text</code></td><td>текст под ней</td></tr>
             <tr><td><code>photos</code></td><td>список фотографий ниже, в нужном порядке. Подписи к фото для поисковиков и незрячих посетителей подставляются сами — из названия работы в <span class="filechip">data/series.json</span> или <span class="filechip">data/projects.json</span></td></tr>
             <tr><td><code>text</code></td><td>абзацы описания под фотографиями</td></tr>
@@ -406,7 +407,7 @@
       <p><strong>Новая работа</strong> — положить <code>&lt;id&gt;-full.jpg</code> (большая сторона ≈ 1600 px) в <code>assets/works/</code>, добавить строку в <code>works</code> и запустить <code>python scripts/make_placeholders.py</code> — он сделает миниатюру. <strong>Новая серия</strong> — скопировать блок серии целиком и придумать <code>slug</code> латиницей: ссылка <code>series.html#slug</code> ведёт прямо к её ленте. Поле <code>slug</code> у существующих серий не менять.</p>
 
       <h3>Проекты</h3>
-      <p>Файл <span class="filechip">data/projects.json</span> — список проектов: <code>title</code> (название), <code>summary</code> (короткое описание под обложкой), <code>cover</code> (обложка), плюс <code>text</code> (абзацы на странице проекта) и <code>images</code> (список фотографий).</p>
+      <p>Файл <span class="filechip">data/projects.json</span> — список проектов: <code>title</code> (название), <code>summary</code> (короткое описание под обложкой в списке), <code>cover</code> (обложка — она же главная картинка вверху страницы проекта), <code>text</code> (абзацы под ней), <code>images</code> (остальные фотографии; обложку сюда не добавлять — <code>check.py</code> это проверит).</p>
 
       <h3>Картинки к работам</h3>
       <ol class="steps">

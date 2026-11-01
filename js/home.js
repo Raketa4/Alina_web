@@ -23,12 +23,12 @@ export async function initHome() {
   mount.innerHTML = `
     <section class="container hero">
       <button type="button" class="hero-figure" data-zoom="${escapeHtml(hero.image || '')}">
-        <img src="${escapeHtml(hero.image || '')}" alt="${escapeHtml(altFor(hero.image))}">
+        <img src="${escapeHtml(hero.image || '')}" alt="${escapeHtml(pick(hero.alt, lang) || altFor(hero.image))}">
       </button>
       <p class="lead hero-text">${escapeHtml(pick(hero.text, lang))}</p>
     </section>
     <section class="container section">
-      <div class="photo-grid">${photos}</div>
+      <div class="photo-grid home-photos">${photos}</div>
       <div class="prose home-text">${paras}</div>
     </section>`;
 

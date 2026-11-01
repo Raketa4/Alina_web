@@ -12,17 +12,65 @@
     "year": "2023",
     "text": {
       "ru": [
-        "Дипломная картина, написанная в мастерской монументальной живописи Академии художеств. Большое полотно соединяет пейзаж, портреты и национальную свадебную церемонию — попытка осмыслить судьбу народа, его традиционный уклад и возможные пути развития. Для автора это гимн чувашскому народу; вдохновением стали рассказы бабушки о её свадьбе, проходившей по национальным традициям."
+        "Мои предки самыми важными событиями жизни считали рождение, свадьбу и смерть. Обряды, сопровождающие эти события, являются обрядами «перехода».",
+        "Чуваши много заботились о благополучии семьи, о возвышении и упрочении своего рода. В этом отчитывались перед предками, об этом молили Бога.",
+        "Я изобразила в своей работе приезд жениха к дому невесты, встречу его родителями невесты и невесту в окружении подруг и родственников."
       ],
       "en": [
-        "A diploma painting created in the monumental painting workshop of the Academy of Arts. The large canvas unites landscape, portraits and a national wedding ceremony — an attempt to comprehend the fate of a people, its traditional way of life and its possible paths of development. For the artist it is a hymn to the Chuvash people, inspired by her grandmother’s stories of her own wedding, held according to national traditions."
+        "My ancestors considered birth, marriage and death to be the most important events of life. The rites that accompany these events are rites of “passage”.",
+        "The Chuvash cared greatly for the well-being of the family, for the rise and strengthening of their lineage. They gave account of this to their ancestors and prayed to God for it.",
+        "In my painting I depicted the groom’s arrival at the bride’s house, his welcome by the bride’s parents, and the bride surrounded by her friends and relatives."
       ]
     },
-    "cover": "assets/works/chuvash-wedding-full.jpg",
+    "cover": "assets/works/chuvash-wedding-09-full.jpg",
     "images": [
-      "assets/works/chuvash-wedding-full.jpg",
-      "assets/works/chuvash-wedding-detail-1-full.jpg",
-      "assets/works/chuvash-wedding-detail-2-full.jpg"
+      "assets/works/chuvash-wedding-01-full.jpg",
+      "assets/works/chuvash-wedding-02-full.jpg",
+      "assets/works/chuvash-wedding-03-full.jpg",
+      "assets/works/chuvash-wedding-04-full.jpg",
+      "assets/works/chuvash-wedding-05-full.jpg",
+      "assets/works/chuvash-wedding-06-full.jpg",
+      "assets/works/chuvash-wedding-08-full.jpg",
+      "assets/works/chuvash-wedding-14-full.jpg",
+      "assets/works/chuvash-wedding-15-full.jpg",
+      "assets/works/chuvash-wedding-img1122-full.jpg",
+      "assets/works/chuvash-wedding-img4879-full.jpg",
+      "assets/works/chuvash-wedding-img4880-full.jpg",
+      "assets/works/chuvash-wedding-img4881-full.jpg"
+    ]
+  },
+  {
+    "slug": "sadovye-kvartaly",
+    "title": {
+      "ru": "Садовые кварталы",
+      "en": "Sadovye Kvartaly"
+    },
+    "summary": {
+      "ru": "Роспись стены в интерьере квартиры в Хамовниках.",
+      "en": "A wall painting in an apartment interior in Khamovniki, Moscow."
+    },
+    "text": {
+      "ru": [
+        "Роспись стены в интерьере квартиры в жилом комплексе «Садовые кварталы» в Хамовниках. Мне хотелось, чтобы стена не просто украшала пространство, а жила вместе с домом. Арки, полосы и плоскости задают ритм, а свет из окон скользит по ним и меняет роспись в течение дня и помогает звучать этому ритму."
+      ],
+      "en": [
+        "A wall painting in the interior of an apartment in the Sadovye Kvartaly residential complex in Khamovniki, Moscow. I wanted the wall not simply to decorate the space but to live together with the home. Arches, stripes and planes set the rhythm, while the light from the windows glides across them, changing the painting throughout the day and helping that rhythm to sound."
+      ]
+    },
+    "cover": "assets/works/sadovye-kvartaly-04-full.jpg",
+    "images": [
+      "assets/works/sadovye-kvartaly-01-full.jpg",
+      "assets/works/sadovye-kvartaly-02-full.jpg",
+      "assets/works/sadovye-kvartaly-03-full.jpg",
+      "assets/works/sadovye-kvartaly-05-full.jpg",
+      "assets/works/sadovye-kvartaly-06-full.jpg",
+      "assets/works/sadovye-kvartaly-07-full.jpg",
+      "assets/works/sadovye-kvartaly-08-full.jpg",
+      "assets/works/sadovye-kvartaly-09-full.jpg",
+      "assets/works/sadovye-kvartaly-10-full.jpg",
+      "assets/works/sadovye-kvartaly-11-full.jpg",
+      "assets/works/sadovye-kvartaly-12-full.jpg",
+      "assets/works/sadovye-kvartaly-13-full.jpg"
     ]
   }
 ]

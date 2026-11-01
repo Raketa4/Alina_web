@@ -1,4 +1,5 @@
-// Один проект: project.html?slug=… — текст и фотографии.
+// Один проект: project.html?slug=… — сверху главная картинка (cover),
+// ниже текст и остальные фотографии (images).
 
 import { getJSON, qs, param, pick, setCanonicalParams, getLang, escapeHtml, thumbImg } from './util.js';
 import { t } from './i18n.js';
@@ -37,16 +38,21 @@ export async function initProject() {
     .map((p) => `<p>${escapeHtml(p)}</p>`).join('');
   const photos = (project.images || []).map((src, i) => `
         <button type="button" class="reveal" data-zoom="${escapeHtml(src)}" data-gallery="project">
-          ${thumbImg(src, `${title} — ${i + 1}`)}
+          ${thumbImg(src, `${title} — ${i + 2}`)}
         </button>`).join('');
 
   mount.innerHTML = `
     <div class="container page-head">
       <div class="back-link"><a class="link" href="projects.html">← ${escapeHtml(t('project.back'))}</a></div>
       <h1>${escapeHtml(title)}</h1>
-      <div class="prose">${paras}</div>
     </div>
-    <section class="container">
+    <section class="container project-hero">
+      <button type="button" class="hero-figure" data-zoom="${escapeHtml(project.cover || '')}" data-gallery="project">
+        <img src="${escapeHtml(project.cover || '')}" alt="${escapeHtml(title)}">
+      </button>
+    </section>
+    <section class="container section">
+      <div class="prose project-text">${paras}</div>
       <div class="photo-grid">${photos}</div>
     </section>`;
 

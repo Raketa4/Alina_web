@@ -135,14 +135,15 @@ def check_projects_schema() -> None:
         fail("[схема] projects.json: ожидался непустой список")
         return
     check_unique_slugs(projects, "projects.json")
-    if {p.get("slug") for p in projects} != {"chuvash-wedding"}:
-        fail(f"[схема] projects.json: слаги {[p.get('slug') for p in projects]}, ожидался chuvash-wedding")
     for i, p in enumerate(projects):
         where = f"projects.json[{i}]"
         require(p, ("slug", "title", "summary", "text", "cover", "images"), where)
         for key in ("title", "summary", "text"):
             if isinstance(p.get(key), dict):
                 check_bilingual(p[key], f"{where}.{key}")
+        # обложка — главная картинка вверху страницы проекта, в сетке её не повторяем
+        if p.get("cover") in (p.get("images") or []):
+            fail(f"[схема] {where}: обложка {p.get('cover')} повторяется в images")
 
 
 def check_data_schema() -> None:
@@ -211,6 +212,7 @@ def collect_image_paths() -> list[tuple[str, str]]:
         for img in [p.get("cover"), *(p.get("images") or [])]:
             if img:
                 out.append((f"projects/{p.get('slug')}", img))
+                out.append((f"projects/{p.get('slug')}", img.replace("-full", "-thumb")))
     if (ROOT / "data/series.json").exists():
         for s in load_json("data/series.json") or []:
             for w in s.get("works") or []:

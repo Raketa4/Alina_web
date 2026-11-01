@@ -206,7 +206,7 @@ def main() -> int:
     portrait = ROOT / load("data/site.json")["portrait"]
     if FORCE or not portrait.exists():
         render_placeholder(portrait, ratio_for("artist-portrait", None),
-                           "Портрет автора", "фото: Артём Жигалов", 1400)
+                           "Портрет автора", "", 1400)
         print(f"  плейсхолдер: {portrait.relative_to(ROOT)}")
     else:
         print(f"  ок: {portrait.name}")

@@ -61,6 +61,8 @@ CASES = [
     "case=en-titles",
     "case=detail-canonical",
     "case=home-alts",
+    "case=projects&w=1440&h=900",
+    "case=projects&w=390&h=844",
     "case=menu-fit&w=1920&h=1080",
     "case=menu-fit&w=1440&h=900",
     "case=menu-fit&w=1366&h=650",
