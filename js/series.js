@@ -1,5 +1,6 @@
 // Серии: по ленте на каждую серию из data/series.json, ленты друг под другом.
-// Картины в ленте одной высоты, под каждой подпись: название, размер, техника, год.
+// Картины в ленте одной высоты, под каждой подпись: название, размер, техника, год
+// (из тех полей, что заданы; у работы без них подписи нет).
 // Стрелки листают ленту, на телефоне — пальцем; клик открывает просмотрщик.
 // series.html#<slug> прокручивает к нужной ленте (так ведут старые ссылки серий).
 
@@ -26,18 +27,20 @@ function stripHtml(s) {
   const lang = getLang();
   const [open, close] = QUOTES[lang] || QUOTES.ru;
   const title = pick(s.title);
-  const items = (s.works || []).map((w) => {
+  const items = (s.works || []).map((w, i) => {
     const name = pick(w.title);
     const meta = [w.size && `${w.size} ${t('series.cm')}`, pick(w.medium), w.year].filter(Boolean).join(' · ');
+    const alt = name ? [name, w.year].filter(Boolean).join(', ') : `${title} — ${i + 1}`;
+    const caption = name || meta ? `
+          <figcaption>
+            ${name ? `<span class="strip-title">${escapeHtml(`${open}${name}${close}`)}</span>` : ''}
+            ${meta ? `<span class="strip-meta">${escapeHtml(meta)}</span>` : ''}
+          </figcaption>` : '';
     return `
         <figure class="strip-item">
           <button type="button" data-zoom="${escapeHtml(w.src)}" data-gallery="${escapeHtml(s.slug)}">
-            ${thumbImg(w.src, [name, w.year].filter(Boolean).join(', '), '', w)}
-          </button>
-          <figcaption>
-            <span class="strip-title">${escapeHtml(`${open}${name}${close}`)}</span>
-            <span class="strip-meta">${escapeHtml(meta)}</span>
-          </figcaption>
+            ${thumbImg(w.src, alt, '', w)}
+          </button>${caption}
         </figure>`;
   }).join('');
 

@@ -112,9 +112,11 @@ def check_series_schema() -> None:
         check_bilingual(s.get("title"), f"{where}.title")
         for j, w in enumerate(s.get("works") or []):
             at = f"{where}.works[{j}]"
-            require(w, ("id", "src", "width", "height", "title", "size", "medium", "year"), at)
-            check_bilingual(w.get("title"), f"{at}.title")
-            check_bilingual(w.get("medium"), f"{at}.medium")
+            require(w, ("id", "src", "width", "height"), at)
+            # подпись (title, size, medium, year) — по желанию: у серий без описаний её нет
+            for key in ("title", "medium"):
+                if key in w:
+                    check_bilingual(w[key], f"{at}.{key}")
             for banned in ("status", "price"):
                 if banned in w:
                     fail(f"[схема] {at}: поля '{banned}' быть не должно — продажа в магазине")

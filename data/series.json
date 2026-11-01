@@ -31,5 +31,63 @@
       {"id": "city-03", "src": "assets/works/city-03-full.jpg", "width": 1600, "height": 1111, "title": {"ru": "Петербургские крыши", "en": "St. Petersburg Rooftops"}, "size": "35 × 50", "medium": {"ru": "холст, масло", "en": "oil on canvas"}, "year": "2017"},
       {"id": "city-04", "src": "assets/works/city-04-full.jpg", "width": 1172, "height": 1600, "title": {"ru": "Английская набережная", "en": "English Embankment"}, "size": "50 × 35", "medium": {"ru": "холст, масло", "en": "oil on canvas"}, "year": "2017"}
     ]
+  },
+  {
+    "slug": "portrait-painting",
+    "title": {"ru": "Портрет и живопись", "en": "Portrait and Painting"},
+    "works": [
+      {"id": "portrait-painting-01", "src": "assets/works/portrait-painting-01-full.jpg", "width": 1080, "height": 977},
+      {"id": "portrait-painting-02", "src": "assets/works/portrait-painting-02-full.jpg", "width": 1170, "height": 1277},
+      {"id": "portrait-painting-03", "src": "assets/works/portrait-painting-03-full.jpg", "width": 1120, "height": 1280},
+      {"id": "portrait-painting-04", "src": "assets/works/portrait-painting-04-full.jpg", "width": 1170, "height": 1269},
+      {"id": "portrait-painting-05", "src": "assets/works/portrait-painting-05-full.jpg", "width": 546, "height": 883},
+      {"id": "portrait-painting-06", "src": "assets/works/portrait-painting-06-full.jpg", "width": 1023, "height": 1280},
+      {"id": "portrait-painting-07", "src": "assets/works/portrait-painting-07-full.jpg", "width": 853, "height": 1062},
+      {"id": "portrait-painting-08", "src": "assets/works/portrait-painting-08-full.jpg", "width": 1288, "height": 1600},
+      {"id": "portrait-painting-09", "src": "assets/works/portrait-painting-09-full.jpg", "width": 1046, "height": 1280}
+    ]
+  },
+  {
+    "slug": "chuvash-land",
+    "title": {"ru": "Чувашский край", "en": "Chuvash Land"},
+    "works": [
+      {"id": "chuvash-land-01", "src": "assets/works/chuvash-land-01-full.jpg", "width": 1127, "height": 1600},
+      {"id": "chuvash-land-02", "src": "assets/works/chuvash-land-02-full.jpg", "width": 1211, "height": 1280},
+      {"id": "chuvash-land-03", "src": "assets/works/chuvash-land-03-full.jpg", "width": 1032, "height": 1280},
+      {"id": "chuvash-land-05", "src": "assets/works/chuvash-land-05-full.jpg", "width": 1600, "height": 1069},
+      {"id": "chuvash-land-06", "src": "assets/works/chuvash-land-06-full.jpg", "width": 1003, "height": 1280},
+      {"id": "chuvash-land-07", "src": "assets/works/chuvash-land-07-full.jpg", "width": 989, "height": 1280}
+    ]
+  },
+  {
+    "slug": "maintenance-day",
+    "title": {"ru": "День профилактики", "en": "Maintenance Day"},
+    "works": [
+      {"id": "maintenance-day-01", "src": "assets/works/maintenance-day-01-full.jpg", "width": 1280, "height": 1024},
+      {"id": "maintenance-day-02", "src": "assets/works/maintenance-day-02-full.jpg", "width": 909, "height": 1280},
+      {"id": "maintenance-day-03", "src": "assets/works/maintenance-day-03-full.jpg", "width": 1280, "height": 1024},
+      {"id": "maintenance-day-04", "src": "assets/works/maintenance-day-04-full.jpg", "width": 1280, "height": 1024},
+      {"id": "maintenance-day-05", "src": "assets/works/maintenance-day-05-full.jpg", "width": 1024, "height": 1280}
+    ]
+  },
+  {
+    "slug": "portrait-graphics",
+    "title": {"ru": "Портрет и графика", "en": "Portrait and Graphics"},
+    "works": [
+      {"id": "portrait-graphics-01", "src": "assets/works/portrait-graphics-01-full.jpg", "width": 1116, "height": 1395},
+      {"id": "portrait-graphics-02", "src": "assets/works/portrait-graphics-02-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-03", "src": "assets/works/portrait-graphics-03-full.jpg", "width": 1281, "height": 1600},
+      {"id": "portrait-graphics-04", "src": "assets/works/portrait-graphics-04-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-05", "src": "assets/works/portrait-graphics-05-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-06", "src": "assets/works/portrait-graphics-06-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-07", "src": "assets/works/portrait-graphics-07-full.jpg", "width": 1116, "height": 1395},
+      {"id": "portrait-graphics-08", "src": "assets/works/portrait-graphics-08-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-09", "src": "assets/works/portrait-graphics-09-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-10", "src": "assets/works/portrait-graphics-10-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-11", "src": "assets/works/portrait-graphics-11-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-12", "src": "assets/works/portrait-graphics-12-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-13", "src": "assets/works/portrait-graphics-13-full.jpg", "width": 1280, "height": 1600},
+      {"id": "portrait-graphics-14", "src": "assets/works/portrait-graphics-14-full.jpg", "width": 1280, "height": 1600}
+    ]
   }
 ]

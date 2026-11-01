@@ -408,8 +408,9 @@ const cases = {
     return [!bad.length, bad.join(' ') || 'ok'];
   },
 
-  // Серии: ленты друг под другом — «Горы и море» (17), «Город» (4, без фото в раме);
-  // под каждой картиной подпись, стрелки листают ленту, клик открывает просмотрщик.
+  // Серии: ленты друг под другом — «Горы и море» (17), «Город» (4, без фото в раме)
+  // и четыре серии без описаний (подписей под ними нет); у «Гор и моря» и «Города»
+  // под каждой картиной подпись; стрелки листают ленту, клик открывает просмотрщик.
   async 'series-strips'() {
     const w = +q.get('w');
     const h = +q.get('h');
@@ -418,11 +419,16 @@ const cases = {
     const bad = [];
     const strips = [...d.querySelectorAll('.strip')];
     const ids = strips.map((s) => s.id).join();
-    if (ids !== 'mountains-and-sea,city') bad.push(`ids=${ids}`);
+    if (ids !== 'mountains-and-sea,city,portrait-painting,chuvash-land,maintenance-day,portrait-graphics') bad.push(`ids=${ids}`);
     const heads = strips.map((s) => s.querySelector('h2')?.textContent.trim()).join('|');
-    if (heads !== 'Горы и море|Город') bad.push(`heads=${heads}`);
+    if (heads !== 'Горы и море|Город|Портрет и живопись|Чувашский край|День профилактики|Портрет и графика') bad.push(`heads=${heads}`);
     const counts = strips.map((s) => s.querySelectorAll('.strip-item').length).join();
-    if (counts !== '17,4') bad.push(`counts=${counts}`);
+    if (counts !== '17,4,9,6,5,14') bad.push(`counts=${counts}`);
+    if (d.querySelector('[data-zoom$="chuvash-land-05-1-full.jpg"]')) bad.push('framed-5.1');
+    const capCounts = strips.map((s) => s.querySelectorAll('.strip-item figcaption').length).join();
+    if (capCounts !== '17,4,0,0,0,0') bad.push(`captions=${capCounts}`);
+    const noAlt = [...d.querySelectorAll('.strip-item img')].filter((img) => !img.alt || /^\d+$/.test(img.alt)).length;
+    if (noAlt) bad.push(`bad-alts=${noAlt}`);
     const caps = strips.map((s) => [...s.querySelectorAll('.strip-item figcaption')].map((c) => c.textContent.replace(/\s+/g, ' ').trim()));
     if (caps[0]?.[0] !== '«Кипарисы» 63 × 70 см · холст, масло · 2019') bad.push(`cap0=${caps[0]?.[0]}`);
     const city = (caps[1] || []).map((c) => c.split('»')[0] + '»').join('|');
@@ -497,7 +503,8 @@ const cases = {
     const d = (await load('../series.html?lang=en')).document;
     const heads = [...d.querySelectorAll('.strip h2')].map((x) => x.textContent.trim()).join('|');
     const cap = d.querySelector('.strip-item figcaption')?.textContent.replace(/\s+/g, ' ').trim();
-    const ok = heads === 'Mountains and Sea|City' && cap === '“Cypresses” 63 × 70 cm · oil on canvas · 2019';
+    const ok = heads === 'Mountains and Sea|City|Portrait and Painting|Chuvash Land|Maintenance Day|Portrait and Graphics'
+      && cap === '“Cypresses” 63 × 70 cm · oil on canvas · 2019';
     return [ok, ok ? 'ok' : `heads=${heads} cap=${cap}`];
   },
 
