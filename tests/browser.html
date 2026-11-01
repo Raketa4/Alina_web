@@ -219,8 +219,9 @@ const cases = {
     if (counts.join() !== '2,3,22,1,5,9') bad.push(`cv-rows=${counts}`);
     const links = [...d.querySelectorAll('.about-cv a[href^="http"]')];
     if (links.length !== 7 || links.some((a) => a.target !== '_blank')) bad.push(`pub-links=${links.length}`);
-    const sub = [...d.querySelectorAll('.about-links a')].map((a) => a.getAttribute('href'));
-    if (sub.join() !== 'teaching.html,curatorial.html,publications.html') bad.push(`sub-links=${sub}`);
+    // подразделы удалены — их списки уже в CV выше
+    const sub = [...d.querySelectorAll('.about-links, a[href$="teaching.html"], a[href$="curatorial.html"], a[href$="publications.html"]')];
+    if (sub.length) bad.push(`sub-links=${sub.length}`);
     const ir = img.getBoundingClientRect();
     const sr = statement.getBoundingClientRect();
     if (w > 900 && sr.left < ir.right) bad.push('statement-not-beside');

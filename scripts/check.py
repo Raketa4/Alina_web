@@ -217,10 +217,6 @@ def collect_image_paths() -> list[tuple[str, str]]:
         for img in [(home.get("hero") or {}).get("image"), *(home.get("photos") or [])]:
             if img:
                 out.append(("home", img))
-    if (ROOT / "data/sections.json").exists():
-        for key, sec in (load_json("data/sections.json") or {}).items():
-            for img in sec.get("images") or []:
-                out.append((f"sections/{key}", img))
     if (ROOT / "data/studio.json").exists():
         for img in (load_json("data/studio.json") or {}).get("images") or []:
             out.append(("studio", img))
@@ -301,7 +297,7 @@ def check_fonts() -> None:
 # --- Проверка: меню и общая шапка -------------------------------------
 
 MENU_ORDER = ["home", "studio", "about", "shop", "series", "projects", "info", "contacts"]
-ABOUT_CHILDREN = ["cv", "statement", "teaching", "curatorial", "publications"]
+ABOUT_CHILDREN = ["cv", "statement"]
 
 
 def i18n_has(d: dict, key: str) -> bool:
@@ -358,7 +354,6 @@ I18N_KEY_RES = (
 
 
 CV_PARTS_RE = re.compile(r"const CV_PARTS = \[([^\]]*)\]")
-DATA_SECTION_RE = re.compile(r'data-section="([\w-]+)"')
 TEMPLATE_KEY_RE = re.compile(r"\bt\(`([^`]*)`\)")
 
 
@@ -366,13 +361,8 @@ def cv_parts_keys(text: str) -> set[str]:
     return {f"about.{part}" for m in CV_PARTS_RE.finditer(text) for part in re.findall(r"'(\w+)'", m.group(1))}
 
 
-def section_keys(_text: str) -> set[str]:
-    return {f"menu.{name}" for html in ROOT.glob("*.html")
-            for name in DATA_SECTION_RE.findall(html.read_text(encoding="utf-8"))}
-
-
 # Ключи-шаблоны вида t(`about.${key}`): чем раскрываются.
-TEMPLATE_EXPANDERS = {"about.${key}": cv_parts_keys, "menu.${section}": section_keys}
+TEMPLATE_EXPANDERS = {"about.${key}": cv_parts_keys}
 
 
 @functools.lru_cache(maxsize=None)
@@ -564,7 +554,9 @@ def check_info() -> None:
 
 # --- Проверка: «Об авторе» и подразделы ---------------------------------
 
-ABOUT_SECTIONS = ("cv", "statement", "teaching", "curatorial", "publications")
+ABOUT_SECTIONS = ("cv", "statement")
+# Подразделы удалены 01.11.2026: их списки уже есть в CV на about.html.
+REMOVED_PAGES = ("teaching.html", "curatorial.html", "publications.html")
 
 
 CV_COUNTS = {"education": 2, "teaching": 3, "exhibitions": 22, "curatorial": 1, "awards": 5, "publications": 9}
@@ -595,11 +587,16 @@ def check_about_sections() -> None:
             fail(f"[об авторе] {name}.html отсутствует")
         elif f'data-section="{name}"' not in page.read_text(encoding="utf-8"):
             fail(f"[об авторе] {name}.html: нет data-section=\"{name}\"")
-    sections = load_json("data/sections.json")
-    if sections is not None:
-        for key in ("teaching", "curatorial", "publications"):
-            if not (sections.get(key) or {}).get("images"):
-                fail(f"[об авторе] sections.json: у '{key}' нет images")
+    if (ROOT / "data/sections.json").exists():
+        fail("[об авторе] data/sections.json больше не нужен — фото удалённых подразделов")
+    sources = [*ROOT.glob("*.html"), *(ROOT / "js").glob("*.js"), *(ROOT / "data").glob("*.json"),
+               ROOT / "sitemap.xml", ROOT / "README.md", ROOT / "docs/content-guide.html"]
+    for name in REMOVED_PAGES:
+        if (ROOT / name).exists():
+            fail(f"[об авторе] {name} удалена — файла быть не должно")
+        for src in sources:
+            if src.is_file() and name in src.read_text(encoding="utf-8"):
+                fail(f"[об авторе] {src.relative_to(ROOT).as_posix()}: ссылка на удалённую {name}")
     site = load_json("data/site.json") or {}
     check_bilingual(site.get("about_short"), "site.json.about_short")
     # полное CV по vigbo (u402663-2.web01.vigbo.ru/cv-1)

@@ -5,10 +5,7 @@
     "id": "about", "i18n": "menu.about", "href": "about.html",
     "children": [
       { "id": "cv", "i18n": "menu.cv", "href": "cv.html" },
-      { "id": "statement", "i18n": "menu.statement", "href": "statement.html" },
-      { "id": "teaching", "i18n": "menu.teaching", "href": "teaching.html" },
-      { "id": "curatorial", "i18n": "menu.curatorial", "href": "curatorial.html" },
-      { "id": "publications", "i18n": "menu.publications", "href": "publications.html" }
+      { "id": "statement", "i18n": "menu.statement", "href": "statement.html" }
     ]
   },
   { "id": "shop", "i18n": "menu.shop" },

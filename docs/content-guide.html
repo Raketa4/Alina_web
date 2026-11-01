@@ -427,8 +427,7 @@
             <tr><td>Короткий рассказ рядом с портретом</td><td><span class="filechip">data/site.json</span> → <code>"about_short"</code></td></tr>
             <tr><td>Artist statement</td><td><span class="filechip">data/site.json</span> → <code>"statement"</code></td></tr>
             <tr><td>CV на странице «Об авторе» (образование, педагогическая деятельность, выставки, кураторские проекты, награды, публикации)</td><td><span class="filechip">data/cv.json</span>; у публикации можно добавить <code>"url"</code> — тогда название станет ссылкой на статью</td></tr>
-            <tr><td>Тексты «Преподавательская деятельность», «Кураторская практика», «Публикации»</td><td><span class="filechip">data/cv.json</span> → разделы <code>teaching</code>, <code>curatorial</code>, <code>publications</code>; записи вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code></td></tr>
-            <tr><td>Фото к этим трём разделам</td><td><span class="filechip">data/sections.json</span> → <code>images</code> у нужного раздела</td></tr>
+            <tr><td>Педагогическая деятельность, кураторские проекты, публикации (в CV на странице «Об авторе»)</td><td><span class="filechip">data/cv.json</span> → разделы <code>teaching</code>, <code>curatorial</code>, <code>publications</code>; записи вида <code>{ "period": "2024", "ru": "…", "en": "…" }</code></td></tr>
             <tr><td>Мастерская: описание и фото процесса</td><td><span class="filechip">data/studio.json</span> → <code>text</code> (можно оставить пустым) и <code>images</code> — фото встают в ряд одной высоты, сколько бы их ни было</td></tr>
           </tbody>
         </table>
@@ -481,14 +480,13 @@
         <table class="field-table">
           <thead><tr><th>Файл</th><th>Отвечает за</th></tr></thead>
           <tbody>
-            <tr><td><code>data/menu.json</code></td><td>8 прямоугольников меню и подразделы «Об авторе»</td></tr>
+            <tr><td><code>data/menu.json</code></td><td>8 прямоугольников меню</td></tr>
             <tr><td><code>data/site.json</code></td><td>имя, короткий рассказ, artist statement, портрет, почта, соцсети, ссылка на магазин, счётчик Метрики</td></tr>
             <tr><td><code>data/home.json</code></td><td>главная</td></tr>
             <tr><td><code>data/series.json</code></td><td>серии и их работы</td></tr>
             <tr><td><code>data/projects.json</code></td><td>проекты</td></tr>
             <tr><td><code>data/studio.json</code></td><td>мастерская</td></tr>
-            <tr><td><code>data/cv.json</code></td><td>CV и тексты подразделов «Об авторе»</td></tr>
-            <tr><td><code>data/sections.json</code></td><td>фото подразделов «Об авторе»</td></tr>
+            <tr><td><code>data/cv.json</code></td><td>CV на странице «Об авторе»</td></tr>
             <tr><td><code>data/info.json</code></td><td>тексты страницы «Инфо»</td></tr>
             <tr><td><code>i18n/ru.json</code>, <code>i18n/en.json</code></td><td>подписи интерфейса</td></tr>
             <tr><td><code>assets/works/</code></td><td>изображения работ</td></tr>

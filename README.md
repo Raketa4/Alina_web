@@ -18,8 +18,10 @@ index.html                 главная
 series.html                список серий         series-view.html?slug=  одна серия (только фото)
 projects.html              список проектов      project.html?slug=      один проект (текст + фото)
 studio.html                мастерская
-about.html                 портрет, Artist statement и полное CV (data/cv.json), ссылки на подразделы
-cv.html statement.html teaching.html curatorial.html publications.html — подразделы «Об авторе»
+about.html                 портрет, Artist statement и полное CV (data/cv.json): образование, педагогическая
+                           деятельность, выставки, кураторские проекты, награды, публикации
+cv.html statement.html     — подразделы «Об авторе» (отдельные страницы преподавания, кураторства
+                           и публикаций удалены 01.11.2026 — их списки есть в CV на about.html)
 info.html contacts.html 404.html
 
 css/styles.css    — вся вёрстка, палитра и типографика в :root
@@ -39,15 +41,14 @@ scripts/          — check.py (проверки), make_placeholders.py, make_ic
 
 | Раздел | Файл |
 |---|---|
-| Меню (8 прямоугольников; подразделы «Об авторе» — списком на about.html) | `data/menu.json` + блок `menu` в `i18n/*.json` |
+| Меню (8 прямоугольников; подразделы «Об авторе» в меню не выводятся) | `data/menu.json` + блок `menu` в `i18n/*.json` |
 | Главная | `data/home.json` |
 | Серии и их работы | `data/series.json` |
 | Проекты | `data/projects.json` |
 | Мастерская | `data/studio.json` |
 | Портрет, короткий рассказ, statement, почта, соцсети, Telegram для связи (`contact_telegram`), `shop_url` | `data/site.json` |
 | Тексты страницы «Контакты» | блок `contacts` в `i18n/*.json` |
-| CV и тексты подразделов «Об авторе» | `data/cv.json` |
-| Фото подразделов «Об авторе» | `data/sections.json` |
+| CV, в том числе преподавание, кураторские проекты и публикации | `data/cv.json` |
 | Инфо: доставка и оплата, обмен и возврат, политика конфиденциальности, согласие на обработку ПД, оферта (раскрывающийся список) | `data/info.json` |
 
 У работ в `series.json` есть название, год, техника и размер — на сайте они
@@ -113,7 +114,7 @@ GitHub Pages из ветки `main`, папка `/` (root).
 
 - Настоящие фото работ (сейчас в `assets/works/` — заглушки с названием).
 - Английский перевод CV (`data/cv.json` → `en`) сделан по vigbo — проверить Алине.
-- Тексты и фото для Мастерской, Преподавательской, Кураторской, Публикаций.
+- Тексты и фото для Мастерской.
 - Проверить `about_short` в `site.json`.
 - Алине — проверить документы «Инфо» (`data/info.json`, тексты взяты с
   mashayankovskaya.store и alina.bugleeva.ru с её реквизитами): в оферте оплата
